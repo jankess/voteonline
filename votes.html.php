@@ -2,7 +2,7 @@
     '/includes/helpers.inc.php'; 
 ?>
 <!DOCTYPE html>
-<html lang="">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,54 +60,17 @@
                 <option>K</option>
                 <option>M</option>
             </select>
-</div>
+        </div>
     </div>
-          </div>
-        </div>></form>
+        </div>
+    </div></form>
     
  <!-- Wyskakujące okno logowania -->
     <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-sm">
     <!-- Modal content-->
-    <?php if ($loginstate == 'Zaloguj'): ?>
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h1>Logowanie</h1>
-    <p>Podaj login oraz hasło.</p>
-    <?php if (isset($loginError)): ?>
-      <p><?php htmlout($loginError); ?></p>
-      <?php endif; ?>
-    <form action="" method="post">
-        <div>
-            <label for="userlogin">Login:<input type="text" name="userlogin" id="userlogin" class="form-control"></label>
-        </div>  
-        <div>
-            <label for="password">Hasło: <input type="password" name="password" id="password" class="form-control"></label>
-        </div>
-        <div>
-        <input type="hidden" name="action" value="login">
-        <input type="submit" value="Zaloguj" class="btn btn-default">
-        </div>
-      </form>  
-      </div>
-    </div>
-<?php elseif($loginstate == 'Wyloguj'): ?>
-      <div class="modal-content">
-      <div class="modal-header">
-     <h1>Wyloguj</h1>
-    <p>Czy na pewno chcesz się wylogować?</p>
-    <form action="" method="post">
-  <div>
-    <input type="hidden" name="action" value="logout">
-    <input type="hidden" name="goto" value="/voteonline/">
-    <input type="submit" value="Wyloguj" class="btn btn-default">
-  </div>
-</form> 
-            </div>
-    </div>
-    <?php endif ?>    
-      
+    <?php if ($loginstate == 'Zaloguj'): include 'login.inc.html.php'; ?>
+    <?php elseif($loginstate == 'Wyloguj'): include 'logout.inc.html.php'; endif ?>  
   </div>
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

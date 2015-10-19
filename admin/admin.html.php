@@ -1,7 +1,7 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
     '/includes/helpers.inc.php'; ?>
 <!DOCTYPE html>
-<html lang="">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,25 +60,14 @@
             </div>
           </div>
         </div>
-        <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+    
+    <!-- Wyskakujące okno logowania -->
+      <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-sm">
     <!-- Modal content-->
-      <div class="modal-content">
-      <div class="modal-header">
-     <h1>Wyloguj</h1>
-    <p>Czy na pewno chcesz się wylogować?</p>
-    <form action="" method="post">
-  <div>
-    <input type="hidden" name="action" value="logout">
-    <input type="hidden" name="goto" value="/voteonline/">
-    <input type="submit" value="Wyloguj" class="btn btn-default">
-  </div>
-</form> 
-            </div>
+    <?php include '../logout.inc.html.php';?>  
+        </div>
     </div>
-
-  </div>
-</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>

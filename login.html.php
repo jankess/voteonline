@@ -1,7 +1,7 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
     '/includes/helpers.inc.php'; ?>
 <!DOCTYPE html>
-<html lang="">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,15 +42,15 @@
     <div class="container">
         <h1>Logowanie</h1>
     <p>Strona dostępna tylko dla zalogowanych użytkowników.</p>
-    <?php if (isset($loginError)): ?>
-      <p><?php htmlout($loginError); ?></p>
-      <?php endif; ?>
+    <?php if (isset($loginError)): $alert = 'alert alert-danger'; ?>
+          <div class="<?php echo($alert); ?>"><p><?php htmlout($loginError);?></p></div>
+      <?php else: $alert = ''; endif; ?>
     <form action="" method="post">
         <div>
-            <label for="userlogin">Login:<input type="text" name="userlogin" id="userlogin"></label>
+            <label for="userlogin">Login:<input type="text" name="userlogin" id="userlogin" class="form-control <?php echo($alert); ?>"></label>
         </div>  
         <div>
-            <label for="password">Hasło: <input type="password" name="password" id="password"></label>
+            <label for="password">Hasło:<input type="password" name="password" id="password" class="form-control <?php echo($alert); ?>"></label>
         </div>
         <div>
         <input type="hidden" name="action" value="login">

@@ -1,7 +1,14 @@
-<form action="" method="post">
+<div class="modal-content">
+      <div class="modal-header">
+     <button type="button" class="close" data-dismiss="modal">&times;</button>
+     <h1 class="text-center">Wyloguj</h1>
+    <p>Czy na pewno chcesz się wylogować?</p>
+    <form action="" method="post">
   <div>
     <input type="hidden" name="action" value="logout">
     <input type="hidden" name="goto" value="/voteonline/">
-    <input type="submit" value="Wyloguj" class="btn btn-default">
+    <input type="submit" value="Wyloguj" class="btn btn-default text-center">
   </div>
-</form>
+</form> 
+    </div>
+</div>

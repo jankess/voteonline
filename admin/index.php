@@ -17,7 +17,8 @@ if (!userHasRole('Administrator'))
     include '../accessdenied.html.php';
     exit();
 }
-
+if (userHasRole('Administrator'))
+{
 
 //Dodawanie nowego wariantu
 if (isset($_POST['name']) and $_POST['name'] != '')
@@ -106,3 +107,4 @@ for($i=0;$i<$variantsCount[0];$i++)
 }
 
 include 'admin.html.php';
+}
