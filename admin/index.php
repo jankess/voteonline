@@ -8,8 +8,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] .
 
 if (!userIsLoggedIn())
 {
+    $loginstate = 'Zaloguj';
     include '../login.html.php';
     exit();
+}else
+{
+    $loginstate = 'Wyloguj(' . $_SESSION['userlogin'] .')';
 }
 if (!userHasRole('Administrator'))
 {

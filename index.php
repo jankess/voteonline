@@ -9,7 +9,7 @@ if (!userIsLoggedIn())
     $loginstate = 'Zaloguj';
 }else
 {
-    $loginstate = 'Wyloguj';
+    $loginstate = 'Wyloguj(' . $_SESSION['userlogin'] .')';
 }
 try
 {

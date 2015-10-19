@@ -32,7 +32,7 @@
                     <li class="active"><a href="/voteonline/admin/">Panel Administratora</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="" data-toggle="modal" data-target="#myModal">Wyloguj</a></li>
+                    <li class="active"><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>

@@ -70,7 +70,7 @@
   <div class="modal-dialog modal-sm">
     <!-- Modal content-->
     <?php if ($loginstate == 'Zaloguj'): include 'login.inc.html.php'; ?>
-    <?php elseif($loginstate == 'Wyloguj'): include 'logout.inc.html.php'; endif ?>  
+    <?php elseif($loginstate != 'Zaloguj'): include 'logout.inc.html.php'; endif ?>  
   </div>
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
