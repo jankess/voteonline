@@ -31,7 +31,7 @@ foreach ($result as $row)
   );
 }
 
-if (isset($_POST['variants']))
+if (isset($_POST['variants']) and $_SESSION['voted'] !=TRUE)
   {
     try
     {
@@ -44,6 +44,8 @@ if (isset($_POST['variants']))
         $s->bindValue(':variantid', $variantid);
         $s->execute();
       }
+     session_start();
+      $_SESSION['voted'] = TRUE;
     }
     catch (PDOException $e)
     {
@@ -53,5 +55,9 @@ if (isset($_POST['variants']))
     }
   header('Location: .');
   exit();
+}elseif (isset($_POST['variants']) and $_SESSION['voted'] == TRUE)
+{
+    $error = 'Wziąłeś już udział w głosowaniu, kolejne oddanie głosu nie jest możliwe';
+      include 'error.html.php';
 }
 include 'votes.html.php';
