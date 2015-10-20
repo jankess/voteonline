@@ -1,5 +1,5 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/includes/helpers.inc.php'; 
+    '/include/helpers.inc.php'; 
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -12,7 +12,9 @@
     <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}</style>
+    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}
+        .img-responsive { max-width: 35%;}
+    </style>
 
 </head>
 
@@ -26,7 +28,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand">VoteOnline</a>
+                <a class="navbar-brand" href="/voteonline/">VoteOnline</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -39,6 +41,7 @@
         </div>
     </nav>
     <div class="container">
+        <img src="/voteonline/VO_1.png" class="img-responsive center-block"> 
         <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       <form action="" method="post">
@@ -53,7 +56,7 @@
       </div>
           </div>
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <h2>Zarezerwowane na dane głosującego</h2>
+        <h2>Dane głosującego</h2>
         <div class="form-group">
             <label for="sel1">Płeć:</label>
             <select class="form-control" id="sex" required>

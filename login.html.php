@@ -1,5 +1,5 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/includes/helpers.inc.php'; ?>
+    '/include/helpers.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}</style>
+    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}</style>
 
     <!--[if IE]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -40,6 +40,7 @@
     </nav>
 
     <div class="container">
+        <img src="/voteonline/VO_1.png" class="img-responsive center-block">
         <h1>Logowanie</h1>
     <p>Strona dostępna tylko dla zalogowanych użytkowników.</p>
     <?php if (isset($loginError)): $alert = 'alert alert-danger'; ?>

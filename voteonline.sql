@@ -1,66 +1,29 @@
--- phpMyAdmin SQL Dump
--- version 4.4.14
--- http://www.phpmyadmin.net
---
--- Host: 127.0.0.1
--- Czas generowania: 19 Paź 2015, 11:47
--- Wersja serwera: 5.6.26
--- Wersja PHP: 5.6.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Baza danych: `voteonline`
---
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `role`
---
-
 CREATE TABLE IF NOT EXISTS `role` (
   `id` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Zrzut danych tabeli `role`
---
+
 
 INSERT INTO `role` (`id`, `description`) VALUES
 ('Administrator', 'Zarządza innymi użytkownikami oraz bazą danych');
 
--- --------------------------------------------------------
 
---
--- Struktura tabeli dla tabeli `userrole`
---
 
 CREATE TABLE IF NOT EXISTS `userrole` (
   `userlogin` varchar(255) NOT NULL,
   `roleid` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Zrzut danych tabeli `userrole`
---
+
 
 INSERT INTO `userrole` (`userlogin`, `roleid`) VALUES
 ('admin', 'Administrator');
 
--- --------------------------------------------------------
 
---
--- Struktura tabeli dla tabeli `users`
---
 
 CREATE TABLE IF NOT EXISTS `users` (
   `login` varchar(255) NOT NULL,
@@ -68,27 +31,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Zrzut danych tabeli `users`
---
+
 
 INSERT INTO `users` (`login`, `password`, `email`) VALUES
 ('admin', 'admin', 'admin@voteonline.com');
 
--- --------------------------------------------------------
 
---
--- Struktura tabeli dla tabeli `variants`
---
 
 CREATE TABLE IF NOT EXISTS `variants` (
   `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
---
--- Zrzut danych tabeli `variants`
---
+
 
 INSERT INTO `variants` (`id`, `name`) VALUES
 (1, 'Dexter'),
@@ -102,11 +57,7 @@ INSERT INTO `variants` (`id`, `name`) VALUES
 (9, 'Arrow'),
 (10, 'Dominion');
 
--- --------------------------------------------------------
 
---
--- Struktura tabeli dla tabeli `votes`
---
 
 CREATE TABLE IF NOT EXISTS `votes` (
   `id` int(11) NOT NULL,
@@ -114,9 +65,7 @@ CREATE TABLE IF NOT EXISTS `votes` (
   `votedate` date NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
---
--- Zrzut danych tabeli `votes`
---
+
 
 INSERT INTO `votes` (`id`, `variantid`, `votedate`) VALUES
 (1, 1, '2015-10-05'),
@@ -156,65 +105,33 @@ INSERT INTO `votes` (`id`, `variantid`, `votedate`) VALUES
 (39, 7, '2015-10-18'),
 (40, 10, '2015-10-19');
 
---
--- Indeksy dla zrzutów tabel
---
 
---
--- Indexes for table `role`
---
 ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `userrole`
---
+
 ALTER TABLE `userrole`
   ADD PRIMARY KEY (`userlogin`,`roleid`);
 
---
--- Indexes for table `users`
---
 ALTER TABLE `users`
   ADD PRIMARY KEY (`login`);
 
---
--- Indexes for table `variants`
---
+
 ALTER TABLE `variants`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `votes`
---
+
 ALTER TABLE `votes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `variantid` (`variantid`);
 
---
--- AUTO_INCREMENT for dumped tables
---
 
---
--- AUTO_INCREMENT dla tabeli `variants`
---
+
 ALTER TABLE `variants`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
---
--- AUTO_INCREMENT dla tabeli `votes`
---
-ALTER TABLE `votes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
---
--- Ograniczenia dla zrzutów tabel
---
 
---
--- Ograniczenia dla tabeli `votes`
---
+ALTER TABLE `votes`
+
 ALTER TABLE `votes`
   ADD CONSTRAINT `votes_ibfk_1` FOREIGN KEY (`variantid`) REFERENCES `variants` (`id`);
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

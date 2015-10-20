@@ -30,6 +30,7 @@ foreach ($result as $row)
     'name' => $row['name']
   );
 }
+include 'votes.html.php';
 
 if (isset($_POST['variants']) and $_SESSION['voted'] !=TRUE)
   {
@@ -60,4 +61,3 @@ if (isset($_POST['variants']) and $_SESSION['voted'] !=TRUE)
     $error = 'Wziąłeś już udział w głosowaniu, kolejne oddanie głosu nie jest możliwe';
       include 'error.html.php';
 }
-include 'votes.html.php';
