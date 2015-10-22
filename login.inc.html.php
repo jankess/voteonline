@@ -6,7 +6,7 @@
     <?php if (isset($loginError)): $alert = 'alert alert-danger'; ?>
           <div class="<?php echo($alert); ?>"><p><?php htmlout($loginError);?></p></div>
       <?php else: $alert = ''; endif; ?>
-    <form action="/voteonline/admin/index.php" method="post">
+    <form action="" method="post">
         <div>
             <label for="userlogin">Login:<input type="text" name="userlogin" id="userlogin" class="form-control <?php echo($alert); ?>"></label>
             <label for="password">Hasło: <input type="password" name="password" id="password" class="form-control <?php echo($alert); ?>"></label>

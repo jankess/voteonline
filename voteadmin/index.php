@@ -13,9 +13,9 @@ if (!userIsLoggedIn())
 {
     $loginstate = 'Wyloguj(' . $_SESSION['userlogin'] .')';
 }
-if (!userHasRole('Administrator'))
+if (!userHasRole('VoteAdministrator'))
 {
-    $error = 'Dostęp do tej strony mają tylko Administratorzy';
+    $error = 'Dostęp do tej strony mają tylko Administratorzy głosowania';
     include '../accessdenied.html.php';
     exit();
 }
@@ -107,4 +107,4 @@ for($i=0;$i<$variantsCount[0];$i++)
     $voteResults[] = $result[0];
 }
 
-include 'admin.html.php';
+include 'voteadmin.html.php';

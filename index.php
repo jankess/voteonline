@@ -1,10 +1,9 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] .
     '/include/magicquotes.inc.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] .
     '/include/access.inc.php';
-if (!userIsLoggedIn())
+if (userIsLoggedIn() == FALSE)
 {
     $loginstate = 'Zaloguj';
 }else
@@ -13,6 +12,7 @@ if (!userIsLoggedIn())
 }
 try
 {
+include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
   $sql = 'SELECT id, name FROM variants';
   $result = $pdo->query($sql);
 }
@@ -34,6 +34,7 @@ include 'votes.html.php';
 
 if (isset($_POST['variants']) and $_SESSION['voted'] !=TRUE)
   {
+    include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
     try
     {
       $sql = 'INSERT INTO votes SET
@@ -46,7 +47,7 @@ if (isset($_POST['variants']) and $_SESSION['voted'] !=TRUE)
         $s->execute();
       }
      session_start();
-      $_SESSION['voted'] = TRUE;
+    
     }
     catch (PDOException $e)
     {
@@ -54,7 +55,8 @@ if (isset($_POST['variants']) and $_SESSION['voted'] !=TRUE)
       include 'error.html.php';
       exit();
     }
-  header('Location: .');
+  $_SESSION['voted'] = TRUE;
+  //header('Location: .');
   exit();
 }elseif (isset($_POST['variants']) and $_SESSION['voted'] == TRUE)
 {

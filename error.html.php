@@ -31,21 +31,30 @@
                 </button>
                 <a class="navbar-brand" href="/voteonline/">VoteOnline</a>
             </div>
-            <div class="collapse navbar-collapse">
+             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="admin/">Panel Administratora</a></li>
+                    <li class="active"><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
+                    <li class="active"><a href="/voteonline/admin/">Panel Administratora</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
+                 <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="" data-toggle="modal" data-target="#myModal"><?php if(!isset($_SESSION['loggedIn'])) { echo('Zaloguj');}else { echo('Wyloguj(' . $_SESSION['userlogin'] . ')');}?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>
     </nav>
     <div class="alert alert-danger" role="alert">
-    <p>
+    <p class="text-center">
     <?php echo $error; ?>
     </p>
     </div>
+    
+       <div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <!-- Modal content-->
+    <?php if (!isset($_SESSION['loggedIn'])): include 'login.inc.html.php'; ?>
+    <?php elseif(isset($_SESSION['loggedIn']) or $loginstate != 'Zaloguj'): include 'logout.inc.html.php'; endif ?>  
+  </div>
+</div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

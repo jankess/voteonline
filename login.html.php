@@ -33,7 +33,8 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="">Panel Administratora</a></li>
+                    <li class="active"><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
+                    <li class="active"><a href="/voteonline/admin/">Panel Administratora</a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>
@@ -44,7 +45,7 @@
         <h1>Logowanie</h1>
     <p>Strona dostępna tylko dla zalogowanych użytkowników.</p>
     <?php if (isset($loginError)): $alert = 'alert alert-danger'; ?>
-          <div class="<?php echo($alert); ?>"><p><?php htmlout($loginError);?></p></div>
+          <div class="<?php echo($alert); ?>"><p class="text-center"><?php htmlout($loginError);?></p></div>
       <?php else: $alert = ''; endif; ?>
     <form action="" method="post">
         <div>

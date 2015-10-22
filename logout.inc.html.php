@@ -4,7 +4,7 @@
      <h1 class="text-center">Wyloguj</h1>
     <p>Czy na pewno chcesz się wylogować?</p>
     <form action="" method="post">
-  <div>
+  <div class="text-center">
     <input type="hidden" name="action" value="logout">
     <input type="hidden" name="goto" value="/voteonline/">
     <input type="submit" value="Wyloguj" class="btn btn-default text-center">

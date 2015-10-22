@@ -33,7 +33,11 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="">Panel Administratora</a></li>
+                    <li class="active"><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
+                    <li class="active"><a href="/voteonline/admin/">Panel Administratora</a></li>
+                </ul>
+                 <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>
@@ -41,11 +45,19 @@
 
     <div class="container">
     <img src="/voteonline/VO_1.png" class="img-responsive center-block">
+        <div class="alert alert-danger text-center" role="alert">
       <h1>Odmowa dostępu</h1>
     <p>
       <?php htmlout($error); ?>
     </div>
-
+    </div>
+  <div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <!-- Modal content-->
+    <?php if (!isset($_SESSION['loggedIn'])): include 'login.inc.html.php'; ?>
+    <?php else: include 'logout.inc.html.php'; endif ?>  
+  </div>
+</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>

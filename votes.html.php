@@ -32,6 +32,7 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
+                    <li class="active"><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
                     <li class="active"><a href="admin/">Panel Administratora</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
