@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>VoteOnline</title>
+    <title>VoteOnline Admin</title>
     <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
@@ -41,27 +41,36 @@
     <div class="container">
         <img src="/voteonline/VO_1.png" class="img-responsive center-block">
         <div class="row">
-        <form action="" method="post">
+        <form action="?adduser" method="post">
+            <div class="row">
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-          <br />
-          <p><b>Dodawanie nowego wariantu do głosowania</b></p>
-        <label for="name">Nazwa wariantu: <input type="text" class="form-control" name="name"
-            id="name"></label>
+          <div><p><b>Dodawanie nowego użytkownika</b></p>
+        <label for="userlogin">Login: <input type="text" class="form-control" name="userlogin"
+            id="userlogin" required></label>
+          <label for="userpassword">Hasło: <input type="password" class="form-control" name="userpassword"
+                                                  id="userpassword" required></label>
+          <label for="useremail">Adres email: <input type="email" class="form-control" name="useremail"
+                                                  id="useremail" required></label>
+          </div>
+          <div>
+              <?php foreach ($roles as $role): ?>
+              <label><input type="radio" name="role"
+              id="<?php htmlout($role['id']); ?>"
+              value="<?php htmlout($role['id']); ?>" required><?php htmlout($role['id']); ?></label>
+               <?php endforeach; ?>
+        </div>
           <input type="submit" class="btn btn-default" value="Dodaj"></form>
       </div>
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <br />
-         <h3>Ogólne dane głosowania</h3>
-         <p>Ilość oddanych głosów: <?php echo $voteCount[0]; ?></p>
-         <p>Ilość wariantów odpowiedzi: <?php echo $variantsCount[0]; ?></p>
-         <h3>Szczegółowe dane głosowania</h3>
-         <?php for($i=0;$i<$variantsCount[0];$i++): ?>
-         <p><?php echo $variantsName[$i]; echo ': ' . $voteResults[$i] . ' (' . round((($voteResults[$i]/$voteCount[0])*100),2) . '%)' ; ?></p>
-         <?php endfor; ?>
-            </div>
-          </div>
+         <p>Użytkownicy Voteonline:</p>
+         <table class="table table-bordered table-responsive text-center">
+         <tr class="info"><td>Login</td><td>Adres email</td></tr>
+        <?php foreach ($users as $user): ?>
+             <tr><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td></tr>
+      <?php endforeach; ?>
+        </table>
         </div>
-    
+    </div>
     <!-- Wyskakujące okno logowania -->
       <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-sm">

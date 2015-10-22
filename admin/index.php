@@ -21,90 +21,71 @@ if (!userHasRole('Administrator'))
 }
 
 include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
-//Dodawanie nowego wariantu
-if (isset($_POST['name']) and $_POST['name'] != '')
-{
-  try
+//Dodawanie nowego użytkownika
+
+
+if (isset($_GET['adduser']))
+    {
+     if(!isset($_POST['userlogin']) or !isset($_POST['userpassword']) or !isset($_POST['useremail']) or $_POST['userlogin'] != '' or $_POST['userpassword'] != '' or $_POST['useremail'] != '')
+                                             {
+try
   {
-    $sql = 'INSERT INTO variants SET
-        name = :name';
+    $sql = 'INSERT INTO users SET
+        login = :userlogin, password = :userpassword, email = :useremail';
     $s = $pdo->prepare($sql);
-    $s->bindValue(':name', $_POST['name']);
+    $s->bindValue(':userlogin', $_POST['userlogin']);
+       $s->bindValue(':userpassword', $_POST['userpassword']);
+       $s->bindValue(':useremail', $_POST['useremail']);
+    $s->execute();
+    
+     $sql = 'INSERT INTO userrole SET
+        userlogin = :userlogin, roleid = :role';
+    $s = $pdo->prepare($sql);
+    $s->bindValue(':userlogin', $_POST['userlogin']);
+    $s->bindValue(':role', $_POST['role']);
     $s->execute();
   }
   catch (PDOException $e)
   {
-    $error = 'Błąd przy dodawaniu wariantu.';
-    include 'error.html.php';
+    $error = 'Błąd przy dodawaniu użytkownika.';
+    include '../error.html.php';
     exit();
   }
+header('Location: .');
+exit();
+    }
+}
 
-  header('Location: .');
+try
+{
+  $sql = 'SELECT id FROM role';
+  $result = $pdo->query($sql);
+}
+catch (PDOException $e)
+{
+  $error = 'Błąd przy pobieraniu wariantów: ' . $e->getMessage();
+  include 'error.html.php';
+  exit();
+}
+foreach ($result as $row)
+{
+  $roles[] = array(
+    'id' => $row['id'],
+  );
+}
+try
+{
+  $result = $pdo->query('SELECT login, email FROM users');
+}
+catch (PDOException $e)
+{
+  $error = 'Błąd bazy danych w trakcie pobierania listy użytkowników!';
+  include '../error.html.php';
   exit();
 }
 
-//Liczenie ilośći oddanych głosów
-try
+foreach ($result as $row)
 {
-$sql = 'SELECT COUNT(*) FROM votes';
-$s = $pdo->query($sql);
+  $users[] = array('login' => $row['login'], 'email' => $row['email']);
 }
-catch (PDOException $e)
-  {
-    $error = 'Błąd przy pobieraniu liczby głosów.';
-    include 'error.html.php';
-    exit();
-  }
-$voteCount = $s->fetch();
-
-//Liczenie ilości wariantów
-try
-{
-$sql = 'SELECT COUNT(*) FROM variants';
-$s = $pdo->query($sql);
-}
-catch (PDOException $e)
-  {
-    $error = 'Błąd przy pobieraniu liczby wariantów.';
-    include 'error.html.php';
-    exit();
-  }
-$variantsCount = $s->fetch();
-
-//Pobieranie informacji o wariantach
-try
-{
-$sql = 'SELECT id,name FROM variants';
-$s = $pdo->query($sql);
-}
-catch (PDOException $e)
-  {
-    $error = 'Błąd przy pobieraniu liczby głosów.';
-    include 'error.html.php';
-    exit();
-  }
-foreach ($s as $row)
-{
-  $variantsId[] = $row['id'];
-  $variantsName[] = $row['name'];
-}
-$voteResults = array();
-//Zliczanie ilości oddanych głosów na dany wariant
-for($i=0;$i<$variantsCount[0];$i++)
-{
-    try
-    {
-        $sql = "SELECT COUNT(*) FROM votes WHERE variantid = $variantsId[$i]";
-        $s = $pdo->query($sql);
-    }
-    catch (PDOException $e)
-    {
-        $error = 'Błąd przy pobieraniu liczby głosów.';
-        include 'error.html.php';
-        exit();
-    }
-    $result = $s->fetch();
-    $voteResults[] = $result[0];
-}
-
 include 'admin.html.php';
