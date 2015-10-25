@@ -1,5 +1,5 @@
   <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header text-center">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h1 class="text-center">Logowanie</h1>
     <p>Podaj login oraz hasło.</p>

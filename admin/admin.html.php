@@ -40,11 +40,10 @@
     </nav>
     <div class="container">
         <img src="/voteonline/VO_1.png" class="img-responsive center-block">
-        <div class="row">
+       <div class="row">
         <form action="?adduser" method="post">
-            <div class="row">
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-          <div><p><b>Dodawanie nowego użytkownika</b></p>
+          <div><h4><b>Dodawanie nowego użytkownika</b></h4>
         <label for="userlogin">Login: <input type="text" class="form-control" name="userlogin"
             id="userlogin" required></label>
           <label for="userpassword">Hasło: <input type="password" class="form-control" name="userpassword"
@@ -62,13 +61,14 @@
           <input type="submit" class="btn btn-default" value="Dodaj"></form>
       </div>
      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-         <p>Użytkownicy Voteonline:</p>
+         <h4><b>Użytkownicy Voteonline:</b></h4>
          <table class="table table-bordered table-responsive text-center">
-         <tr class="info"><td>Login</td><td>Adres email</td></tr>
+             <tr class="info"><td><b>Login</b></td><td><strong>Adres email</strong></td><td><strong>Uprawnienia</strong></td></tr>
         <?php foreach ($users as $user): ?>
-             <tr><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td></tr>
+             <tr><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td><td><?php htmlout($user['roleid']); ?></td></tr>
       <?php endforeach; ?>
         </table>
+        </div>
         </div>
     </div>
     <!-- Wyskakujące okno logowania -->

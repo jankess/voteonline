@@ -21,9 +21,9 @@ if (!userHasRole('Administrator'))
 }
 
 include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
+
+
 //Dodawanie nowego użytkownika
-
-
 if (isset($_GET['adduser']))
     {
      if(!isset($_POST['userlogin']) or !isset($_POST['userpassword']) or !isset($_POST['useremail']) or $_POST['userlogin'] != '' or $_POST['userpassword'] != '' or $_POST['useremail'] != '')
@@ -75,7 +75,7 @@ foreach ($result as $row)
 }
 try
 {
-  $result = $pdo->query('SELECT login, email FROM users');
+  $result = $pdo->query('SELECT login, email, roleid FROM users INNER JOIN userrole ON userlogin = users.login ');
 }
 catch (PDOException $e)
 {
@@ -86,6 +86,6 @@ catch (PDOException $e)
 
 foreach ($result as $row)
 {
-  $users[] = array('login' => $row['login'], 'email' => $row['email']);
+  $users[] = array('login' => $row['login'], 'email' => $row['email'], 'roleid' => $row['roleid']);
 }
 include 'admin.html.php';
