@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.logo { max-width: 35%;} .wykres {min-width: 200px;}</style>
+    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.logo { max-width: 35%;} .wykres {min-width: 200px;} .navlogo {width: 100px; height: 50px; }</style>
 
 </head>
 
@@ -25,49 +25,87 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/voteonline/">VoteOnline</a>
+                <a href="/voteonline/"><img src="/voteonline/VO_1.png" class="navlogo"></a>
             </div>
           <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
-                    <li class="active"><a href="/voteonline/admin/">Panel Administratora</a></li>
+         <ul class="nav navbar-nav" >
+                    <li><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
+                    <li><a href="/voteonline/admin/">Panel Administratora</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>
     </nav>
+    <hr/>
     <div class="container">
-        <img src="/voteonline/VO_1.png" class="img-responsive center-block logo">
+        <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
         <div class="row">
+        <form action="" method="get">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="panel panel-default">
+                <div class="panel-heading text-center">Dodawanie nowego głosowania</div>
+                <div class="panel-body">
+                <label for="votingname">Nazwa głosowania<input type="text" class="form-control" name="votingname" id="votingname" required></label>
+                <label for="votingdesc">Pytanie dotyczące głosowania<input type="text" class="form-control" name="votingdesc" id="votingdesc" required></label>
+                <input type="submit" class="btn btn-default" name="voting" value="Dodaj"></div></form>
+            </div></div>
         <form action="" method="post">
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-          <h4>Dodawanie nowego wariantu do głosowania</h4>
-        <label for="name">Nazwa wariantu: <input type="text" class="form-control" name="name"
-            id="name"></label>
-          <input type="submit" class="btn btn-default" value="Dodaj"></form>
-            </div>
+          <div class="panel panel-default">
+              <div class="panel-heading text-center">Dodawanie nowego wariantu do głosowania</div>
+              <div class="panel-body"><label for="newvariant">Nazwa wariantu: <input type="text" class="form-control" name="newvariant"
+            id="newvariant"></label>
+          <label for="votingselect">Głosowanie do kórego wariant ma zostać dodany<select name="votingselect" class="form-control">
+              <?php foreach ($votings as $voting): ?>
+              <option value="<?php echo $voting['id'];?>"><?php echo $voting['name']; ?></option>
+              <?php               endforeach; ?>
+              </select></label>
+                   <input type="submit" class="btn btn-default" value="Dodaj"></div></form>
+        </div></div>
         </div>
         <div class="row">
+        <form action="" method="post">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Wybór aktywnego głosowania</div>
+                <div class="panel-body">
+              <label for="votingactiv">Głosowanie które ma zostać uaktywnione<select name="votingactiv" class="form-control">
+              <?php foreach ($votings as $voting): ?>
+                      <option value="<?php echo $voting['id'];?>" <?php if($voting['active']>0) {echo 'selected'; $active = $voting['name'];} ?>><?php echo $voting['name']; ?></option>
+              <?php               endforeach; ?>
+                  </select></label>
+                   <input type="submit" class="btn btn-default" value="Uaktywnij"></div></form>
+                   <p>Obecnie aktywnej jest głosowanie: <?php if(isset($active)) {echo $active;} else {echo 'Nie zostało aktywowane żadne głosowanie';} ?> </p> 
+            </div>    
+            </div></div>
+        <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-         <h4>Szczegółowe dane głosowania</h4>
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Szczegółowe dane głosowania</div>
+                <div class="panel-body">
          <?php for($i=0;$i<$variantsCount[0];$i++):?>
          <p><?php echo $variantsName[$i]; echo ': ' . $voteResults[$i] . ' (' . round((($voteResults[$i]/$voteCount[0])*100),2) . '%)'; ?></p>
          <?php endfor; ?>
-        </div>
+                </div></div></div>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-         <h4>Ogólne dane głosowania</h4>
+             <div class="panel panel-default">
+                 <div class="panel-heading text-center">Ogólne dane głosowania</div>
+                 <div class="panel-body">
          <p>Ilość oddanych głosów: <?php echo $voteCount[0]; ?></p>
          <p>Ilość wariantów odpowiedzi: <?php echo $variantsCount[0]; ?></p>
-         </div>
+                 </div></div></div>
         </div>
         <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div id="piechart_3d" style="width:600px; height:400px;" class="center-block"></div></div>
-        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default hidden-xs hidden-sm">
+            <div class="panel-heading text-center">Wykres przedstawiający wyniki głosowania</div>
+            <div class="panel-body">    
+        <div id="piechart_3d"></div>
+            </div></div></div>
     </div>
-    
+    </div>
     <!-- Wyskakujące okno logowania -->
       <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-sm">
@@ -79,19 +117,20 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
      <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-      google.load("visualization", "1", {packages:["corechart"]});
+      google.load("visualization", "1.1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
+          ['All Votes', 'Votes'],
         <?php for($i=0;$i<$variantsCount[0];$i++):?>
           ['<?php echo $variantsName[$i]; ?>', <?php echo $voteResults[$i]; ?>],
         <?php endfor; ?>
         ]);
 
         var options = {
-          title: 'Wyniki głosowania',
             is3D: true,
+            width:500,
+            height:400
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));

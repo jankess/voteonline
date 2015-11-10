@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}</style>
+    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;} .navlogo {width: 100px; height: 50px; }</style>
 
     <!--[if IE]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -29,15 +29,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/voteonline/">VoteOnline</a>
+                <a href="/voteonline/"><img src="/voteonline/VO_1.png" class="navlogo"></a>
             </div>
              <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
-                    <li class="active"><a href="/voteonline/admin/">Panel Administratora</a></li>
+                    <li><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
+                    <li><a href="/voteonline/admin/">Panel Administratora</a></li>
                 </ul>
                  <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="" data-toggle="modal" data-target="#myModal"><?php if(!isset($_SESSION['loggedIn'])) { echo('Zaloguj');}else { echo('Wyloguj(' . $_SESSION['userlogin'] . ')');}?></a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php if(!isset($_SESSION['loggedIn'])) { echo('Zaloguj');}else { echo('Wyloguj(' . $_SESSION['userlogin'] . ')');}?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>

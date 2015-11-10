@@ -11,7 +11,8 @@
     <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}</style>
+    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}
+        .navlogo {width: 100px; height: 50px; } .active{ border-left:solid; border-width: 1px;}</style>
 
 </head>
 
@@ -25,26 +26,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/voteonline/">VoteOnline</a>
+                <a href="/voteonline/"><img src="/voteonline/VO_1.png" class="navlogo"></a>
             </div>
           <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
-                    <li class="active"><a href="/voteonline/admin/">Panel Administratora</a></li>
+              <ul class="nav navbar-nav" >
+                    <li><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
+                    <li><a href="/voteonline/admin/">Panel Administratora</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>
     </nav>
+    <hr/>
     <div class="container">
-        <img src="/voteonline/VO_1.png" class="img-responsive center-block">
+        <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
        <div class="row">
         <form action="?adduser" method="post">
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-          <div><h4><b>Dodawanie nowego użytkownika</b></h4>
-        <label for="userlogin">Login: <input type="text" class="form-control" name="userlogin"
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="panel panel-default">
+              <div class="panel-heading text-center">Dodawanie nowego użytkownika</div>
+               <div class="panel-body">
+              <div><label for="userlogin">Login: <input type="text" class="form-control" name="userlogin"
             id="userlogin" required></label>
           <label for="userpassword">Hasło: <input type="password" class="form-control" name="userpassword"
                                                   id="userpassword" required></label>
@@ -53,22 +57,26 @@
           </div>
           <div>
               <?php foreach ($roles as $role): ?>
-              <label><input type="radio" name="role"
+              <label><hn title="Rola jaką ma posiadać dodawany użytkownik"><input type="radio" name="role"
               id="<?php htmlout($role['id']); ?>"
-              value="<?php htmlout($role['id']); ?>" required><?php htmlout($role['id']); ?></label>
+                                value="<?php htmlout($role['id']); ?>" required><?php htmlout($role['id']); ?></hn></label>
                <?php endforeach; ?>
         </div>
           <input type="submit" class="btn btn-default" value="Dodaj"></form>
-      </div>
-     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-         <h4><b>Użytkownicy Voteonline:</b></h4>
+</div></div></div>
+           <div class="row">
+     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="panel panel-default">
+              <div class="panel-heading text-center">Użytkownicy Voteonline:</div>
+              <div class="panel-body">
          <table class="table table-bordered table-responsive text-center">
              <tr class="info"><td><b>Login</b></td><td><strong>Adres email</strong></td><td><strong>Uprawnienia</strong></td></tr>
         <?php foreach ($users as $user): ?>
-             <tr><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td><td><?php htmlout($user['roleid']); ?></td></tr>
+             <form action="" method="post">
+                 <tr><input type="hidden" name="login" value="<?php echo ($user['login']); ?>"><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td><td><?php htmlout($user['roleid']); ?></td><td><input type="submit" name="action" value="Usuń"></td></tr></form>
       <?php endforeach; ?>
-        </table>
-        </div>
+             </table>
+              </div></div></div>
         </div>
     </div>
     <!-- Wyskakujące okno logowania -->
@@ -77,7 +85,7 @@
     <!-- Modal content-->
     <?php include '../logout.inc.html.php';?>  
         </div>
-    </div>
+      </div></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>

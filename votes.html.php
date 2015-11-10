@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}
-        .img-responsive { max-width: 35%;}
+        .img-responsive { max-width: 35%;}.navlogo {width: 100px; height: 50px;} .active{ border-left:solid; border-width: 1px;}
     </style>
 
 </head>
@@ -28,28 +28,28 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/voteonline/">VoteOnline</a>
+                <li><a href="/voteonline/"><img src="/voteonline/VO_1.png" class="navlogo"></a></li>
             </div>
             <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
-                    <li class="active"><a href="admin/">Panel Administratora</a></li>
+                <ul class="nav navbar-nav" >
+                    <li><a href="/voteonline/voteadmin/">Panel Administratora Głosowania</a></li>
+                    <li><a href="/voteonline/admin/">Panel Administratora</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>
     </nav>
     <div class="container">
-        <img src="/voteonline/VO_1.png" class="img-responsive center-block"> 
+    <img src="/voteonline/VO_1.png" class="img-responsive center-block"> 
         <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
       <form action="" method="post">
           <h2>Twój ulubiony serial to:</h2>
         <?php foreach ($variants as $variant): ?>
-          <div><label><input type="radio" name="variants[]"
-              id="variant<?php htmlout($variant['id']); ?>"
+          <div><label><input type="radio" name="variants"
+              id="<?php htmlout($variant['id']); ?>"
               value="<?php htmlout($variant['id']); ?>" required><?php htmlout($variant['name']); ?></label></div>
         <?php endforeach; ?>
         <div>

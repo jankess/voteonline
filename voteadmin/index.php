@@ -22,26 +22,73 @@ if (!userHasRole('VoteAdministrator'))
 
 include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
 //Dodawanie nowego wariantu
-if (isset($_POST['name']) and $_POST['name'] != '')
+if (isset($_POST['newvariant']) and $_POST['newvariant'] != '')
 {
   try
   {
     $sql = 'INSERT INTO variants SET
-        name = :name';
+        name = :name, votingid = :votingid';
     $s = $pdo->prepare($sql);
-    $s->bindValue(':name', $_POST['name']);
+    $s->bindValue(':name', $_POST['newvariant']);
+    $s->bindValue(':votingid', $_POST['votingselect']);
     $s->execute();
   }
   catch (PDOException $e)
   {
     $error = 'Błąd przy dodawaniu wariantu.';
-    include 'error.html.php';
+    include '../error.html.php';
     exit();
   }
 
   header('Location: .');
   exit();
 }
+
+if(isset($_POST['voting'])and $_POST['voting'] == 'Dodaj')
+{
+    try
+  {
+    $sql = 'INSERT INTO voting SET
+        name = :name, description = :description';
+    $s = $pdo->prepare($sql);
+    $s->bindValue(':name', $_POST['votingname']);
+    $s->bindValue(':description', $_POST['votingdesc']);
+    $s->execute();
+  }
+  catch (PDOException $e)
+  {
+    $error = 'Błąd przy dodawaniu głosowania.';
+    include '../error.html.php';
+    exit();
+  }
+
+  header('Location: .');
+  exit();    
+}
+
+try
+{
+include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
+  $sql = 'SELECT id, name , description, active FROM voting';
+  $result = $pdo->query($sql);
+}
+catch (PDOException $e)
+{
+  $error = 'Błąd przy pobieraniu wariantów: ' . $e->getMessage();
+  include 'error.html.php';
+  exit();
+}
+
+foreach ($result as $row)
+{
+  $votings[] = array(
+    'id' => $row['id'],
+    'name' => $row['name'],
+    'description' => $row['description'],
+     'active' => $row['active']
+  );
+}
+
 
 //Liczenie ilośći oddanych głosów
 try
@@ -106,5 +153,30 @@ for($i=0;$i<$variantsCount[0];$i++)
     $result = $s->fetch();
     $voteResults[] = $result[0];
 }
+if(isset($_POST['votingactiv']))
+{
+    try
+  {
+    $sql = 'UPDATE voting SET
+        active = "0" ';
+    $s = $pdo->prepare($sql);
+    $s->bindValue(':votingactive', $_POST['votingactiv']);
+    $s->execute();
+    $sql = 'UPDATE voting SET
+        active = "1" WHERE id = :votingactive';
+    $s = $pdo->prepare($sql);
+    $s->bindValue(':votingactive', $_POST['votingactiv']);
+    $s->execute();
 
+  }
+  catch (PDOException $e)
+  {
+    $error = 'Błąd przy aktywacji głosowania.';
+    include '../error.html.php';
+    exit();
+  }
+
+  header('Location: .');
+  exit();    
+}
 include 'voteadmin.html.php';

@@ -26,7 +26,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
 //Dodawanie nowego użytkownika
 if (isset($_GET['adduser']))
     {
-     if(!isset($_POST['userlogin']) or !isset($_POST['userpassword']) or !isset($_POST['useremail']) or $_POST['userlogin'] != '' or $_POST['userpassword'] != '' or $_POST['useremail'] != '')
+     if(isset($_POST['userlogin']) and isset($_POST['userpassword']) and isset($_POST['useremail']) and $_POST['userlogin'] != '' and $_POST['userpassword'] != '' and $_POST['useremail'] != '')
                                              {
 try
   {
@@ -54,6 +54,41 @@ try
 header('Location: .');
 exit();
     }
+}
+
+if (isset($_POST['action']) and $_POST['action'] == 'Usuń')
+{
+try
+    //usuwanie powiązania użytkownika z rolą
+  {
+    $sql = 'DELETE FROM userrole WHERE userlogin = :login';
+    $s = $pdo->prepare($sql);
+    $s->bindValue(':login', $_POST['login']);
+    $s->execute();
+  }
+  catch (PDOException $e)
+  {
+    $error = 'Błąd przy usuwaniu autora.' . $e->getMessage();
+    include '../error.html.php';
+    exit();
+  }
+//usuwanie użytkownika
+try
+  {
+    $sql = 'DELETE FROM users WHERE login = :login';
+    $s = $pdo->prepare($sql);
+    $s->bindValue(':login', $_POST['login']);
+    $s->execute();
+  }
+  catch (PDOException $e)
+  {
+    $error = 'Błąd przy usuwaniu autora.' . $e->getMessage();
+    include '../error.html.php';
+    exit();
+  }
+
+ header('Location: .');
+  exit();
 }
 
 try

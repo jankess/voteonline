@@ -13,7 +13,7 @@ if (userIsLoggedIn() == FALSE)
 try
 {
 include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
-  $sql = 'SELECT id, name FROM variants';
+  $sql = 'SELECT variants.id, variants.name FROM variants INNER JOIN voting ON variants.votingid = voting.id WHERE voting.active = 1';
   $result = $pdo->query($sql);
 }
 catch (PDOException $e)
@@ -41,13 +41,9 @@ if (isset($_POST['variants']) and $_SESSION['voted'] !=TRUE)
           variantid = :variantid,
           votedate = CURDATE()';
       $s = $pdo->prepare($sql);
-      foreach ($_POST['variants'] as $variantid)
-      {
-        $s->bindValue(':variantid', $variantid);
-        $s->execute();
-      }
+      $s->bindValue(':variantid', $_POST['variants']);
+      $s->execute();
      session_start();
-    
     }
     catch (PDOException $e)
     {
