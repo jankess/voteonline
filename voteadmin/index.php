@@ -21,6 +21,7 @@ if (!userHasRole('VoteAdministrator'))
 }
 
 include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
+
 //Dodawanie nowego wariantu
 if (isset($_POST['newvariant']) and $_POST['newvariant'] != '')
 {
@@ -43,7 +44,7 @@ if (isset($_POST['newvariant']) and $_POST['newvariant'] != '')
   header('Location: .');
   exit();
 }
-
+//Dodawanie nowego głosowania
 if(isset($_POST['voting'])and $_POST['voting'] == 'Dodaj')
 {
     try
@@ -65,7 +66,7 @@ if(isset($_POST['voting'])and $_POST['voting'] == 'Dodaj')
   header('Location: .');
   exit();    
 }
-
+//Pobieranie informacji na temat głosowań
 try
 {
 include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
@@ -90,10 +91,10 @@ foreach ($result as $row)
 }
 
 
-//Liczenie ilośći oddanych głosów
+//Liczenie ilości oddanych głosów
 try
 {
-$sql = 'SELECT COUNT(*) FROM votes';
+$sql = 'SELECT COUNT(*) FROM votes INNER JOIN variants ON votes.variantid = variants.id INNER JOIN voting ON variants.votingid = voting.id WHERE voting.active = 1';
 $s = $pdo->query($sql);
 }
 catch (PDOException $e)
@@ -105,7 +106,7 @@ catch (PDOException $e)
 $voteCount = $s->fetch();
 
 //Liczenie ilości wariantów
-try
+/*try
 {
 $sql = 'SELECT COUNT(*) FROM variants';
 $s = $pdo->query($sql);
@@ -117,11 +118,12 @@ catch (PDOException $e)
     exit();
   }
 $variantsCount = $s->fetch();
+*/
 
 //Pobieranie informacji o wariantach
 try
 {
-$sql = 'SELECT id,name FROM variants';
+$sql = 'SELECT variants.id, variants.name FROM variants INNER JOIN voting ON variants.votingid = voting.id WHERE voting.active = 1';
 $s = $pdo->query($sql);
 }
 catch (PDOException $e)
@@ -132,16 +134,23 @@ catch (PDOException $e)
   }
 foreach ($s as $row)
 {
-  $variantsId[] = $row['id'];
-  $variantsName[] = $row['name'];
+  //$variantsId[] = $row['id'];
+  //$variantsName[] = $row['name'];
+  $warianty[] = array(
+      'id' => $row['id'],
+      'name' => $row['name']
+  );
 }
+//print_r($warianty);
 $voteResults = array();
-//Zliczanie ilości oddanych głosów na dany wariant
-for($i=0;$i<$variantsCount[0];$i++)
+//Zliczanie głosów oddanych na konkretny wariant
+if(isset($warianty)){
+foreach ($warianty as $wariant)
 {
+    $variantsId = $wariant['id'];
     try
     {
-        $sql = "SELECT COUNT(*) FROM votes WHERE variantid = $variantsId[$i]";
+        $sql = "SELECT COUNT(*) FROM votes WHERE variantid = $variantsId";
         $s = $pdo->query($sql);
     }
     catch (PDOException $e)
@@ -153,6 +162,8 @@ for($i=0;$i<$variantsCount[0];$i++)
     $result = $s->fetch();
     $voteResults[] = $result[0];
 }
+}
+//Wybór głosowania do aktywacji
 if(isset($_POST['votingactiv']))
 {
     try

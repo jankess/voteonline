@@ -15,7 +15,6 @@
         .navlogo {width: 100px; height: 50px; } .active{ border-left:solid; border-width: 1px;}</style>
 
 </head>
-
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -42,41 +41,46 @@
     <hr/>
     <div class="container">
         <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
-       <div class="row">
-        <form action="?adduser" method="post">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div class="panel panel-default">
-              <div class="panel-heading text-center">Dodawanie nowego użytkownika</div>
-               <div class="panel-body">
-              <div><label for="userlogin">Login: <input type="text" class="form-control" name="userlogin"
-            id="userlogin" required></label>
-          <label for="userpassword">Hasło: <input type="password" class="form-control" name="userpassword"
+        <div class="row">
+            <form action="?adduser" method="post">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">Dodawanie nowego użytkownika</div>
+                    <div class="panel-body">
+                    <div><label for="userlogin">Login: <input type="text" class="form-control" name="userlogin"
+                        id="userlogin" required></label>
+                    <label for="userpassword">Hasło: <input type="password" class="form-control" name="userpassword"
                                                   id="userpassword" required></label>
-          <label for="useremail">Adres email: <input type="email" class="form-control" name="useremail"
+                    <label for="useremail">Adres email: <input type="email" class="form-control" name="useremail"
                                                   id="useremail" required></label>
-          </div>
-          <div>
-              <?php foreach ($roles as $role): ?>
-              <label><hn title="Rola jaką ma posiadać dodawany użytkownik"><input type="radio" name="role"
-              id="<?php htmlout($role['id']); ?>"
-                                value="<?php htmlout($role['id']); ?>" required><?php htmlout($role['id']); ?></hn></label>
-               <?php endforeach; ?>
+                    </div>
+                    <div>
+                        <?php foreach ($roles as $role): ?>
+                        <label><hn title="Rola jaką ma posiadać dodawany użytkownik"><input type="radio" name="role"
+                            id="<?php htmlout($role['id']); ?>" value="<?php htmlout($role['id']); ?>" required><?php htmlout($role['id']); ?></hn></label>
+                        <?php endforeach; ?>
+                    </div>
+                    <input type="submit" class="btn btn-default" value="Dodaj">
+                    </div>
+                </div>
+            </div>
+            </form>
         </div>
-          <input type="submit" class="btn btn-default" value="Dodaj"></form>
-</div></div></div>
-           <div class="row">
-     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div class="panel panel-default">
-              <div class="panel-heading text-center">Użytkownicy Voteonline:</div>
-              <div class="panel-body">
-         <table class="table table-bordered table-responsive text-center">
-             <tr class="info"><td><b>Login</b></td><td><strong>Adres email</strong></td><td><strong>Uprawnienia</strong></td></tr>
-        <?php foreach ($users as $user): ?>
-             <form action="" method="post">
-                 <tr><input type="hidden" name="login" value="<?php echo ($user['login']); ?>"><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td><td><?php htmlout($user['roleid']); ?></td><td><input type="submit" name="action" value="Usuń"></td></tr></form>
-      <?php endforeach; ?>
-             </table>
-              </div></div></div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">Użytkownicy Voteonline:</div>
+                    <div class="panel-body">
+                        <table class="table table-bordered table-responsive text-center">
+                            <tr class="info"><td><b>Login</b></td><td><strong>Adres email</strong></td><td><strong>Uprawnienia</strong></td></tr>
+                                <?php foreach ($users as $user): ?>
+                                <form action="" method="post">
+                                <tr><input type="hidden" name="login" value="<?php echo ($user['login']); ?>"><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td><td><?php htmlout($user['roleid']); ?></td><td><input type="submit" name="action" value="Usuń"></td></tr></form>
+                                <?php endforeach; ?>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Wyskakujące okno logowania -->

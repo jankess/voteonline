@@ -30,6 +30,21 @@ foreach ($result as $row)
     'name' => $row['name']
   );
 }
+try
+{
+  $sql = 'SELECT description FROM voting WHERE active = 1';
+  $result = $pdo->query($sql);
+}
+catch (PDOException $e)
+{
+  $error = 'Błąd przy pobieraniu wariantów: ' . $e->getMessage();
+  include 'error.html.php';
+  exit();
+}
+foreach ($result as $row)
+{
+  $votingdescription = $row['description'];
+}
 include 'votes.html.php';
 
 if (isset($_POST['variants']) and $_SESSION['voted'] !=TRUE)
