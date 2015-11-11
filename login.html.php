@@ -43,22 +43,22 @@
     <div class="container">
         <img src="/voteonline/VO_1.png" class="img-responsive center-block">
         <h1>Logowanie</h1>
-    <p>Strona dostępna tylko dla zalogowanych użytkowników.</p>
-    <?php if (isset($loginError)): $alert = 'alert alert-danger'; ?>
-          <div class="<?php echo($alert); ?>"><p class="text-center"><?php htmlout($loginError);?></p></div>
-      <?php else: $alert = ''; endif; ?>
-    <form action="" method="post">
-        <div>
-            <label for="userlogin">Login:<input type="text" name="userlogin" id="userlogin" class="form-control <?php echo($alert); ?>"></label>
-        </div>  
-        <div>
-            <label for="password">Hasło:<input type="password" name="password" id="password" class="form-control <?php echo($alert); ?>"></label>
-        </div>
-        <div>
-        <input type="hidden" name="action" value="login">
-        <input type="submit" value="Zaloguj" class="btn btn-default">
-        </div>
-      </form>  
+        <p>Strona dostępna tylko dla zalogowanych użytkowników.</p>
+        <?php if (isset($loginError)): $alert = 'alert alert-danger'; ?>
+        <div class="<?php echo($alert); ?>"><p class="text-center"><?php htmlout($loginError);?></p></div>
+        <?php else: $alert = ''; endif; ?>
+        <form action="" method="post">
+            <div>
+                <label for="userlogin">Login:<input type="text" name="userlogin" id="userlogin" class="form-control <?php echo($alert); ?>"></label>
+            </div>  
+            <div>
+                <label for="password">Hasło:<input type="password" name="password" id="password" class="form-control <?php echo($alert); ?>"></label>
+            </div>
+            <div>
+                <input type="hidden" name="action" value="login">
+                <input type="submit" value="Zaloguj" class="btn btn-default">
+            </div>
+        </form>  
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

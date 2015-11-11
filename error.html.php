@@ -42,19 +42,20 @@
             </div><!--.nav-collapse -->
         </div>
     </nav>
-    <div class="alert alert-danger" role="alert">
-    <p class="text-center">
-    <?php echo $error; ?>
-    </p>
+    <div class="container">    
+        <div class="alert alert-danger" role="alert">
+            <p class="text-center">
+            <?php echo $error; ?>
+            </p>
+        </div>
     </div>
-    
-       <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-sm">
+    <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
     <!-- Modal content-->
-    <?php if (!isset($_SESSION['loggedIn'])): include 'login.inc.html.php'; ?>
-    <?php elseif(isset($_SESSION['loggedIn']) or $loginstate != 'Zaloguj'): include 'logout.inc.html.php'; endif ?>  
-  </div>
-</div>
+        <?php if (!isset($_SESSION['loggedIn'])): include 'login.inc.html.php'; ?>
+        <?php elseif(isset($_SESSION['loggedIn']) or $loginstate != 'Zaloguj'): include 'logout.inc.html.php'; endif ?>  
+    </div>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

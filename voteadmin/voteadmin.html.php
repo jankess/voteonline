@@ -40,6 +40,7 @@
     </nav>
     <hr/>
     <div class="container">
+        <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div> <?php endif;?>
         <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
         <div class="row">
         <form action="" method="get">
@@ -57,6 +58,24 @@
         <form action="" method="post">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="panel panel-default">
+                    <div class="panel-heading text-center">Wybór aktywnego głosowania</div>
+                    <div class="panel-body">
+                        <label for="votingactiv">Głosowanie które ma zostać uaktywnione
+                        <select name="votingactiv" class="form-control">
+                            <?php foreach ($votings as $voting): ?>
+                            <option value="<?php echo $voting['id'];?>" <?php if($voting['active']>0) {echo 'selected'; $active = $voting['name'];} ?>><?php echo $voting['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select></label>
+                        <input type="submit" class="btn btn-default" value="Uaktywnij">
+                    </div>
+                    <p>Obecnie aktywnej jest głosowanie: <?php if(isset($active)) {echo $active;} else {echo 'Nie zostało aktywowane żadne głosowanie';} ?> </p> 
+                </div>    
+            </div></form>
+        </div>
+        <div class="row">
+          <form action="" method="post">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="panel panel-default">
                     <div class="panel-heading text-center">Dodawanie nowego wariantu do głosowania</div>
                     <div class="panel-body">
                         <label for="newvariant">Nazwa wariantu: <input type="text" class="form-control" name="newvariant"
@@ -72,25 +91,7 @@
                     </div>
                 </div>
             </div>
-        </form>
-        </div>
-        <div class="row">
-        <form action="" method="post">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading text-center">Wybór aktywnego głosowania</div>
-                    <div class="panel-body">
-                        <label for="votingactiv">Głosowanie które ma zostać uaktywnione
-                        <select name="votingactiv" class="form-control">
-                            <?php foreach ($votings as $voting): ?>
-                            <option value="<?php echo $voting['id'];?>" <?php if($voting['active']>0) {echo 'selected'; $active = $voting['name'];} ?>><?php echo $voting['name']; ?></option>
-                            <?php endforeach; ?>
-                        </select></label>
-                        <input type="submit" class="btn btn-default" value="Uaktywnij">
-                    </div>
-                    <p>Obecnie aktywnej jest głosowanie: <?php if(isset($active)) {echo $active;} else {echo 'Nie zostało aktywowane żadne głosowanie';} ?> </p> 
-                </div>    
-            </div></form>
+        </form>  
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -121,6 +122,18 @@
                     <div id="piechart_3d"></div>
                 </div>  
                 </div>  
+            </div>
+        </div>
+    <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <form action="" method="post">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">Funkcje</div>
+                    <div class="panel-body text-center">
+                        <button class="btn btn-default" name="action" value="passedit">Zmiana hasła</button>
+                    </div>
+                </div>
+                </form>
             </div>
         </div>
     </div>

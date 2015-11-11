@@ -42,32 +42,33 @@
         </div>
     </nav>
     <div class="container">
-    <img src="/voteonline/VO_1.png" class="img-responsive center-block"> 
+        <img src="/voteonline/VO_1.png" class="img-responsive center-block"> 
         <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-      <form action="" method="post">
-          <h2><?php echo $votingdescription; ?>?</h2>
-        <?php if(isset($variants)){foreach ($variants as $variant): ?>
-          <div><label><input type="radio" name="variants"
-              id="<?php htmlout($variant['id']); ?>"
-              value="<?php htmlout($variant['id']); ?>" required><?php htmlout($variant['name']); ?></label></div>
-        <?php endforeach; }else echo 'Do głosowania nie został jeszcze dodany żaden wariant';?>
-        <div>
-        <input type="submit" class="btn btn-default" value="Głosuj">
-      </div>
-          </div>
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <h2>Dane głosującego</h2>
-        <div class="form-group">
-            <label for="sel1">Płeć:</label>
-            <select class="form-control" id="sex" required>
-                <option>K</option>
-                <option>M</option>
-            </select>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <form action="" method="post">
+                <h2><?php echo $votingdescription; ?>?</h2>
+                <?php if(isset($variants)){foreach ($variants as $variant): ?>
+                <div><label><input type="radio" name="variants"
+                    id="<?php htmlout($variant['id']); ?>"
+                    value="<?php htmlout($variant['id']); ?>" required><?php htmlout($variant['name']); ?></label></div>
+                <?php endforeach; }else echo 'Do głosowania nie został jeszcze dodany żaden wariant';?>
+                <div>
+                <?php if(isset($variants)): ?><input type="submit" class="btn btn-default" value="Głosuj"> <?php endif; ?>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <h2>Dane głosującego</h2>
+                <div class="form-group">
+                    <label for="sel1">Płeć:</label>
+                    <select class="form-control" id="sex" required>
+                        <option>K</option>
+                        <option>M</option>
+                    </select>
+                </div>
+            </div>
+            </form>
         </div>
     </div>
-        </div>
-    </div></form>
     
  <!-- Wyskakujące okno logowania -->
     <div id="myModal" class="modal fade" role="dialog">

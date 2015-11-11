@@ -40,6 +40,7 @@
     </nav>
     <hr/>
     <div class="container">
+        <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div> <?php endif;?>
         <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
         <div class="row">
             <form action="?adduser" method="post">
@@ -66,7 +67,7 @@
             </div>
             </form>
         </div>
-        <div class="row">
+        <div class="row hidden-sm hidden-xs">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">Użytkownicy Voteonline:</div>
@@ -82,7 +83,18 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <form action="" method="post">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">Funkcje</div>
+                    <div class="panel-body text-center">
+                        <button class="btn btn-default" name="action" value="passedit">Zmiana hasła</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
     <!-- Wyskakujące okno logowania -->
       <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-sm">

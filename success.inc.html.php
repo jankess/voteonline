@@ -1,1 +1,1 @@
-<p class="success text-center"><?php echo($success) ?></p>
+<div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div>
