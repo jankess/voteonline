@@ -9,8 +9,8 @@
     <meta name="author" content="">
     <title>Odmowa dostępu</title>
     <link rel="shortcut icon" href="">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
+    <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
     <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;} .navlogo {width: 100px; height: 50px; }</style>
 
     <!--[if IE]>

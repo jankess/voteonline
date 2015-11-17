@@ -3,14 +3,15 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+    <?php if(isset($success)): ?><meta http-equiv="Refresh" content="3; url=/voteonline/voteadmin/" /> <?php     endif;?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
     <title>VoteOnline VoteAdmin</title>
     <link rel="shortcut icon" href="">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
+    <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
     <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.logo { max-width: 35%;} .wykres {min-width: 200px;} .navlogo {width: 100px; height: 50px; }</style>
 
 </head>
@@ -37,6 +38,7 @@
                 </ul>
             </div><!--.nav-collapse -->
         </div>
+        
     </nav>
     <hr/>
     <div class="container">
@@ -44,7 +46,7 @@
         <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
         <div class="row">
         <form action="" method="get">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 hidden-xs">
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">Dodawanie nowego głosowania</div>
                     <div class="panel-body">
@@ -72,14 +74,14 @@
                 </div>    
             </div></form>
         </div>
-        <div class="row">
+        <div class="row hidden-xs">
           <form action="" method="post">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">Dodawanie nowego wariantu do głosowania</div>
                     <div class="panel-body">
                         <label for="newvariant">Nazwa wariantu: <input type="text" class="form-control" name="newvariant"
-                            id="newvariant"></label>
+                                                                       id="newvariant" required></label>
                         <label for="votingselect">Głosowanie do którego wariant ma zostać dodany
                         <select name="votingselect" class="form-control">
                             <?php foreach ($votings as $voting): ?>
@@ -114,9 +116,9 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row hidden-xs">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div class="panel panel-default hidden-xs hidden-sm">
+                <div class="panel panel-default">
                 <div class="panel-heading text-center">Wykres przedstawiający wyniki głosowania</div>
                 <div class="panel-body">    
                     <div id="piechart_3d"></div>
@@ -130,7 +132,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">Funkcje</div>
                     <div class="panel-body text-center">
-                        <button class="btn btn-default" name="action" value="passedit">Zmiana hasła</button>
+                        <button class="btn btn-default" name="action" value="editpass">Zmiana hasła</button>
                     </div>
                 </div>
                 </form>
@@ -145,7 +147,7 @@
     </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/voteonline/js/bootstrap.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1.1", {packages:["corechart"]});

@@ -160,7 +160,8 @@ if (isset($_POST['votingactiv'])) {
     header('Location: .');
     exit();
 }
-if (isset($_POST['action']) and $_POST['action'] == 'passedit') {
+if (isset($_POST['action']) and $_POST['action'] == 'editpass') {
+    //if (isset($_GET['editpass'])){
     include '../passform.html.php';
     exit();
 }

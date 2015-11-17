@@ -4,7 +4,7 @@
         <h1 class="text-center">Logowanie</h1>
         <p>Podaj login oraz hasło.</p>
         <?php if (isset($loginError)): $alert = 'alert alert-danger'; ?>
-        <div class="<?php echo($alert); ?>"><p><?php htmlout($loginError);?></p></div>
+        <div class="<?php echo($alert); ?>"><p><?php echo($loginError);?></p></div>
         <?php else: $alert = ''; endif; ?>
         <form action="" method="post">
             <div>

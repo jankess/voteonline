@@ -26,7 +26,7 @@ foreach ($result as $row) {
     );
 }
 try {
-    $sql = 'SELECT description FROM voting WHERE active = 1';
+    $sql = 'SELECT id, description FROM voting WHERE active = 1';
     $result = $pdo->query($sql);
 } catch (PDOException $e) {
     $error = 'Błąd przy pobieraniu wariantów: ' . $e->getMessage();
@@ -34,11 +34,10 @@ try {
     exit();
 }
 foreach ($result as $row) {
+    $votingid = $row['id'];
     $votingdescription = $row['description'];
 }
-include 'votes.html.php';
-
-if (isset($_POST['variants']) and $_SESSION['voted'] != TRUE) {
+if (isset($_POST['variants']) and ( !isset($_COOKIE[$votingid]) or $_COOKIE[$votingid] != TRUE)) {
     include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
     try {
         $sql = 'INSERT INTO votes SET
@@ -47,16 +46,15 @@ if (isset($_POST['variants']) and $_SESSION['voted'] != TRUE) {
         $s = $pdo->prepare($sql);
         $s->bindValue(':variantid', $_POST['variants']);
         $s->execute();
-        session_start();
     } catch (PDOException $e) {
         $error = 'Błąd podczas oddawania głosu';
         include 'error.html.php';
         exit();
     }
-    $_SESSION['voted'] = TRUE;
-    //header('Location: .');
-    exit();
-} elseif (isset($_POST['variants']) and $_SESSION['voted'] == TRUE) {
-    $error = 'Wziąłeś już udział w głosowaniu, kolejne oddanie głosu nie jest możliwe';
+    $voted = TRUE;
+    setcookie($votingid, $voted, time() + 3600 * 24 * 365);
+} elseif (isset($_POST['variants']) and $_COOKIE[$votingid] == TRUE) {
+    $error = 'Wziąłeś już udział w tym głosowaniu, kolejne oddanie głosu nie jest możliwe';
     include 'error.html.php';
 }
+include 'votes.html.php';

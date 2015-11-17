@@ -3,14 +3,15 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+    <?php if(isset($success)): ?><meta http-equiv="Refresh" content="3; url=/voteonline/admin/" /> <?php     endif;?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
     <title>VoteOnline Admin</title>
     <link rel="shortcut icon" href="">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
+    <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
     <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}
         .navlogo {width: 100px; height: 50px; } .active{ border-left:solid; border-width: 1px;}</style>
 
@@ -43,7 +44,7 @@
         <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div> <?php endif;?>
         <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
         <div class="row">
-            <form action="?adduser" method="post">
+            <form action="" method="post">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">Dodawanie nowego użytkownika</div>
@@ -61,7 +62,7 @@
                             id="<?php htmlout($role['id']); ?>" value="<?php htmlout($role['id']); ?>" required><?php htmlout($role['id']); ?></hn></label>
                         <?php endforeach; ?>
                     </div>
-                    <input type="submit" class="btn btn-default" value="Dodaj">
+                        <input type="submit" class="btn btn-default" name="adduser" value="Dodaj">
                     </div>
                 </div>
             </div>
@@ -89,7 +90,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">Funkcje</div>
                     <div class="panel-body text-center">
-                        <button class="btn btn-default" name="action" value="passedit">Zmiana hasła</button>
+                        <button class="btn btn-default" name="action" value="editpass">Zmiana hasła</button>
                     </div>
                 </div>
                 </form>

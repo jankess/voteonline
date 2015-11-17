@@ -22,7 +22,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
 
 
 //Dodawanie nowego użytkownika
-if (isset($_GET['adduser'])) {
+if (isset($_POST['adduser'])) {
     if (isset($_POST['userlogin']) and isset($_POST['userpassword']) and isset($_POST['useremail']) and $_POST['userlogin'] != '' and $_POST['userpassword'] != '' and $_POST['useremail'] != '') {
         try {
             $sql = 'INSERT INTO users SET
@@ -44,12 +44,13 @@ if (isset($_GET['adduser'])) {
             include '../error.html.php';
             exit();
         }
-        header('Location: .');
-        exit();
+        $success = 'Pomyślnie dodano użytkownika';
+        //include '../success.inc.html.php';
     }
 }
 //zmiana hasła przez użytkownika
-if (isset($_POST['action']) and $_POST['action'] == 'passedit') {
+if (isset($_POST['action']) and $_POST['action'] == 'editpass') {
+
     include '../passform.html.php';
     exit();
 }
