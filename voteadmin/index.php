@@ -75,7 +75,19 @@ foreach ($result as $row) {
         'active' => $row['active']
     );
 }
-
+//pobieranie informacji na temat aktywnego głosowania
+try {
+    $sql = 'SELECT id,name FROM voting WHERE active = 1';
+    $result = $pdo->query($sql);
+} catch (PDOException $e) {
+    $error = 'Błąd przy pobieraniu wariantów: ' . $e->getMessage();
+    include 'error.html.php';
+    exit();
+}
+foreach ($result as $row) {
+    $votingid = $row['id'];
+    $votingname = $row['name'];
+}
 
 //Liczenie ilości oddanych głosów
 try {
@@ -191,5 +203,119 @@ if (isset($_POST['passedit'])) {
         include '../passform.html.php';
         exit();
     }
+}
+if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj wariantami głosowania') {
+    try {
+        $sql = 'SELECT variants.id, variants.name FROM variants INNER JOIN voting ON variants.votingid = voting.id WHERE voting.id = :votmenselect';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':votmenselect', $_GET['votmenselect']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy pobieraniu liczby głosów.';
+        include 'error.html.php';
+        exit();
+    }
+    foreach ($s as $row) {
+        //$variantsId[] = $row['id'];
+        //$variantsName[] = $row['name'];
+        $menagevariants[] = array(
+            'id' => $row['id'],
+            'name' => $row['name']
+        );
+    }
+}
+if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj danymi głosowania') {
+    try {
+        $sql = 'SELECT id,name,description FROM voting WHERE id = :votmenselect';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':votmenselect', $_GET['votmenselect']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy pobieraniu wariantów wybranego głosowania.';
+        include 'error.html.php';
+        exit();
+    }
+    foreach ($s as $row) {
+        //$variantsId[] = $row['id'];
+        //$variantsName[] = $row['name'];
+
+        $menagevotingid = $row['id'];
+        $menagevotingname = $row['name'];
+        $menagevotingdesc = $row['description'];
+    }
+}
+if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
+    try {
+        $sql = 'UPDATE voting SET name = :newvotingname, description = :newvotingdesc WHERE id = :votingid ';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':newvotingname', $_POST['newvotingname']);
+        $s->bindValue(':newvotingdesc', $_POST['newvotingdesc']);
+        $s->bindValue(':votingid', $_POST['votingid']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy pobieraniu wariantów wybranego głosowania.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    header('Location: .');
+}
+if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
+    try {
+        $sql = 'SELECT COUNT(*) FROM votes INNER JOIN variants ON votes.variantid = variants.id INNER JOIN voting ON variants.votingid = voting.id WHERE voting.id = :votmenselect';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':votmenselect', $_GET['votmenselect']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy pobieraniu liczby głosów.';
+        include 'error.html.php';
+        exit();
+    }
+    $votecheck = $s->fetch();
+    try {
+        $sql = 'SELECT COUNT(*) FROM variants where variants.votingid = :votmenselect';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':votmenselect', $_GET['votmenselect']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy pobieraniu liczby głosów.';
+        include 'error.html.php';
+        exit();
+    }
+    $variantcheck = $s->fetch();
+    if ($votecheck[0] > 0) {
+        try {
+            $sql = 'DELETE votes FROM votes INNER JOIN variants ON variants.id = votes.variantid INNER JOIN voting ON variants.votingid = voting.id WHERE voting.id = :votmenselect';
+            $s = $pdo->prepare($sql);
+            $s->bindValue(':votmenselect', $_GET['votmenselect']);
+            $s->execute();
+        } catch (PDOException $e) {
+            $error = 'Błąd przy pobieraniu wariantów wybranego głosowania.' . $e->getMessage();
+            include '../error.html.php';
+            exit();
+        }
+    }
+    if ($variantcheck[0] > 0) {
+        try {
+            $sql = 'DELETE FROM variants WHERE variants.votingid= :votmenselect';
+            $s = $pdo->prepare($sql);
+            $s->bindValue(':votmenselect', $_GET['votmenselect']);
+            $s->execute();
+        } catch (PDOException $e) {
+            $error = 'Błąd przy pobieraniu wariantów wybranego głosowania.' . $e->getMessage();
+            include '../error.html.php';
+            exit();
+        }
+    }
+    try {
+        $sql = 'DELETE FROM voting WHERE id = :votmenselect';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':votmenselect', $_GET['votmenselect']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy pobieraniu wariantów wybranego głosowania.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    header('Location: .');
 }
 include 'voteadmin.html.php';

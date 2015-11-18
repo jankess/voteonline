@@ -29,7 +29,7 @@ if (isset($_POST['adduser'])) {
         login = :userlogin, password = :userpassword, email = :useremail';
             $s = $pdo->prepare($sql);
             $s->bindValue(':userlogin', $_POST['userlogin']);
-            $s->bindValue(':userpassword', $_POST['userpassword']);
+            $s->bindValue(':userpassword', md5($_POST['userpassword'] . 'voapp'));
             $s->bindValue(':useremail', $_POST['useremail']);
             $s->execute();
 
@@ -50,7 +50,6 @@ if (isset($_POST['adduser'])) {
 }
 //zmiana hasła przez użytkownika
 if (isset($_POST['action']) and $_POST['action'] == 'editpass') {
-
     include '../passform.html.php';
     exit();
 }

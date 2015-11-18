@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>VoteOnline</title>
-    <link rel="shortcut icon" href="">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
     <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}
@@ -44,7 +44,7 @@
     <div class="container">
         <img src="/voteonline/VO_1.png" class="img-responsive center-block"> 
         <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <form action="" method="post">
                 <h2><?php echo $votingdescription; ?>?</h2>
                 <?php if(isset($variants)){foreach ($variants as $variant): ?>
@@ -55,8 +55,9 @@
                 <div>
                 <?php if(isset($variants)): ?><input type="submit" class="btn btn-default" value="Głosuj"> <?php endif; ?>
                 </div>
+                </form>
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <!--<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <h2>Dane głosującego</h2>
                 <div class="form-group">
                     <label for="sel1">Płeć:</label>
@@ -67,7 +68,8 @@
                 </div>
             </div>
             </form>
-        </div>
+        </div>-->
+    </div>
     </div>
     
  <!-- Wyskakujące okno logowania -->

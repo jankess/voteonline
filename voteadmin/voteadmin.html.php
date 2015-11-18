@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>VoteOnline VoteAdmin</title>
-    <link rel="shortcut icon" href="">
+    <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
     <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.logo { max-width: 35%;} .wykres {min-width: 200px;} .navlogo {width: 100px; height: 50px; }</style>
@@ -45,13 +45,13 @@
         <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div> <?php endif;?>
         <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
         <div class="row">
-        <form action="" method="get">
+        <form action="" method="post">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 hidden-xs">
                 <div class="panel panel-default">
-                    <div class="panel-heading text-center">Dodawanie nowego głosowania</div>
+                    <div class="panel-heading text-center">Tworznie nowego głosowania</div>
                     <div class="panel-body">
-                        <label for="votingname">Nazwa głosowania<input type="text" class="form-control" name="votingname" id="votingname" required></label>
-                        <label for="votingdesc">Pytanie dotyczące głosowania<input type="text" class="form-control" name="votingdesc" id="votingdesc" required></label>
+                        <label for="votingname">Nazwa<input type="text" class="form-control" name="votingname" id="votingname" placeholder="Podaj nazwę głosowania" required></label>
+                        <label for="votingdesc">Opis<input type="text" class="form-control" name="votingdesc" id="votingdesc" placeholder="Podaj opis głosowania" required></label>
                         <input type="submit" class="btn btn-default" name="voting" value="Dodaj">
                     </div>
                 </div>
@@ -60,9 +60,10 @@
         <form action="" method="post">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="panel panel-default">
-                    <div class="panel-heading text-center">Wybór aktywnego głosowania</div>
+                    <div class="panel-heading text-center">Aktywacja głosowania</div>
                     <div class="panel-body">
-                        <label for="votingactiv">Głosowanie które ma zostać uaktywnione
+                        <p>Obecnie aktywnej jest głosowanie: <?php if(isset($votingname)) {echo $votingname;} else {echo 'Nie zostało aktywowane żadne głosowanie';} ?> </p>
+                        <label for="votingactiv">Uaktywnij:
                         <select name="votingactiv" class="form-control">
                             <?php foreach ($votings as $voting): ?>
                             <option value="<?php echo $voting['id'];?>" <?php if($voting['active']>0) {echo 'selected'; $active = $voting['name'];} ?>><?php echo $voting['name']; ?></option>
@@ -70,19 +71,54 @@
                         </select></label>
                         <input type="submit" class="btn btn-default" value="Uaktywnij">
                     </div>
-                    <p>Obecnie aktywnej jest głosowanie: <?php if(isset($active)) {echo $active;} else {echo 'Nie zostało aktywowane żadne głosowanie';} ?> </p> 
                 </div>    
             </div></form>
+        </div>
+        <div class="row hidden-xs">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 hidden-xs">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Zarządzanie głosowaniem</div>
+                <div class="panel-body">
+                    <form action="" method="get">
+                    <label for="votmenselect">Wybór głosowania
+                        <select name="votmenselect" class="form-control">
+                            <?php foreach ($votings as $voting): ?>
+                            <option value="<?php echo $voting['id'];?>"<?php if(isset($_GET['votmenselect']) and $_GET['votmenselect'] == $voting['id']) echo 'selected'; ?>><?php echo $voting['name']; ?></option>
+                            <?php endforeach; ?>
+                            </select>
+                        </label>
+                        <input type="submit" name="menage" value="Zarządzaj danymi głosowania" class="btn btn-default">
+                        <input type="submit" name="menage" value="Zarządzaj wariantami głosowania" class="btn btn-default">
+                        <input type="submit" name="menage" value="Usuń głosowanie" class="btn btn-danger" title="Usuwając głosowanie usuwasz również warianty oraz głosy z nim powiązane">
+                    </form>
+                    <?php if(isset($menagevariants)): ?>
+                     <table class="table table-bordered table-responsive text-center">
+                     <tr class="info"><td><b>Nazwa wariantu</b></td><td><strong></tr>
+                     <?php foreach ($menagevariants as $menagevariant): ?>
+                    <form action="" method="post">
+                     <tr><input type="hidden" name="variantid" value="<?php echo ($menagevariant['id']); ?>"><td><?php echo ($menagevariant['name']); ?></td><td><input type="submit" name="action" value="Edytuj"><input type="submit" name="action" value="Usuń"></td></tr></form>
+                    <?php endforeach;?></table><?php endif;?>
+                    <?php if(isset($menagevotingid)): ?>
+                    <form action="" method="post">
+                        <input type="hidden" name="votingid" value="<?php echo $menagevotingid; ?>">
+                        <label for="newvotingname">Nazwa<input class="form-control"type="text" name="newvotingname" id="newvotingname" value="<?php echo $menagevotingname; ?>"required></label>
+                        <label for="newvotingdesc">Opis<input class="form-control"type="text" name="newvotingdesc" id="newvotingdesc" value="<?php echo $menagevotingdesc; ?>"required></label>
+                        <input type="submit" name="menage" value="Zapisz" class="btn btn-default">
+                    </form>
+                    <?php                    endif;?>
+                </div>
+            </div>
+            </div>
         </div>
         <div class="row hidden-xs">
           <form action="" method="post">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
                 <div class="panel panel-default">
-                    <div class="panel-heading text-center">Dodawanie nowego wariantu do głosowania</div>
+                    <div class="panel-heading text-center">Tworznie wariantu głosowania</div>
                     <div class="panel-body">
-                        <label for="newvariant">Nazwa wariantu: <input type="text" class="form-control" name="newvariant"
-                                                                       id="newvariant" required></label>
-                        <label for="votingselect">Głosowanie do którego wariant ma zostać dodany
+                        <label for="newvariant">Nazwa<input type="text" class="form-control" name="newvariant"
+                                                            id="newvariant" placeholder="Podaj nazwę wariantu" required></label>
+                        <label for="votingselect">Dodaj do:
                         <select name="votingselect" class="form-control">
                             <?php foreach ($votings as $voting): ?>
                             <option value="<?php echo $voting['id'];?>"><?php echo $voting['name']; ?></option>
@@ -98,17 +134,18 @@
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="panel panel-default">
-                    <div class="panel-heading text-center">Szczegółowe dane głosowania</div>
+                    <div class="panel-heading text-center">Wyniki głosowania</div>
                     <div class="panel-body">
                         <?php if(isset($warianty)){$i=0; foreach($warianty as $variant):?>
-                        <p><?php echo $variant['name']; echo ': ' . $voteResults[$i] . ' (' . round((($voteResults[$i]/$voteCount[0])*100),2) . '%)'; $i++;?></p>
+                        <p><?php if($voteCount[0]>0){ echo $variant['name']; echo ': ' . $voteResults[$i] . ' (' . round((($voteResults[$i]/$voteCount[0])*100),2) . '%)'; $i++;}
+                                 else {echo $variant['name']; echo ': ' . $voteResults[$i] . ' (0%)'; $i++;}?></p>
                         <?php endforeach; } else echo 'Do głosowania nie został jeszcze dodany żaden wariant'; ?>
                     </div>
                 </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="panel panel-default">
-                    <div class="panel-heading text-center">Ogólne dane głosowania</div>
+                    <div class="panel-heading text-center">Statystyki głosowania</div>
                     <div class="panel-body">
                         <p>Ilość oddanych głosów: <?php echo $voteCount[0]; ?></p>
                         <p>Ilość wariantów odpowiedzi: <?php if(isset($warianty)) echo count($warianty); else echo '0';?></p>
