@@ -50,10 +50,10 @@
                 <?php if(isset($variants)){foreach ($variants as $variant): ?>
                 <div><label><input type="radio" name="variants"
                     id="<?php htmlout($variant['id']); ?>"
-                    value="<?php htmlout($variant['id']); ?>" required><?php htmlout($variant['name']); ?></label></div>
+                    value="<?php htmlout($variant['id']); ?>" required <?php if(isset($_COOKIE[$votingid])) echo 'disabled';?>><?php htmlout($variant['name']); ?></label></div>
                 <?php endforeach; }else echo 'Do głosowania nie został jeszcze dodany żaden wariant';?>
                 <div>
-                <?php if(isset($variants)): ?><input type="submit" class="btn btn-default" value="Głosuj"> <?php endif; ?>
+                <?php if(isset($variants)): ?><input type="submit" class="btn <?php if(isset($_COOKIE[$votingid])) echo 'btn-danger'; else echo 'btn-default'; ?>" value="<?php if(isset($_COOKIE[$votingid])) echo 'Wziąłeś już udział w głosowaniu'; else echo 'Głosuj'; ?>"> <?php endif; ?>
                 </div>
                 </form>
             </div>

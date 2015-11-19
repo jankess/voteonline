@@ -46,15 +46,15 @@
         <div class="row">
             <form action="" method="post">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="panel panel-default">
+                <div class="panel panel-success">
                     <div class="panel-heading text-center">Dodawanie nowego użytkownika</div>
                     <div class="panel-body">
                     <div><label for="userlogin">Login: <input type="text" class="form-control" name="userlogin"
-                        id="userlogin" required></label>
+                                                              id="userlogin" placeholder="Podaj login" required></label>
                     <label for="userpassword">Hasło: <input type="password" class="form-control" name="userpassword"
-                                                  id="userpassword" required></label>
+                                                            id="userpassword" placeholder="Podaj hasło" required></label>
                     <label for="useremail">Adres email: <input type="email" class="form-control" name="useremail"
-                                                  id="useremail" required></label>
+                                                               id="useremail" placeholder="Podaj adres email"required></label>
                     </div>
                     <div>
                         <?php foreach ($roles as $role): ?>
@@ -70,14 +70,14 @@
         </div>
         <div class="row hidden-sm hidden-xs">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading text-center">Użytkownicy Voteonline:</div>
                     <div class="panel-body">
                         <table class="table table-bordered table-responsive text-center">
                             <tr class="info"><td><b>Login</b></td><td><strong>Adres email</strong></td><td><strong>Uprawnienia</strong></td></tr>
                                 <?php foreach ($users as $user): ?>
                                 <form action="" method="post">
-                                <tr><input type="hidden" name="login" value="<?php echo ($user['login']); ?>"><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td><td><?php htmlout($user['roleid']); ?></td><td><input type="submit" name="action" value="Usuń"></td></tr></form>
+                                    <tr><input type="hidden" name="login" value="<?php echo ($user['login']); ?>"><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td><td><?php htmlout($user['roleid']); ?></td><td><input type="submit" class="btn btn-danger"name="action" value="Usuń"></td></tr></form>
                                 <?php endforeach; ?>
                         </table>
                     </div>

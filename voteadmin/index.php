@@ -155,9 +155,7 @@ if (isset($_POST['votingactiv'])) {
     try {
         $sql = 'UPDATE voting SET
         active = "0" ';
-        $s = $pdo->prepare($sql);
-        $s->bindValue(':votingactive', $_POST['votingactiv']);
-        $s->execute();
+        $s = $pdo->query($sql);
         $sql = 'UPDATE voting SET
         active = "1" WHERE id = :votingactive';
         $s = $pdo->prepare($sql);
@@ -172,13 +170,13 @@ if (isset($_POST['votingactiv'])) {
     header('Location: .');
     exit();
 }
-if (isset($_POST['action']) and $_POST['action'] == 'editpass') {
+if (isset($_POST['action']) and $_POST['action'] == 'Zmiana hasła') {
     //if (isset($_GET['editpass'])){
     include '../passform.html.php';
     exit();
 }
 if (isset($_POST['passedit'])) {
-    if ($_POST['actpass'] == $_SESSION['password']) {
+    if (md5($_POST['actpass'] . 'voapp') == $_SESSION['password']) {
         if ($_POST['newpass1'] == $_POST['newpass2']) {
             try {
                 $sql = 'UPDATE users SET
@@ -224,6 +222,36 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj wariantami g
         );
     }
 }
+if (isset($_POST['action']) and $_POST['action'] == 'Usuń'){
+    try
+    //usuwanie powiązania użytkownika z rolą  
+    {
+        $sql = 'DELETE FROM votes WHERE variantid = :variantid';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':variantid', $_POST['variantid']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy usuwaniu głosów powiązanych z wariantem.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+//usuwanie użytkownika
+    try {
+        $sql = 'DELETE FROM variants WHERE id = :variantid';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':variantid', $_POST['variantid']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy usuwaniu wariantu.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+
+    header('refresh: 0;');
+    exit();
+}
+
+
 if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj danymi głosowania') {
     try {
         $sql = 'SELECT id,name,description FROM voting WHERE id = :votmenselect';
@@ -317,5 +345,36 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
         exit();
     }
     header('Location: .');
+}
+if (isset($_POST['action']) and $_POST['action'] == 'Edytuj'){
+     try {
+        $sql = 'SELECT name FROM variants WHERE id = :variantid';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':variantid', $_POST['variantid']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy pobieraniu danych wybranego wariantu.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    foreach ($s as $row) {
+        $menagevariantname = $row['name'];
+    }
+    $type='variant';
+    $menagevariantid =$_POST['variantid'];
+}
+if (isset($_POST['actionvar']) and $_POST['actionvar']=='Zapisz'){
+    try {
+        $sql = 'UPDATE variants SET name = :menagevariant WHERE id = :variantid';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':variantid', $_POST['variantid']);
+        $s->bindValue(':menagevariant', $_POST['menagevariant']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy pobieraniu danych wybranego wariantu.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    header('refresh: 0;');
 }
 include 'voteadmin.html.php';

@@ -32,11 +32,11 @@ if (isset($_POST['adduser'])) {
             $s->bindValue(':userpassword', md5($_POST['userpassword'] . 'voapp'));
             $s->bindValue(':useremail', $_POST['useremail']);
             $s->execute();
-
+            $userid = $pdo->lastInsertId();
             $sql = 'INSERT INTO userrole SET
-        userlogin = :userlogin, roleid = :role';
+        userid = :userid, roleid = :role';
             $s = $pdo->prepare($sql);
-            $s->bindValue(':userlogin', $_POST['userlogin']);
+            $s->bindValue(':userid', $userid);
             $s->bindValue(':role', $_POST['role']);
             $s->execute();
         } catch (PDOException $e) {
@@ -54,7 +54,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'editpass') {
     exit();
 }
 if (isset($_POST['passedit'])) {
-    if ($_POST['actpass'] == $_SESSION['password']) {
+    if (md5($_POST['actpass'] . 'voapp') == $_SESSION['password']) {
         if ($_POST['newpass1'] == $_POST['newpass2']) {
             try {
                 $sql = 'UPDATE users SET
@@ -124,13 +124,12 @@ foreach ($result as $row) {
     );
 }
 try {
-    $result = $pdo->query('SELECT login, email, roleid FROM users INNER JOIN userrole ON userlogin = users.login ');
+    $result = $pdo->query('SELECT login, email, roleid FROM users INNER JOIN userrole ON userid = users.id ');
 } catch (PDOException $e) {
     $error = 'Błąd bazy danych w trakcie pobierania listy użytkowników!';
     include '../error.html.php';
     exit();
 }
-
 foreach ($result as $row) {
     $users[] = array('login' => $row['login'], 'email' => $row['email'], 'roleid' => $row['roleid']);
 }

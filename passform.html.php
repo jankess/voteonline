@@ -47,9 +47,9 @@
                 <div class="panel-heading text-center">Zmiana hasła</div>
                 <div class="panel-body">
                     <form action="" method="post">
-                        <label for="actpass">Aktualne hasło:<input type="password" name="actpass" id="actpass" required></label>
-                        <label for="newpass1">Nowe hasło:<input type="password" name="newpass1" id="newpass1" required></label>
-                        <label for="newpass2">Powtórz nowe hasło:<input type="password" name="newpass2" id="newpass2"required></label>
+                        <label for="actpass">Aktualne hasło:<input type="password" name="actpass" id="actpass" class="form-control" required></label>
+                        <label for="newpass1">Nowe hasło:<input type="password" name="newpass1" id="newpass1" class="form-control" required></label>
+                        <label for="newpass2">Powtórz nowe hasło:<input type="password" name="newpass2" id="newpass2" class="form-control" required></label>
                         <input class="btn btn-default"type="submit" name="passedit" value="Zmień">
                     </form>    
                 </div>
