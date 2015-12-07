@@ -20,23 +20,106 @@ if (!userHasRole('Administrator')) {
 
 include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
 
+//wybór danych użytkownika do edycji
+if (isset($_GET['action']) and $_GET['action'] == 'Edytuj') {
+    try {
+        $sql = 'SELECT id, login, email, roleid FROM users WHERE login = :login';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':login', $_GET['login']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy pobieraniu danych użytkownika do edycji.';
+        include 'error.html.php';
+        exit();
+    }
+    foreach ($s as $row) {
+        $menageuserid = $row['id'];
+        $menageuserlogin = $row['login'];
+        $menageuseremail = $row['email'];
+        $menageuserrole = $row['roleid'];
+    }
+}
+//Edycja danych użytkownika
+if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
+    try {
+        $sql = 'UPDATE users SET login = :login, email = :email, roleid = :roleid WHERE id = :id';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':login', $_POST['newuserlogin']);
+        $s->bindValue(':email', $_POST['newuseremail']);
+        $s->bindValue(':roleid', $_POST['newroleid']);
+        $s->bindValue(':id', $_POST['userid']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.';
+        include 'error.html.php';
+        exit();
+    }
+    try {
+        if ($menageuserlogin != $_POST['newuserlogin'])
+            $menageuserlogin .= ' (nowy login "' . $_POST['newuserlogin'] . '")';
+        $sql = 'INSERT INTO adminlog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Edycja danych użytkownika "' . $menageuserlogin . '"');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    $success = 'Dane użytkownika zostały zmienione';
+}
+
+if (isset($_POST['passreset'])) {
+    if ($_POST['newpass1'] == $_POST['newpass2']) {
+        try {
+            $sql = 'UPDATE users SET
+                password = :password WHERE login = :userlogin';
+            $s = $pdo->prepare($sql);
+            $s->bindValue(':password', md5($_POST['newpass1'] . 'voapp'));
+            $s->bindValue(':userlogin', $_GET['login']);
+            $s->execute();
+        } catch (PDOException $e) {
+            $error = 'Błąd podczas zapisu zmienionego hasła do bazy.';
+            include '../error.html.php';
+            exit();
+        }
+    } else if ($_POST['newpass1'] != $_POST['newpass2']) {
+        $action = ' Reset hasła użytkownika <strong>' . $_GET['login'] . '</strong>';
+        $passerror = 'Powtórzone hasło jest nieprawidłowe';
+        include '../passform.html.php';
+        exit();
+    }
+    try {
+        $sql = 'INSERT INTO adminlog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Edycja hasła użytkownika "' . $_GET['login'] . '"');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    header('Location: .?success');
+    exit();
+}
+if (isset($_GET['action']) and $_GET['action'] == 'Resetuj hasło') {
+    $action = ' Reset hasła użytkownika <strong>' . $_GET['login'] . '</strong>';
+    include '../passform.html.php';
+    exit();
+}
 
 //Dodawanie nowego użytkownika
 if (isset($_POST['adduser'])) {
     if (isset($_POST['userlogin']) and isset($_POST['userpassword']) and isset($_POST['useremail']) and $_POST['userlogin'] != '' and $_POST['userpassword'] != '' and $_POST['useremail'] != '') {
         try {
             $sql = 'INSERT INTO users SET
-        login = :userlogin, password = :userpassword, email = :useremail';
+        login = :userlogin, password = :userpassword, email = :useremail, roleid=:role';
             $s = $pdo->prepare($sql);
             $s->bindValue(':userlogin', $_POST['userlogin']);
             $s->bindValue(':userpassword', md5($_POST['userpassword'] . 'voapp'));
             $s->bindValue(':useremail', $_POST['useremail']);
-            $s->execute();
-            $userid = $pdo->lastInsertId();
-            $sql = 'INSERT INTO userrole SET
-        userid = :userid, roleid = :role';
-            $s = $pdo->prepare($sql);
-            $s->bindValue(':userid', $userid);
             $s->bindValue(':role', $_POST['role']);
             $s->execute();
         } catch (PDOException $e) {
@@ -46,6 +129,17 @@ if (isset($_POST['adduser'])) {
         }
         $success = 'Pomyślnie dodano użytkownika';
         //include '../success.inc.html.php';
+    }
+    try {
+        $sql = 'INSERT INTO adminlog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Dodanie użytkownika "' . $_POST['userlogin'] . '"');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
     }
 }
 //zmiana hasła przez użytkownika
@@ -58,9 +152,9 @@ if (isset($_POST['passedit'])) {
         if ($_POST['newpass1'] == $_POST['newpass2']) {
             try {
                 $sql = 'UPDATE users SET
-        password = :password WHERE login = :userlogin';
+                password = :password WHERE login = :userlogin';
                 $s = $pdo->prepare($sql);
-                $s->bindValue(':password', $_POST['newpass1']);
+                $s->bindValue(':password', md5($_POST['newpass1'] . 'voapp'));
                 $s->bindValue(':userlogin', $_SESSION['userlogin']);
                 $s->execute();
             } catch (PDOException $e) {
@@ -79,35 +173,63 @@ if (isset($_POST['passedit'])) {
         include '../passform.html.php';
         exit();
     }
-}
-
-if (isset($_POST['action']) and $_POST['action'] == 'Usuń') {
-    try
-    //usuwanie powiązania użytkownika z rolą  
-    {
-        $sql = 'DELETE FROM userrole WHERE userlogin = :login';
+    try {
+        $sql = 'INSERT INTO adminlog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':login', $_POST['login']);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Zmiana własnego hasła dostępowego');
         $s->execute();
     } catch (PDOException $e) {
-        $error = 'Błąd przy usuwaniu autora.' . $e->getMessage();
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
         include '../error.html.php';
         exit();
     }
+    $success = 'Hasło zostało zmienione';
+}
+if (isset($_POST['action']) and $_POST['action'] == "showlog") {
+    try {
+        $sql = 'SELECT inituserinfo, action, actiondate FROM adminlog';
+        $result = $pdo->query($sql);
+    } catch (PDOException $e) {
+        $error = 'Błąd podczas pobierania logów' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    foreach ($result as $row) {
+        $logs[] = array(
+            'inituserinfo' => $row['inituserinfo'],
+            'action' => $row['action'],
+            'actiondate' => $row['actiondate']
+        );
+    }
+    include '../logform.html.php';
+    exit();
+}
+
+if (isset($_GET['action']) and $_GET['action'] == 'Usuń') {
 //usuwanie użytkownika
     try {
         $sql = 'DELETE FROM users WHERE login = :login';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':login', $_POST['login']);
+        $s->bindValue(':login', $_GET['login']);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy usuwaniu autora.' . $e->getMessage();
         include '../error.html.php';
         exit();
     }
-
-    header('Location: .');
-    exit();
+    try {
+        $sql = 'INSERT INTO adminlog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Usunięcie użytkownika "' . $_GET['login'] . '"');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    $success = 'Użytkownik został usunięty';
 }
 
 try {
@@ -124,7 +246,7 @@ foreach ($result as $row) {
     );
 }
 try {
-    $result = $pdo->query('SELECT login, email, roleid FROM users INNER JOIN userrole ON userid = users.id ');
+    $result = $pdo->query('SELECT login, email, roleid FROM users');
 } catch (PDOException $e) {
     $error = 'Błąd bazy danych w trakcie pobierania listy użytkowników!';
     include '../error.html.php';
@@ -133,4 +255,6 @@ try {
 foreach ($result as $row) {
     $users[] = array('login' => $row['login'], 'email' => $row['email'], 'roleid' => $row['roleid']);
 }
+
+
 include 'admin.html.php';

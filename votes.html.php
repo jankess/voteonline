@@ -5,6 +5,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
+    <?php if(isset($success)): ?><meta http-equiv="Refresh" content="3; url=/voteonline" /> <?php     endif;?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -44,16 +45,18 @@
     <div class="container">
         <img src="/voteonline/VO_1.png" class="img-responsive center-block"> 
         <div class="row">
+            <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div> <?php endif;?>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <form action="" method="post">
-                <h2><?php echo $votingdescription; ?>?</h2>
+                <h2><?php echo $votingdescription; ?></h2>
                 <?php if(isset($variants)){foreach ($variants as $variant): ?>
                 <div><label><input type="radio" name="variants"
                     id="<?php htmlout($variant['id']); ?>"
                     value="<?php htmlout($variant['id']); ?>" required <?php if(isset($_COOKIE[$votingid])) echo 'disabled';?>><?php htmlout($variant['name']); ?></label></div>
                 <?php endforeach; }else echo 'Do głosowania nie został jeszcze dodany żaden wariant';?>
                 <div>
-                <?php if(isset($variants)): ?><input type="submit" class="btn <?php if(isset($_COOKIE[$votingid])) echo 'btn-danger'; else echo 'btn-default'; ?>" value="<?php if(isset($_COOKIE[$votingid])) echo 'Wziąłeś już udział w głosowaniu'; else echo 'Głosuj'; ?>"> <?php endif; ?>
+                <?php if(isset($variants)): ?><input type="submit" class="btn <?php if(isset($_COOKIE[$votingid])) echo 'btn-danger'; else echo 'btn-default'; ?>" value="<?php if(isset($_COOKIE[$votingid])) echo 'Wziąłeś już udział w tym głosowaniu'; else echo 'Głosuj'; ?>" 
+                    <?php if(isset($_COOKIE[$votingid])) echo 'disabled'; ?>> <?php endif; ?>
                 </div>
                 </form>
             </div>
@@ -70,6 +73,19 @@
             </form>
         </div>-->
     </div>
+        <hr>
+         <footer>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <p>Copyright &copy; Kucharski Michał 2015</p>
+                    </div>
+                    <div class="col-lg-offset-5 col-lg-3 text-left">
+                        <p>Kontakt:</p>
+                        <p><span class="glyphicon glyphicon-envelope"></span> <a href="mailto:starcar@gmail.com">mkucharski13@gmail.com</a>
+                </p>   
+                    </div>
+                </div>
+            </footer>
     </div>
     
  <!-- Wyskakujące okno logowania -->

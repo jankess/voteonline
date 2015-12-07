@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <?php if(isset($success)): ?><meta http-equiv="Refresh" content="3; url=/voteonline/admin/" /> <?php     endif;?>
+    <?php if(isset($success) or isset($_GET['success'])): ?><meta http-equiv="Refresh" content="3; url=/voteonline/admin/" /> <?php     endif;?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -42,7 +42,8 @@
     <hr/>
     <div class="container">
         <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div> <?php endif;?>
-        <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
+        <?php if(isset($_GET['success'])): ?> <div class="row alert alert-success"><p class="text-center"><?php echo 'Hasło użytkownika zostało zmienione'; ?></p></div> <?php endif;?>
+<!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
         <div class="row">
             <form action="" method="post">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -76,10 +77,29 @@
                         <table class="table table-bordered table-responsive text-center">
                             <tr class="info"><td><b>Login</b></td><td><strong>Adres email</strong></td><td><strong>Uprawnienia</strong></td></tr>
                                 <?php foreach ($users as $user): ?>
-                                <form action="" method="post">
-                                    <tr><input type="hidden" name="login" value="<?php echo ($user['login']); ?>"><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td><td><?php htmlout($user['roleid']); ?></td><td><input type="submit" class="btn btn-danger"name="action" value="Usuń"></td></tr></form>
+                                <form action="" method="get">
+                                    <tr><input type="hidden" name="login" value="<?php echo ($user['login']); ?>"><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td><td><?php htmlout($user['roleid']); ?></td><td>
+                                        <input type="submit" class="btn btn-default" name="action" value="Edytuj">
+                                        <input type="submit" class="btn btn-warning" name="action" value="Resetuj hasło">
+                                        <input type="submit" class="btn btn-danger"name="action" value="Usuń"></td></tr></form>
                                 <?php endforeach; ?>
                         </table>
+                     <?php if(isset($menageuserid)): ?>
+                    <br />
+                    <form action="" method="post">
+                        <fieldset>
+                            <legend class="text-center">Edycja danych użytkownika</legend>
+                        <input type="hidden" name="userid" value="<?php echo $menageuserid; ?>">
+                        <label for="newuserlogin">Login<input class="form-control"type="text" name="newuserlogin" id="newuserlogin" value="<?php echo $menageuserlogin; ?>"required></label>
+                        <label for="newuseremail">Email<input class="form-control"type="text" name="newuseremail" id="newuseremail" value="<?php echo $menageuseremail; ?>"required></label>
+                         <?php foreach ($roles as $role): ?>
+                        <label><hn title="Rola"><input type="radio" name="newroleid"
+                            id="<?php htmlout($role['id']); ?>" value="<?php htmlout($role['id']); ?>" required <?php if($menageuserrole == $role['id']) echo 'checked'; ?>><?php htmlout($role['id']); ?></hn></label>
+                        <?php endforeach; ?>
+                        <input type="submit" name="menage" value="Zapisz" class="btn btn-default">
+                        </fieldset>
+                        </form>
+                    <?php                    endif;?>
                     </div>
                 </div>
             </div>
@@ -91,6 +111,7 @@
                     <div class="panel-heading text-center">Funkcje</div>
                     <div class="panel-body text-center">
                         <button class="btn btn-default" name="action" value="editpass">Zmiana hasła</button>
+                        <button class="btn btn-default" name="action" value="showlog">Logi administratora</button>
                     </div>
                 </div>
                 </form>

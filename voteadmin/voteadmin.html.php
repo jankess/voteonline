@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <?php if(isset($success)): ?><meta http-equiv="Refresh" content="3; url=/voteonline/voteadmin/" /> <?php     endif;?>
+    <?php if(isset($success)): ?><meta http-equiv="Refresh" content="1; url=/voteonline/voteadmin/" /> <?php     endif;?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -34,6 +34,15 @@
                     <li><a href="/voteonline/admin/">Panel Administratora</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                     
+                    <!--<li class="dropdown">
+                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php                              echo $_SESSION['userlogin'];?> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li role="separator" class="divider"></li>
+            <li><form action="" method="post"><input type="submit" class="list-group-item" name="action" value="Zmiana hasła"></form></li>
+          </ul>
+        </li>-->
                     <li><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
@@ -188,6 +197,7 @@
                     <div class="panel-heading text-center">Funkcje</div>
                     <div class="panel-body text-center">
                         <input type="submit" class="btn btn-default" name="action" value="Zmiana hasła">
+                        <input type="submit" class="btn btn-default" name="action" value="Log administratora głosowania">
                     </div>
                 </div>
                 </form>

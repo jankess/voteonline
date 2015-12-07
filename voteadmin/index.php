@@ -34,9 +34,18 @@ if (isset($_POST['newvariant']) and $_POST['newvariant'] != '') {
         include '../error.html.php';
         exit();
     }
-
-    header('Location: .');
-    exit();
+    try {
+        $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Dodanie nowego wariantu ("' . $_POST['newvariant'] . '") do głosowania (id:' . $_POST['votingselect'] . ')');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    $success = 'Nowy wariant został dodany';
 }
 //Dodawanie nowego głosowania
 if (isset($_POST['voting'])and $_POST['voting'] == 'Dodaj') {
@@ -52,9 +61,18 @@ if (isset($_POST['voting'])and $_POST['voting'] == 'Dodaj') {
         include '../error.html.php';
         exit();
     }
-
-    header('Location: .');
-    exit();
+    try {
+        $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Dodanie nowego głosowania (' . $_POST['votingname'] . ')');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    $success = 'Nowe głosowanie zostało dodane';
 }
 //Pobieranie informacji na temat głosowań
 try {
@@ -166,9 +184,18 @@ if (isset($_POST['votingactiv'])) {
         include '../error.html.php';
         exit();
     }
-
-    header('Location: .');
-    exit();
+    try {
+        $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Głosowanie o id :' . $_POST['votingactiv'] . ' zostało aktywowane');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    $success = 'Wybrane głosowanie zostało aktywowane';
 }
 if (isset($_POST['action']) and $_POST['action'] == 'Zmiana hasła') {
     //if (isset($_GET['editpass'])){
@@ -182,7 +209,7 @@ if (isset($_POST['passedit'])) {
                 $sql = 'UPDATE users SET
         password = :password WHERE login = :userlogin';
                 $s = $pdo->prepare($sql);
-                $s->bindValue(':password', $_POST['newpass1']);
+                $s->bindValue(':password', MD5($_POST['newpass1'] . 'voapp'));
                 $s->bindValue(':userlogin', $_SESSION['userlogin']);
                 $s->execute();
             } catch (PDOException $e) {
@@ -201,6 +228,18 @@ if (isset($_POST['passedit'])) {
         include '../passform.html.php';
         exit();
     }
+    try {
+        $sql = 'INSERT INTO adminlog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Zmiana własnego hasła dostępowego');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    $success = 'Hasło zostało zmienione';
 }
 if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj wariantami głosowania') {
     try {
@@ -222,10 +261,10 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj wariantami g
         );
     }
 }
-if (isset($_POST['action']) and $_POST['action'] == 'Usuń'){
+if (isset($_POST['action']) and $_POST['action'] == 'Usuń') {
     try
-    //usuwanie powiązania użytkownika z rolą  
     {
+    //usuwanie głosów powiązanych z wariantem {
         $sql = 'DELETE FROM votes WHERE variantid = :variantid';
         $s = $pdo->prepare($sql);
         $s->bindValue(':variantid', $_POST['variantid']);
@@ -235,7 +274,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Usuń'){
         include '../error.html.php';
         exit();
     }
-//usuwanie użytkownika
+//usuwanie wariantu
     try {
         $sql = 'DELETE FROM variants WHERE id = :variantid';
         $s = $pdo->prepare($sql);
@@ -246,9 +285,18 @@ if (isset($_POST['action']) and $_POST['action'] == 'Usuń'){
         include '../error.html.php';
         exit();
     }
-
-    header('refresh: 0;');
-    exit();
+    try {
+        $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Usunięcie wariantu (id:' . $_POST['variantid'] . ') oraz powiązanych z nim głosów');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    $success = 'Wybrany wariant został usunięty';
 }
 
 
@@ -285,7 +333,18 @@ if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
         include '../error.html.php';
         exit();
     }
-    header('Location: .');
+    try {
+        $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Zmiana danych głosowania (id:' . $_POST['votingid'] . ')');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    $success = 'Dane wybranego glosowania zostały zmienione';
 }
 if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
     try {
@@ -344,10 +403,21 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
         include '../error.html.php';
         exit();
     }
-    header('Location: .');
+    try {
+        $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Usunięcie głosowania (id:' . $_GET['votmenselect'] . ') oraz powiązanych z nim wariantów i głosów');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    $success = 'Wybrane głosowanie zsotało usunięte';
 }
-if (isset($_POST['action']) and $_POST['action'] == 'Edytuj'){
-     try {
+if (isset($_POST['action']) and $_POST['action'] == 'Edytuj') {
+    try {
         $sql = 'SELECT name FROM variants WHERE id = :variantid';
         $s = $pdo->prepare($sql);
         $s->bindValue(':variantid', $_POST['variantid']);
@@ -360,10 +430,10 @@ if (isset($_POST['action']) and $_POST['action'] == 'Edytuj'){
     foreach ($s as $row) {
         $menagevariantname = $row['name'];
     }
-    $type='variant';
-    $menagevariantid =$_POST['variantid'];
+    $type = 'variant';
+    $menagevariantid = $_POST['variantid'];
 }
-if (isset($_POST['actionvar']) and $_POST['actionvar']=='Zapisz'){
+if (isset($_POST['actionvar']) and $_POST['actionvar'] == 'Zapisz') {
     try {
         $sql = 'UPDATE variants SET name = :menagevariant WHERE id = :variantid';
         $s = $pdo->prepare($sql);
@@ -375,6 +445,36 @@ if (isset($_POST['actionvar']) and $_POST['actionvar']=='Zapisz'){
         include '../error.html.php';
         exit();
     }
+    try {
+        $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Edycja danych wariantu (id:' . $_POST['variantid'] . ')');
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
     header('refresh: 0;');
+}
+if (isset($_POST['action']) and $_POST['action'] == "Log administratora głosowania") {
+    try {
+        $sql = 'SELECT inituserinfo, action, actiondate FROM votelog';
+        $result = $pdo->query($sql);
+    } catch (PDOException $e) {
+        $error = 'Błąd podczas pobierania logów' . $e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
+    foreach ($result as $row) {
+        $logs[] = array(
+            'inituserinfo' => $row['inituserinfo'],
+            'action' => $row['action'],
+            'actiondate' => $row['actiondate']
+        );
+    }
+    include '../logform.html.php';
+    exit();
 }
 include 'voteadmin.html.php';

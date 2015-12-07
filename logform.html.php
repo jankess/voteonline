@@ -44,28 +44,13 @@
         <?php if(isset($passerror)): ?> <div class="row alert alert-danger"><p class="text-center"><?php echo($passerror);?></p></div> <?php endif;?>
         <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
         <div class="row">
-            <div class="panel panel-primary">
-                <?php if(isset($action)): ?>
-                <div class="panel-heading text-center"><?php echo $action; ?></div>
-                <div class="panel-body">
-                    <form action="" method="post">
-                        <label for="newpass1">Nowe hasło:<input type="password" name="newpass1" id="newpass1" class="form-control" placeholder="Podaj nowe hasło" required></label>
-                        <label for="newpass2">Powtórz nowe hasło:<input type="password" name="newpass2" id="newpass2" class="form-control" placeholder="Ponownie podaj nowe hasło" required></label>
-                        <input class="btn btn-default"type="submit" name="passreset" value="Zmień">
-                    </form>    
-                </div>
-                <?php endif; if(!isset($action)): ?>
-                <div class="panel-heading text-center">Zmiana hasła</div>
-                <div class="panel-body">
-                    <form action="" method="post">
-                        <label for="actpass">Aktualne hasło:<input type="password" name="actpass" id="actpass" class="form-control" placeholder="Podaj aktualne hasło" required></label>
-                        <label for="newpass1">Nowe hasło:<input type="password" name="newpass1" id="newpass1" class="form-control" placeholder="Podaj nowe hasło" required></label>
-                        <label for="newpass2">Powtórz nowe hasło:<input type="password" name="newpass2" id="newpass2" class="form-control" placeholder="Ponownie podaj nowe hasło" required></label>
-                        <input class="btn btn-default"type="submit" name="passedit" value="Zmień">
-                    </form>    
-                </div>
-                <?php                 endif;?>
-            </div>
+ <table class="table table-bordered table-responsive text-center">
+                <tr class="info"><td><b>Data</b></td><td><strong>Użytkownik inicjujący</strong></td><td><strong>Akcja</strong></td></tr>
+        <?php if(isset($logs)) foreach ($logs as $log): ?>
+                 
+                <tr><td><?php echo $log['actiondate']; ?> </td><td><?php echo $log['inituserinfo']; ?></td><td><?php echo $log['action'];   ?></td></tr>
+           <?php                 endforeach; ?>
+            </ul>
         </div>
     </div>
     <!-- Wyskakujące okno logowania -->

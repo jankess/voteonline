@@ -53,6 +53,7 @@ if (isset($_POST['variants']) and ( !isset($_COOKIE[$votingid]) or $_COOKIE[$vot
     }
     $voted = TRUE;
     setcookie($votingid, $voted, time() + 3600 * 24 * 365);
+    $success = 'Dziękujemy za oddanie głosu';
 } elseif (isset($_POST['variants']) and $_COOKIE[$votingid] == TRUE) {
     $error = 'Wziąłeś już udział w tym głosowaniu, kolejne oddanie głosu nie jest możliwe';
     include 'error.html.php';
