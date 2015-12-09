@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
-    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;} .navlogo {width: 100px; height: 50px; }</style>
+    <style>body{padding-top:50px; background-image: url("img/fresh_snow.png");}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;} .navlogo {width: 100px; height: 50px; }</style>
 
     <!--[if IE]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>

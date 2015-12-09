@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
-    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}
+    <style>body{padding-top:50px; background-image: url("../img/fresh_snow.png");}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}
         .navlogo {width: 100px; height: 50px; } .active{ border-left:solid; border-width: 1px;}</style>
 
 </head>
@@ -38,19 +38,23 @@
             </div><!--.nav-collapse -->
         </div>
     </nav>
-    <hr/>
+    <br>
     <div class="container">
         <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div> <?php endif;?>
         <?php if(isset($passerror)): ?> <div class="row alert alert-danger"><p class="text-center"><?php echo($passerror);?></p></div> <?php endif;?>
         <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
-        <div class="row">
+         <div class="text-center">
+            <a href="<?php echo $_SERVER['PHP_SELF']; ?>"><button class="btn btn-default">Powrót</button></a>
+         </div>
+        <br>
+        <div class="row">        
  <table class="table table-bordered table-responsive text-center">
                 <tr class="info"><td><b>Data</b></td><td><strong>Użytkownik inicjujący</strong></td><td><strong>Akcja</strong></td></tr>
         <?php if(isset($logs)) foreach ($logs as $log): ?>
                  
-                <tr><td><?php echo $log['actiondate']; ?> </td><td><?php echo $log['inituserinfo']; ?></td><td><?php echo $log['action'];   ?></td></tr>
+                <tr><td><?php echo $log['actiondate']; ?> </td><td><?php echo $log['inituserinfo']; ?></td><td class="text-left"><?php echo $log['action'];   ?></td></tr>
            <?php                 endforeach; ?>
-            </ul>
+ </table>
         </div>
     </div>
     <!-- Wyskakujące okno logowania -->

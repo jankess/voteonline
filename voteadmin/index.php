@@ -22,12 +22,13 @@ include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
 
 //Dodawanie nowego wariantu
 if (isset($_POST['newvariant']) and $_POST['newvariant'] != '') {
+    $newvariantdata = explode(",", $_POST['votingselect']);
     try {
         $sql = 'INSERT INTO variants SET
         name = :name, votingid = :votingid';
         $s = $pdo->prepare($sql);
         $s->bindValue(':name', $_POST['newvariant']);
-        $s->bindValue(':votingid', $_POST['votingselect']);
+        $s->bindValue(':votingid', $newvariantdata[0]);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy dodawaniu wariantu.';
@@ -38,7 +39,7 @@ if (isset($_POST['newvariant']) and $_POST['newvariant'] != '') {
         $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
         $s = $pdo->prepare($sql);
         $s->bindValue(':inituser', $_SESSION['userlogin']);
-        $s->bindValue(':action', 'Dodanie nowego wariantu ("' . $_POST['newvariant'] . '") do głosowania (id:' . $_POST['votingselect'] . ')');
+        $s->bindValue(':action', 'Dodanie nowego wariantu "' . $_POST['newvariant'] . '" do głosowania "' . $newvariantdata[1] . '"');
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
@@ -65,7 +66,7 @@ if (isset($_POST['voting'])and $_POST['voting'] == 'Dodaj') {
         $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
         $s = $pdo->prepare($sql);
         $s->bindValue(':inituser', $_SESSION['userlogin']);
-        $s->bindValue(':action', 'Dodanie nowego głosowania (' . $_POST['votingname'] . ')');
+        $s->bindValue(':action', 'Dodanie nowego głosowania "' . $_POST['votingname'] . '"');
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
@@ -132,7 +133,47 @@ $voteCount = $s->fetch();
   }
   $variantsCount = $s->fetch();
  */
-
+//pokazywanie wyników głosowania
+if(isset($_GET['action']) and $_GET['action'] == 'Pokaż'){
+    try {
+    $sql = 'SELECT variants.id, variants.name FROM variants INNER JOIN voting ON variants.votingid = voting.id WHERE voting.id = :votingid';
+      $s = $pdo->prepare($sql);
+      $s->bindValue(':votingid', $_GET['votingresults']);
+      $s->execute();
+} catch (PDOException $e) {
+    $error = 'Błąd przy pobieraniu liczby głosów.';
+    include 'error.html.php';
+    exit();
+}
+foreach ($s as $row) {
+    //$variantsId[] = $row['id'];
+    //$variantsName[] = $row['name'];
+    $warianty[] = array(
+        'id' => $row['id'],
+        'name' => $row['name']
+    );
+}
+//print_r($warianty);
+$voteResults = array();
+//Zliczanie głosów oddanych na konkretny wariant
+if (isset($warianty)) {
+    foreach ($warianty as $wariant) {
+        $variantsId = $wariant['id'];
+        try {
+            $sql = "SELECT COUNT(*) FROM votes WHERE variantid = $variantsId";
+            $s = $pdo->query($sql);
+        } catch (PDOException $e) {
+            $error = 'Błąd przy pobieraniu liczby głosów.';
+            include 'error.html.php';
+            exit();
+        }
+        $result = $s->fetch();
+        $voteResults[] = $result[0];
+    }
+}
+    
+}  else {
+    
 //Pobieranie informacji o wariantach
 try {
     $sql = 'SELECT variants.id, variants.name FROM variants INNER JOIN voting ON variants.votingid = voting.id WHERE voting.active = 1';
@@ -168,8 +209,10 @@ if (isset($warianty)) {
         $voteResults[] = $result[0];
     }
 }
+}
 //Wybór głosowania do aktywacji
 if (isset($_POST['votingactiv'])) {
+    $activationdata = explode(",", $_POST['votingactiv']);
     try {
         $sql = 'UPDATE voting SET
         active = "0" ';
@@ -177,7 +220,7 @@ if (isset($_POST['votingactiv'])) {
         $sql = 'UPDATE voting SET
         active = "1" WHERE id = :votingactive';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':votingactive', $_POST['votingactiv']);
+        $s->bindValue(':votingactive', $activationdata[0]);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy aktywacji głosowania.';
@@ -188,7 +231,7 @@ if (isset($_POST['votingactiv'])) {
         $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
         $s = $pdo->prepare($sql);
         $s->bindValue(':inituser', $_SESSION['userlogin']);
-        $s->bindValue(':action', 'Głosowanie o id :' . $_POST['votingactiv'] . ' zostało aktywowane');
+        $s->bindValue(':action', 'Głosowanie "' . $activationdata[1] . '" zostało aktywowane');
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
@@ -197,11 +240,7 @@ if (isset($_POST['votingactiv'])) {
     }
     $success = 'Wybrane głosowanie zostało aktywowane';
 }
-if (isset($_POST['action']) and $_POST['action'] == 'Zmiana hasła') {
-    //if (isset($_GET['editpass'])){
-    include '../passform.html.php';
-    exit();
-}
+//zmiana hasła własnego
 if (isset($_POST['passedit'])) {
     if (md5($_POST['actpass'] . 'voapp') == $_SESSION['password']) {
         if ($_POST['newpass1'] == $_POST['newpass2']) {
@@ -241,11 +280,17 @@ if (isset($_POST['passedit'])) {
     }
     $success = 'Hasło zostało zmienione';
 }
+if (isset($_GET['action']) and $_GET['action'] == 'Zmiana hasła') {
+    //if (isset($_GET['editpass'])){
+    include '../passform.html.php';
+    exit();
+}
 if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj wariantami głosowania') {
+    $votedata = explode(",", $_GET['votmenselect']);
     try {
         $sql = 'SELECT variants.id, variants.name FROM variants INNER JOIN voting ON variants.votingid = voting.id WHERE voting.id = :votmenselect';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':votmenselect', $_GET['votmenselect']);
+        $s->bindValue(':votmenselect', $votedata[0]);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy pobieraniu liczby głosów.';
@@ -262,12 +307,14 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj wariantami g
     }
 }
 if (isset($_POST['action']) and $_POST['action'] == 'Usuń') {
+    $variantdata = explode(",", $_POST['variantid']);
+    $votedata = explode(",", $_GET['votmenselect']);
     try
     {
     //usuwanie głosów powiązanych z wariantem {
         $sql = 'DELETE FROM votes WHERE variantid = :variantid';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':variantid', $_POST['variantid']);
+        $s->bindValue(':variantid', $variantdata[0]);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy usuwaniu głosów powiązanych z wariantem.' . $e->getMessage();
@@ -278,7 +325,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Usuń') {
     try {
         $sql = 'DELETE FROM variants WHERE id = :variantid';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':variantid', $_POST['variantid']);
+        $s->bindValue(':variantid', $variantdata[0]);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy usuwaniu wariantu.' . $e->getMessage();
@@ -289,7 +336,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Usuń') {
         $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
         $s = $pdo->prepare($sql);
         $s->bindValue(':inituser', $_SESSION['userlogin']);
-        $s->bindValue(':action', 'Usunięcie wariantu (id:' . $_POST['variantid'] . ') oraz powiązanych z nim głosów');
+        $s->bindValue(':action', 'Usunięcie wariantu "' . $variantdata[1] . '" ('. $votedata[1] .') oraz powiązanych z nim głosów');
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
@@ -299,12 +346,13 @@ if (isset($_POST['action']) and $_POST['action'] == 'Usuń') {
     $success = 'Wybrany wariant został usunięty';
 }
 
-
+//Zarządzanie danymi głosowania
 if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj danymi głosowania') {
+    $votedata = explode(",", $_GET['votmenselect']);
     try {
         $sql = 'SELECT id,name,description FROM voting WHERE id = :votmenselect';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':votmenselect', $_GET['votmenselect']);
+        $s->bindValue(':votmenselect', $votedata[0]);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy pobieraniu wariantów wybranego głosowania.';
@@ -321,12 +369,14 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj danymi głos
     }
 }
 if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
+    $votingdata = explode(",", $_POST['votingid']);
+    echo $votingdata[1];
     try {
         $sql = 'UPDATE voting SET name = :newvotingname, description = :newvotingdesc WHERE id = :votingid ';
         $s = $pdo->prepare($sql);
         $s->bindValue(':newvotingname', $_POST['newvotingname']);
         $s->bindValue(':newvotingdesc', $_POST['newvotingdesc']);
-        $s->bindValue(':votingid', $_POST['votingid']);
+        $s->bindValue(':votingid', $votingdata[0]);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy pobieraniu wariantów wybranego głosowania.' . $e->getMessage();
@@ -337,7 +387,8 @@ if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
         $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
         $s = $pdo->prepare($sql);
         $s->bindValue(':inituser', $_SESSION['userlogin']);
-        $s->bindValue(':action', 'Zmiana danych głosowania (id:' . $_POST['votingid'] . ')');
+        if($_POST['newvotingname'] != $votingdata[1]) {$s->bindValue(':action', 'Zmiana danych głosowania "' . $votingdata[1] . '" - nowa nazwa "' .$_POST['newvotingname'] .'"' );}else{
+        $s->bindValue(':action', 'Zmiana danych głosowania "' . $votingdata[1] . '"');}
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
@@ -347,10 +398,11 @@ if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
     $success = 'Dane wybranego glosowania zostały zmienione';
 }
 if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
+    $votedata = explode(",", $_GET['votmenselect']);
     try {
         $sql = 'SELECT COUNT(*) FROM votes INNER JOIN variants ON votes.variantid = variants.id INNER JOIN voting ON variants.votingid = voting.id WHERE voting.id = :votmenselect';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':votmenselect', $_GET['votmenselect']);
+        $s->bindValue(':votmenselect', $votedata[0]);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy pobieraniu liczby głosów.';
@@ -361,7 +413,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
     try {
         $sql = 'SELECT COUNT(*) FROM variants where variants.votingid = :votmenselect';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':votmenselect', $_GET['votmenselect']);
+        $s->bindValue(':votmenselect', $votedata[0]);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy pobieraniu liczby głosów.';
@@ -373,7 +425,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
         try {
             $sql = 'DELETE votes FROM votes INNER JOIN variants ON variants.id = votes.variantid INNER JOIN voting ON variants.votingid = voting.id WHERE voting.id = :votmenselect';
             $s = $pdo->prepare($sql);
-            $s->bindValue(':votmenselect', $_GET['votmenselect']);
+            $s->bindValue(':votmenselect', $votedata[0]);
             $s->execute();
         } catch (PDOException $e) {
             $error = 'Błąd przy pobieraniu wariantów wybranego głosowania.' . $e->getMessage();
@@ -385,7 +437,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
         try {
             $sql = 'DELETE FROM variants WHERE variants.votingid= :votmenselect';
             $s = $pdo->prepare($sql);
-            $s->bindValue(':votmenselect', $_GET['votmenselect']);
+            $s->bindValue(':votmenselect', $votedata[0]);
             $s->execute();
         } catch (PDOException $e) {
             $error = 'Błąd przy pobieraniu wariantów wybranego głosowania.' . $e->getMessage();
@@ -396,7 +448,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
     try {
         $sql = 'DELETE FROM voting WHERE id = :votmenselect';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':votmenselect', $_GET['votmenselect']);
+        $s->bindValue(':votmenselect', $votedata[0]);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy pobieraniu wariantów wybranego głosowania.' . $e->getMessage();
@@ -407,7 +459,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
         $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
         $s = $pdo->prepare($sql);
         $s->bindValue(':inituser', $_SESSION['userlogin']);
-        $s->bindValue(':action', 'Usunięcie głosowania (id:' . $_GET['votmenselect'] . ') oraz powiązanych z nim wariantów i głosów');
+        $s->bindValue(':action', 'Usunięcie głosowania "' . $votedata[1] . '" oraz powiązanych z nim wariantów i głosów');
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
@@ -417,10 +469,11 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
     $success = 'Wybrane głosowanie zsotało usunięte';
 }
 if (isset($_POST['action']) and $_POST['action'] == 'Edytuj') {
+    $variantdata = explode(",", $_POST['variantid']);
     try {
         $sql = 'SELECT name FROM variants WHERE id = :variantid';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':variantid', $_POST['variantid']);
+        $s->bindValue(':variantid', $variantdata[0]);
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy pobieraniu danych wybranego wariantu.' . $e->getMessage();
@@ -431,13 +484,15 @@ if (isset($_POST['action']) and $_POST['action'] == 'Edytuj') {
         $menagevariantname = $row['name'];
     }
     $type = 'variant';
-    $menagevariantid = $_POST['variantid'];
+    $menagevariantid = $variantdata[0];
 }
 if (isset($_POST['actionvar']) and $_POST['actionvar'] == 'Zapisz') {
+    $variantdata = explode(",", $_POST['variantid']);
+    $votedata = explode(",", $_GET['votmenselect']);
     try {
         $sql = 'UPDATE variants SET name = :menagevariant WHERE id = :variantid';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':variantid', $_POST['variantid']);
+        $s->bindValue(':variantid', $variantdata[0]);
         $s->bindValue(':menagevariant', $_POST['menagevariant']);
         $s->execute();
     } catch (PDOException $e) {
@@ -449,7 +504,7 @@ if (isset($_POST['actionvar']) and $_POST['actionvar'] == 'Zapisz') {
         $sql = 'INSERT INTO votelog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
         $s = $pdo->prepare($sql);
         $s->bindValue(':inituser', $_SESSION['userlogin']);
-        $s->bindValue(':action', 'Edycja danych wariantu (id:' . $_POST['variantid'] . ')');
+        $s->bindValue(':action', 'Edycja wariantu "' . $variantdata[1] . '" (' . $votedata[1] . ') - nowa nazwa "'. $_POST['menagevariant']. '"');
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
@@ -458,9 +513,9 @@ if (isset($_POST['actionvar']) and $_POST['actionvar'] == 'Zapisz') {
     }
     header('refresh: 0;');
 }
-if (isset($_POST['action']) and $_POST['action'] == "Log administratora głosowania") {
+if (isset($_GET['action']) and $_GET['action'] == "Log administratora głosowania") {
     try {
-        $sql = 'SELECT inituserinfo, action, actiondate FROM votelog';
+        $sql = 'SELECT inituserinfo, action, actiondate FROM votelog ORDER BY id DESC';
         $result = $pdo->query($sql);
     } catch (PDOException $e) {
         $error = 'Błąd podczas pobierania logów' . $e->getMessage();
@@ -478,3 +533,4 @@ if (isset($_POST['action']) and $_POST['action'] == "Log administratora głosowa
     exit();
 }
 include 'voteadmin.html.php';
+?>

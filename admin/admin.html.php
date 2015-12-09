@@ -12,7 +12,7 @@
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
-    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}
+    <style>body{padding-top:50px;background-image: url("../img/fresh_snow.png");}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}
         .navlogo {width: 100px; height: 50px; } .active{ border-left:solid; border-width: 1px;}</style>
 
 </head>
@@ -106,12 +106,12 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <form action="" method="post">
+                <form action="" method="get">
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">Funkcje</div>
                     <div class="panel-body text-center">
-                        <button class="btn btn-default" name="action" value="editpass">Zmiana hasła</button>
-                        <button class="btn btn-default" name="action" value="showlog">Logi administratora</button>
+                        <input type="submit" class="btn btn-default" name="action" value="Zmiana hasła">
+                        <input type="submit" class="btn btn-default" name="action" value="Pokaż Log">
                     </div>
                 </div>
                 </form>

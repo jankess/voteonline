@@ -4,6 +4,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
+    <?php if(isset($success) or isset($_GET['success'])): ?><meta http-equiv="Refresh" content="3; <?php echo $_SERVER['PHP_SELF']; ?>" /> <?php     endif;?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -11,7 +12,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
-    <style>body{padding-top:50px;}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}
+    <style>body{padding-top:50px; background-image: url("../img/fresh_snow.png");}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}
         .navlogo {width: 100px; height: 50px; } .active{ border-left:solid; border-width: 1px;}</style>
 
 </head>
@@ -66,6 +67,10 @@
                 </div>
                 <?php                 endif;?>
             </div>
+        <div class="text-center">
+            <a href="<?php echo $_SERVER['PHP_SELF']; ?>"><button class="btn btn-default">Powrót</button></a>
+         </div>
+        <br>
         </div>
     </div>
     <!-- Wyskakujące okno logowania -->

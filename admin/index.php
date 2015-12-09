@@ -143,10 +143,6 @@ if (isset($_POST['adduser'])) {
     }
 }
 //zmiana hasła przez użytkownika
-if (isset($_POST['action']) and $_POST['action'] == 'editpass') {
-    include '../passform.html.php';
-    exit();
-}
 if (isset($_POST['passedit'])) {
     if (md5($_POST['actpass'] . 'voapp') == $_SESSION['password']) {
         if ($_POST['newpass1'] == $_POST['newpass2']) {
@@ -186,9 +182,14 @@ if (isset($_POST['passedit'])) {
     }
     $success = 'Hasło zostało zmienione';
 }
-if (isset($_POST['action']) and $_POST['action'] == "showlog") {
+if (isset($_GET['action']) and $_GET['action'] == 'Zmiana hasła') {
+    include '../passform.html.php';
+    exit();
+}
+
+if (isset($_GET['action']) and $_GET['action'] == "Pokaż Log") {
     try {
-        $sql = 'SELECT inituserinfo, action, actiondate FROM adminlog';
+        $sql = 'SELECT inituserinfo, action, actiondate FROM adminlog ORDER BY id DESC';
         $result = $pdo->query($sql);
     } catch (PDOException $e) {
         $error = 'Błąd podczas pobierania logów' . $e->getMessage();
@@ -255,6 +256,5 @@ try {
 foreach ($result as $row) {
     $users[] = array('login' => $row['login'], 'email' => $row['email'], 'roleid' => $row['roleid']);
 }
-
-
 include 'admin.html.php';
+?>
