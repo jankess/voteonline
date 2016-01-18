@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
-    <style>body{padding-top:50px; background-image: url("img/fresh_snow.png");}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;} .navlogo {width: 100px; height: 50px; }</style>
+    <link rel="stylesheet" href="/voteonline/css/style.css">
 
     <!--[if IE]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -42,7 +42,8 @@
             </div><!--.nav-collapse -->
         </div>
     </nav>
-    <div class="container">    
+    <div class="container">
+        <img src="/voteonline/VO_1.png" class="img-responsive center-block"> 
         <div class="alert alert-danger" role="alert">
             <p class="text-center">
             <?php echo $error; ?>

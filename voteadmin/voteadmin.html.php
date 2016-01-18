@@ -12,8 +12,7 @@
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
-    <style>body{padding-top:50px; background-image: url("../img/fresh_snow.png");}.starter-template{padding:40px 15px;text-align:center;}.logo { max-width: 35%;} .wykres {min-width: 200px;} .navlogo {width: 100px; height: 50px; }</style>
-
+    <link rel="stylesheet" href="/voteonline/css/style.css">
 </head>
 
 <body>
@@ -176,7 +175,7 @@
                         <form action="" method="get">
                             <label for="votingresults">Wyniki głosowania<select name="votingresults" class="form-control">
                             <?php foreach ($votings as $voting): ?>
-                            <option value="<?php echo $voting['id']; ?>" <?php if($voting['id'] == $_GET['votingresults']) {echo 'selected';} ?>><?php echo $voting['name']; ?></option>
+                                    <option value="<?php echo $voting['id']; ?>" <?php if(isset($_GET['votingresults'])and ($voting['id'] == $_GET['votingresults'])) {echo 'selected';} ?>><?php echo $voting['name']; ?></option>
                             <?php endforeach; ?>
                                 </select></label>
                             <input type="submit" class="btn btn-default" name="action" value="Pokaż">
@@ -191,7 +190,7 @@
             </div>
           <div class="col-sm-8 col-md-6 col-lg-6 hidden-xs">
                 <div class="panel panel-info">
-                    <div class="panel-heading text-center"><strong>Wykres przedstawiający wyniki głosowania</strong></div>
+                    <div class="panel-heading text-center"><strong>Wykres wyników głosowania</strong></div>
                 <div class="panel-body">    
                     <div id="piechart_3d"></div>
                 </div>  
@@ -205,7 +204,7 @@
                     <div class="panel-heading text-center">Funkcje</div>
                     <div class="panel-body text-center">
                         <input type="submit" class="btn btn-default" name="action" value="Zmiana hasła">
-                        <input type="submit" class="btn btn-default" name="action" value="Log administratora głosowania">
+                        <input type="submit" class="btn btn-default" name="action" value="Dziennik zdarzeń">
                     </div>
                 </div>
                 </form>

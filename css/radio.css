@@ -1,0 +1,45 @@
+hr{border: 1px solid darkslategray; }
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"] + label span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: -2px 4px 0 0;
+  vertical-align: middle;
+  cursor: pointer;
+  -moz-border-radius: 20%;
+  border-radius: 20%;
+    border:double #339933;
+    border-width: 6px;
+}
+input[type="radio"]:disabled + label span {
+    border:double rgba(255,0,0,0.5);
+    border-width: 6px;
+    
+}
+
+input[type="radio"] + label span {
+  background-color: whitesmoke;
+}
+input[type="radio"] + label:hover span {
+  background-color: #339933;
+}
+input[type="radio"]:disabled + label:hover span {
+  background-color: rgba(255,0,0,0.5);
+}
+input[type="radio"]:checked + label span {
+  background-color: #339933;
+  width: 25px;
+  height: 25px;
+}
+
+input[type="radio"] + label span,
+input[type="radio"]:checked + label span {
+  -webkit-transition: background-color 0.2s linear;
+  -o-transition: background-color 0.2s linear;
+  -moz-transition: background-color 0.2s linear;
+  transition: background-color 0.2s linear;
+}

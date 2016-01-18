@@ -20,6 +20,19 @@ function userIsLoggedIn()
       $_SESSION['userid'] = $GLOBALS['userID'];
       $_SESSION['userlogin'] = $_POST['userlogin'];
       $_SESSION['password'] = $password;
+        
+        include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
+ try {
+        $sql = 'INSERT INTO adminlog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':inituser', $_SESSION['userlogin']);
+        $s->bindValue(':action', 'Logowanie do aplikacji z IP:' . $_SERVER['REMOTE_ADDR']);
+        $s->execute();
+    } catch (PDOException $e) {
+        $error = 'Błąd przy aktualizacji danych użytkownika.' .$e->getMessage();
+        include '../error.html.php';
+        exit();
+    }
       return TRUE;
     }
     else
@@ -50,6 +63,7 @@ function userIsLoggedIn()
   {
     return databaseContainsAuthor($_SESSION['userlogin'], $_SESSION['password']);
   }
+
 }
 
 function databaseContainsAuthor($login, $password)
@@ -106,9 +120,7 @@ function userHasRole($role)
   try
   {
     $sql = "SELECT COUNT(*) FROM users
-        INNER JOIN userrole ON users.id = userid
-        INNER JOIN role ON roleid = role.id
-        WHERE users.id = :userid AND role.id = :roleId";
+        WHERE id = :userid AND roleid = :roleId";
     $s = $pdo->prepare($sql);
     $s->bindValue(':userid', $_SESSION['userid']);
     $s->bindValue(':roleId', $role);

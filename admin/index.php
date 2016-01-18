@@ -28,7 +28,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Edytuj') {
         $s->bindValue(':login', $_GET['login']);
         $s->execute();
     } catch (PDOException $e) {
-        $error = 'Błąd przy pobieraniu danych użytkownika do edycji.';
+        $error = 'Błąd podczas pobierania danych użytkownika.';
         include 'error.html.php';
         exit();
     }
@@ -50,7 +50,7 @@ if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
         $s->bindValue(':id', $_POST['userid']);
         $s->execute();
     } catch (PDOException $e) {
-        $error = 'Błąd przy aktualizacji danych użytkownika.';
+        $error = 'Błąd podczas zapisu nowych danych użytkownika.';
         include 'error.html.php';
         exit();
     }
@@ -63,13 +63,13 @@ if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
         $s->bindValue(':action', 'Edycja danych użytkownika "' . $menageuserlogin . '"');
         $s->execute();
     } catch (PDOException $e) {
-        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
         include '../error.html.php';
         exit();
     }
     $success = 'Dane użytkownika zostały zmienione';
 }
-
+//reset hasła uzytkownika
 if (isset($_POST['passreset'])) {
     if ($_POST['newpass1'] == $_POST['newpass2']) {
         try {
@@ -80,7 +80,7 @@ if (isset($_POST['passreset'])) {
             $s->bindValue(':userlogin', $_GET['login']);
             $s->execute();
         } catch (PDOException $e) {
-            $error = 'Błąd podczas zapisu zmienionego hasła do bazy.';
+            $error = 'Błąd podczas zapisu zmienionego hasła użytkownika do bazy.';
             include '../error.html.php';
             exit();
         }
@@ -97,7 +97,7 @@ if (isset($_POST['passreset'])) {
         $s->bindValue(':action', 'Edycja hasła użytkownika "' . $_GET['login'] . '"');
         $s->execute();
     } catch (PDOException $e) {
-        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
         include '../error.html.php';
         exit();
     }
@@ -123,7 +123,7 @@ if (isset($_POST['adduser'])) {
             $s->bindValue(':role', $_POST['role']);
             $s->execute();
         } catch (PDOException $e) {
-            $error = 'Błąd przy dodawaniu użytkownika.';
+            $error = 'Błąd podczas dodawania użytkownika do bazy.';
             include '../error.html.php';
             exit();
         }
@@ -137,7 +137,7 @@ if (isset($_POST['adduser'])) {
         $s->bindValue(':action', 'Dodanie użytkownika "' . $_POST['userlogin'] . '"');
         $s->execute();
     } catch (PDOException $e) {
-        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
         include '../error.html.php';
         exit();
     }
@@ -176,7 +176,7 @@ if (isset($_POST['passedit'])) {
         $s->bindValue(':action', 'Zmiana własnego hasła dostępowego');
         $s->execute();
     } catch (PDOException $e) {
-        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
         include '../error.html.php';
         exit();
     }
@@ -187,12 +187,12 @@ if (isset($_GET['action']) and $_GET['action'] == 'Zmiana hasła') {
     exit();
 }
 
-if (isset($_GET['action']) and $_GET['action'] == "Pokaż Log") {
+if (isset($_GET['action']) and $_GET['action'] == "Dziennik zdarzeń") {
     try {
         $sql = 'SELECT inituserinfo, action, actiondate FROM adminlog ORDER BY id DESC';
         $result = $pdo->query($sql);
     } catch (PDOException $e) {
-        $error = 'Błąd podczas pobierania logów' . $e->getMessage();
+        $error = 'Błąd podczas pobierania wpisów dziennika zdarzeń' . $e->getMessage();
         include '../error.html.php';
         exit();
     }
@@ -215,7 +215,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Usuń') {
         $s->bindValue(':login', $_GET['login']);
         $s->execute();
     } catch (PDOException $e) {
-        $error = 'Błąd przy usuwaniu autora.' . $e->getMessage();
+        $error = 'Błąd podczas usuwania użytkownika.' . $e->getMessage();
         include '../error.html.php';
         exit();
     }
@@ -226,7 +226,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Usuń') {
         $s->bindValue(':action', 'Usunięcie użytkownika "' . $_GET['login'] . '"');
         $s->execute();
     } catch (PDOException $e) {
-        $error = 'Błąd przy aktualizacji danych użytkownika.' . $e->getMessage();
+        $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
         include '../error.html.php';
         exit();
     }
@@ -237,7 +237,7 @@ try {
     $sql = 'SELECT id FROM role';
     $result = $pdo->query($sql);
 } catch (PDOException $e) {
-    $error = 'Błąd przy pobieraniu wariantów: ' . $e->getMessage();
+    $error = 'Błąd podczas pobierania danych ról z bazy.' . $e->getMessage();
     include 'error.html.php';
     exit();
 }
@@ -249,7 +249,7 @@ foreach ($result as $row) {
 try {
     $result = $pdo->query('SELECT login, email, roleid FROM users');
 } catch (PDOException $e) {
-    $error = 'Błąd bazy danych w trakcie pobierania listy użytkowników!';
+    $error = 'Błąd podczas pobierania danych użytkowników z bazy.';
     include '../error.html.php';
     exit();
 }

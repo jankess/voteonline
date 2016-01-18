@@ -12,9 +12,7 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
-    <style>body{padding-top:50px; background-image: url("../img/fresh_snow.png");}.starter-template{padding:40px 15px;text-align:center;}.img-responsive { max-width: 35%;}
-        .navlogo {width: 100px; height: 50px; } .active{ border-left:solid; border-width: 1px;}</style>
-
+    <link rel="stylesheet" href="/voteonline/css/style.css">
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -68,7 +66,7 @@
                 <?php                 endif;?>
             </div>
         <div class="text-center">
-            <a href="<?php echo $_SERVER['PHP_SELF']; ?>"><button class="btn btn-default">Powrót</button></a>
+            <a href="<?php echo $_SERVER['PHP_SELF']; ?>"><button class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Powrót</button></a>
          </div>
         <br>
         </div>

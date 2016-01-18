@@ -13,14 +13,12 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
-    <style>body{padding-top:50px; background-image: url("img/fresh_snow.png"); }.starter-template{padding:40px 15px;text-align:center;}
-        .img-responsive { max-width: 35%;}.navlogo {width: 100px; height: 50px;} .active{ border-left:solid; border-width: 1px;}hr{border: 1px solid darkslategray;}
-    </style>
-
+    <link rel="stylesheet" href="/voteonline/css/style.css">
+    <link rel="stylesheet" href="/voteonline/css/radio.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -29,7 +27,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <li><a href="/voteonline/"><img src="/voteonline/VO_1.png" class="navlogo"></a></li>
+                <li><a href="/voteonline/"><img src="/voteonline/VO_1.png" alt="Logo aplikacji" class="navlogo"></a></li>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav" >
@@ -46,16 +44,16 @@
         <img src="/voteonline/VO_1.png" class="img-responsive center-block"> 
         <div class="row">
             <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div> <?php endif;?>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <form action="" method="post">
                 <h2><?php echo $votingdescription; ?></h2>
                 <?php if(isset($variants)){foreach ($variants as $variant): ?>
-                <div><label><input type="radio" name="variants"
+                <div><input type="radio" name="variants"
                     id="<?php htmlout($variant['id']); ?>"
-                    value="<?php htmlout($variant['id']); ?>" required <?php if(isset($_COOKIE[$votingid])) echo 'disabled';?>><?php htmlout($variant['name']); ?></label></div>
+                    value="<?php htmlout($variant['id']); ?>" required <?php if(isset($_COOKIE[$votingid])) echo 'disabled';?>><label for="<?php htmlout($variant['id']); ?>"><span></span><?php htmlout($variant['name']); ?></label></div>
                 <?php endforeach; }else echo 'Do głosowania nie został jeszcze dodany żaden wariant';?>
                 <div>
-                <?php if(isset($variants)): ?><input type="submit" class="btn <?php if(isset($_COOKIE[$votingid])) echo 'btn-danger'; else echo 'btn-default'; ?>" value="<?php if(isset($_COOKIE[$votingid])) echo 'Wziąłeś już udział w tym głosowaniu'; else echo 'Głosuj'; ?>" 
+                <?php if(isset($variants)): ?><input type="submit" class="button btn <?php if(isset($_COOKIE[$votingid])) echo 'btn-danger'; else echo 'btn-default'; ?>" value="<?php if(isset($_COOKIE[$votingid])) echo 'Wziąłeś już udział w tym głosowaniu'; else echo 'Głosuj'; ?>" 
                     <?php if(isset($_COOKIE[$votingid])) echo 'disabled'; ?>> <?php endif; ?>
                 </div>
                 </form>

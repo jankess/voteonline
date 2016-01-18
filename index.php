@@ -14,7 +14,7 @@ try {
     $sql = 'SELECT variants.id, variants.name FROM variants INNER JOIN voting ON variants.votingid = voting.id WHERE voting.active = 1';
     $result = $pdo->query($sql);
 } catch (PDOException $e) {
-    $error = 'Błąd przy pobieraniu wariantów: ' . $e->getMessage();
+    $error = 'Błąd podczas pobierania wariantów głosowania.' . $e->getMessage();
     include 'error.html.php';
     exit();
 }
@@ -29,7 +29,7 @@ try {
     $sql = 'SELECT id, description FROM voting WHERE active = 1';
     $result = $pdo->query($sql);
 } catch (PDOException $e) {
-    $error = 'Błąd przy pobieraniu wariantów: ' . $e->getMessage();
+    $error = 'Błąd podczas pobierania danych głosowania.' . $e->getMessage();
     include 'error.html.php';
     exit();
 }
@@ -47,7 +47,7 @@ if (isset($_POST['variants']) and ( !isset($_COOKIE[$votingid]) or $_COOKIE[$vot
         $s->bindValue(':variantid', $_POST['variants']);
         $s->execute();
     } catch (PDOException $e) {
-        $error = 'Błąd podczas oddawania głosu';
+        $error = 'Błąd podczas zapisu głosu do bazy';
         include 'error.html.php';
         exit();
     }

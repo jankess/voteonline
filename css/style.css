@@ -1,0 +1,8 @@
+body{padding-top:50px; background-image: url("../img/fresh_snow.png"); }
+.starter-template{padding:40px 15px;text-align:center;}
+.img-responsive { max-width: 35%;}
+.navlogo {width: 100px; height: 50px;} 
+.active{ border-left:solid; border-width: 1px;}
+tr:hover{
+    background-color: #d9edf7;
+}
