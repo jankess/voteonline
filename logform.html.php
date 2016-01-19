@@ -1,5 +1,5 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/include/helpers.inc.php'; ?>
+    '/voteonline/include/helpers.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>VoteOnline Admin</title>
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="/voteonline/img/favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/voteonline/css/style.css">
@@ -23,7 +23,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/voteonline/"><img src="/voteonline/VO_1.png" class="navlogo"></a>
+                <a href="/voteonline/"><img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="navlogo"></a>
             </div>
           <div class="collapse navbar-collapse">
               <ul class="nav navbar-nav" >
@@ -31,16 +31,16 @@
                     <li><a href="/voteonline/admin/">Panel Administratora</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php htmlprint($loginstate) ?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>
     </nav>
     <br>
     <div class="container">
-        <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div> <?php endif;?>
-        <?php if(isset($passerror)): ?> <div class="row alert alert-danger"><p class="text-center"><?php echo($passerror);?></p></div> <?php endif;?>
-        <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
+        <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php htmlprint($success) ?></p></div> <?php endif;?>
+        <?php if(isset($passerror)): ?> <div class="row alert alert-danger"><p class="text-center"><?php htmlprint($passerror);?></p></div> <?php endif;?>
+        <!--<img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="img-responsive center-block"> -->
          <div class="text-center">
             <a href="<?php echo $_SERVER['PHP_SELF']; ?>"><button class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Powrót</button></a>
          </div>
@@ -59,7 +59,7 @@
       <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-sm">
     <!-- Modal content-->
-    <?php include '../logout.inc.html.php';?>  
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/logout.inc.html.php';?>  
         </div>
       </div></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

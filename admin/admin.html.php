@@ -1,5 +1,5 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/include/helpers.inc.php'; ?>
+    '/voteonline/include/helpers.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>VoteOnline Admin</title>
-    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="shortcut icon" href="/voteonline/img/favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/voteonline/css/style.css">
@@ -24,7 +24,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/voteonline/"><img src="/voteonline/VO_1.png" class="navlogo"></a>
+                <a href="/voteonline/"><img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="navlogo"></a>
             </div>
           <div class="collapse navbar-collapse">
               <ul class="nav navbar-nav" >
@@ -32,16 +32,16 @@
                     <li><a href="/voteonline/admin/">Panel Administratora</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php htmlprint($loginstate) ?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>
     </nav>
     <hr/>
     <div class="container">
-        <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div> <?php endif;?>
-        <?php if(isset($_GET['success'])): ?> <div class="row alert alert-success"><p class="text-center"><?php echo 'Hasło użytkownika zostało zmienione'; ?></p></div> <?php endif;?>
-<!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
+        <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php htmlprint($success) ?></p></div> <?php endif;?>
+        <?php if(isset($_GET['success'])): ?> <div class="row alert alert-success"><p class="text-center"><?php htmlprint('Hasło użytkownika zostało zmienione'); ?></p></div> <?php endif;?>
+<!--<img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="img-responsive center-block"> -->
         <div class="row">
             <form action="" method="post">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -58,7 +58,7 @@
                     <div>
                         <?php foreach ($roles as $role): ?>
                         <label><hn title="Rola jaką ma posiadać dodawany użytkownik"><input type="radio" name="role"
-                            id="<?php htmlout($role['id']); ?>" value="<?php htmlout($role['id']); ?>" required><?php htmlout($role['id']); ?></hn></label>
+                            id="<?php htmlprint($role['id']); ?>" value="<?php htmlprint($role['id']); ?>" required><?php htmlprint($role['id']); ?></hn></label>
                         <?php endforeach; ?>
                     </div>
                         <input type="submit" class="btn btn-default" name="adduser" value="Dodaj">
@@ -76,7 +76,7 @@
                             <tr class="info"><td><b>Login</b></td><td><strong>Adres email</strong></td><td><strong>Uprawnienia</strong></td></tr>
                                 <?php foreach ($users as $user): ?>
                                 <form action="" method="get">
-                                    <tr><input type="hidden" name="login" value="<?php echo ($user['login']); ?>"><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td><td><?php htmlout($user['roleid']); ?></td><td>
+                                    <tr><input type="hidden" name="login" value="<?php htmlprint ($user['login']); ?>"><td><?php htmlprint($user['login']); ?></td><td><?php htmlprint($user['email']); ?></td><td><?php htmlprint($user['roleid']); ?></td><td>
                                         <input type="submit" class="btn btn-default" name="action" value="Edytuj">
                                         <input type="submit" class="btn btn-warning" name="action" value="Resetuj hasło">
                                         <input type="submit" class="btn btn-danger"name="action" value="Usuń"></td></tr></form>
@@ -87,12 +87,12 @@
                     <form action="" method="post">
                         <fieldset>
                             <legend class="text-center">Edycja danych użytkownika</legend>
-                        <input type="hidden" name="userid" value="<?php echo $menageuserid; ?>">
-                        <label for="newuserlogin">Login<input class="form-control"type="text" name="newuserlogin" id="newuserlogin" value="<?php echo $menageuserlogin; ?>"required></label>
-                        <label for="newuseremail">Email<input class="form-control"type="text" name="newuseremail" id="newuseremail" value="<?php echo $menageuseremail; ?>"required></label>
+                        <input type="hidden" name="userid" value="<?php htmlprint($menageuserid); ?>">
+                        <label for="newuserlogin">Login<input class="form-control"type="text" name="newuserlogin" id="newuserlogin" value="<?php htmlprint($menageuserlogin); ?>"required></label>
+                        <label for="newuseremail">Email<input class="form-control"type="text" name="newuseremail" id="newuseremail" value="<?php htmlprint($menageuseremail); ?>"required></label>
                          <?php foreach ($roles as $role): ?>
                         <label><hn title="Rola"><input type="radio" name="newroleid"
-                            id="<?php htmlout($role['id']); ?>" value="<?php htmlout($role['id']); ?>" required <?php if($menageuserrole == $role['id']) echo 'checked'; ?>><?php htmlout($role['id']); ?></hn></label>
+                            id="<?php htmlprint($role['id']); ?>" value="<?php htmlprint($role['id']); ?>" required <?php if($menageuserrole == $role['id']) htmlprint('checked'); ?>><?php htmlprint($role['id']); ?></hn></label>
                         <?php endforeach; ?>
                         <input type="submit" name="menage" value="Zapisz" class="btn btn-default">
                         </fieldset>
@@ -119,7 +119,7 @@
       <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-sm">
     <!-- Modal content-->
-    <?php include '../logout.inc.html.php';?>  
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/logout.inc.html.php';?>  
         </div>
       </div></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

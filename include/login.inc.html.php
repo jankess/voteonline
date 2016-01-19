@@ -4,12 +4,12 @@
         <h1 class="text-center">Logowanie</h1>
         <p>Podaj login oraz hasło.</p>
         <?php if (isset($loginError)): $alert = 'alert alert-danger'; ?>
-        <div class="<?php echo($alert); ?>"><p><?php echo($loginError);?></p></div>
+        <div class="<?php htmlprint($alert); ?>"><p><?php htmlprint($loginError);?></p></div>
         <?php else: $alert = ''; endif; ?>
         <form action="" method="post">
             <div>
-                <label for="userlogin">Login:<input type="text" name="userlogin" id="userlogin" class="form-control <?php echo($alert); ?>"></label>
-                <label for="password">Hasło: <input type="password" name="password" id="password" class="form-control <?php echo($alert); ?>"></label>
+                <label for="userlogin">Login:<input type="text" name="userlogin" id="userlogin" class="form-control <?php htmlprint($alert); ?>"></label>
+                <label for="password">Hasło: <input type="password" name="password" id="password" class="form-control <?php htmlprint($alert); ?>"></label>
             </div>
             <div>
                 <input type="hidden" name="action" value="login">

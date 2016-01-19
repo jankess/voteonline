@@ -6,7 +6,7 @@
              <tr class="info"><td><b>Login</b></td><td><strong>Adres email</strong></td><td><strong>Uprawnienia</strong></td></tr>
         <?php foreach ($users as $user): ?>
              <form action="" method="post">
-                 <tr><input type="hidden" name="login" value="<?php echo ($user['login']); ?>"><td><?php htmlout($user['login']); ?></td><td><?php htmlout($user['email']); ?></td><td><?php htmlout($user['roleid']); ?></td><td><input type="submit" name="action" value="Usuń"></td></tr></form>
+                 <tr><input type="hidden" name="login" value="<?php echo ($user['login']); ?>"><td><?php htmlprint($user['login']); ?></td><td><?php htmlprint($user['email']); ?></td><td><?php htmlprint($user['roleid']); ?></td><td><input type="submit" name="action" value="Usuń"></td></tr></form>
       <?php endforeach; ?>
              </table>
         </div>

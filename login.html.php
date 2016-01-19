@@ -1,5 +1,5 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/include/helpers.inc.php'; ?>
+    '/voteonline/include/helpers.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Logowanie do Voteonline</title>
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="/voteonline/img/favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/voteonline/css/style.css">
@@ -28,7 +28,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/voteonline/"><img src="/voteonline/VO_1.png" class="navlogo"></a>
+                <a href="/voteonline/"><img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="navlogo"></a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -40,18 +40,18 @@
     </nav>
 
     <div class="container">
-        <img src="/voteonline/VO_1.png" class="img-responsive center-block">
+        <img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="img-responsive center-block">
         <h1>Logowanie</h1>
         <p>Strona dostępna tylko dla zalogowanych użytkowników.</p>
         <?php if (isset($loginError)): $alert = 'alert alert-danger'; ?>
-        <div class="<?php echo($alert); ?>"><p class="text-center"><?php htmlout($loginError);?></p></div>
+        <div class="<?php htmlprint($alert); ?>"><p class="text-center"><?php htmlprint($loginError);?></p></div>
         <?php else: $alert = ''; endif; ?>
         <form action="" method="post">
             <div>
-                <label for="userlogin">Login:<input type="text" name="userlogin" id="userlogin" class="form-control <?php echo($alert); ?>"></label>
+                <label for="userlogin">Login:<input type="text" name="userlogin" id="userlogin" class="form-control <?php htmlprint($alert); ?>"></label>
             </div>  
             <div>
-                <label for="password">Hasło:<input type="password" name="password" id="password" class="form-control <?php echo($alert); ?>"></label>
+                <label for="password">Hasło:<input type="password" name="password" id="password" class="form-control <?php htmlprint($alert); ?>"></label>
             </div>
             <div>
                 <input type="hidden" name="action" value="login">

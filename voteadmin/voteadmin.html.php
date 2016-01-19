@@ -1,5 +1,5 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/include/helpers.inc.php'; ?>
+    '/voteonline/include/helpers.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>VoteOnline VoteAdmin</title>
-    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="shortcut icon" href="/voteonline/img/favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/voteonline/css/style.css">
@@ -25,7 +25,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/voteonline/"><img src="/voteonline/VO_1.png" class="navlogo"></a>
+                <a href="/voteonline/"><img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="navlogo"></a>
             </div>
           <div class="collapse navbar-collapse">
          <ul class="nav navbar-nav" >
@@ -35,14 +35,14 @@
                 <ul class="nav navbar-nav navbar-right">
                      
                     <!--<li class="dropdown">
-                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php                              echo $_SESSION['userlogin'];?> <span class="caret"></span></a>
+                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php                              htmlprint($_SESSION['userlogin']);?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Action</a></li>
             <li role="separator" class="divider"></li>
             <li><form action="" method="post"><input type="submit" class="list-group-item" name="action" value="Zmiana hasła"></form></li>
           </ul>
         </li>-->
-                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php htmlout($loginstate) ?></a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php htmlprint($loginstate) ?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>
@@ -50,8 +50,8 @@
     </nav>
     <hr/>
     <div class="container">
-        <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php echo($success) ?></p></div> <?php endif;?>
-        <!--<img src="/voteonline/VO_1.png" class="img-responsive center-block"> -->
+        <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php htmlprint($success) ?></p></div> <?php endif;?>
+        <!--<img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="img-responsive center-block"> -->
         <div class="row">
         <form action="" method="post">
             <div class="col-sm-6 col-md-6 col-lg-6 hidden-xs">
@@ -75,7 +75,7 @@
                         <label for="votingselect">Dodaj do:
                         <select name="votingselect" class="form-control" title="Wybierz głosowanie do którego ma zostać dodany wariant">
                             <?php foreach ($votings as $voting): ?>
-                            <option value="<?php echo $voting['id'] . ','.$voting['name'];?>"><?php echo $voting['name']; ?></option>
+                            <option value="<?php htmlprint($voting['id'] . ','.$voting['name']);?>"><?php htmlprint($voting['name']); ?></option>
                             <?php endforeach; ?>
                             </select>
                         </label>
@@ -94,7 +94,7 @@
                         <legend class="text-center">Wybór głosowania</legend>
                         <select name="votmenselect" class="form-control">
                             <?php foreach ($votings as $voting): ?>
-                            <option value="<?php echo $voting['id']. ',' . $voting['name'];?>"<?php if(isset($_GET['votmenselect'])){$votmendata = explode(",", $_GET['votmenselect']); if($votmendata[0] == $voting['id']) echo 'selected'; }?>><?php echo $voting['name']; ?></option>
+                            <option value="<?php htmlprint($voting['id']. ',' . $voting['name']);?>"<?php if(isset($_GET['votmenselect'])){$votmendata = explode(",", $_GET['votmenselect']); if($votmendata[0] == $voting['id']) htmlprint('selected'); }?>><?php htmlprint($voting['name']); ?></option>
                             <?php endforeach; ?>
                             </select>
                         <br />
@@ -113,16 +113,16 @@
                          <tr class="info"><td><strong>Nazwa wariantu</strong></td><td><strong>Akcja</strong></td></tr>
                      <?php foreach ($menagevariants as $menagevariant): ?>
                     <form action="" method="post">
-                        <tr><input type="hidden" name="variantid" value="<?php echo ($menagevariant['id']. ',' . $menagevariant['name']); ?>"><td><?php echo ($menagevariant['name']); ?></td><td><input type="submit" class="btn btn-default" name="action" value="Edytuj"><input type="submit" class="btn btn-danger"name="action" value="Usuń" title="Usuwając wariant usuwasz również powiązane z nim głosy"></td></tr></form>
+                        <tr><input type="hidden" name="variantid" value="<?php htmlprint($menagevariant['id']. ',' . $menagevariant['name']); ?>"><td><?php htmlprint($menagevariant['name']); ?></td><td><input type="submit" class="btn btn-default" name="action" value="Edytuj"><input type="submit" class="btn btn-danger"name="action" value="Usuń" title="Usuwając wariant usuwasz również powiązane z nim głosy"></td></tr></form>
                     <?php endforeach;?></table></fieldset><?php endif;?>
                     <?php if(isset($menagevotingid)): ?>
                     <br />
                     <form action="" method="post">
                         <fieldset>
                             <legend class="text-center">Edycja danych głosowania</legend>
-                        <input type="hidden" name="votingid" value="<?php echo $menagevotingid . ',' . $menagevotingname; ?>">
-                        <label for="newvotingname">Nazwa<input class="form-control"type="text" name="newvotingname" id="newvotingname" value="<?php echo $menagevotingname; ?>"required></label>
-                        <label for="newvotingdesc">Opis<input class="form-control"type="text" name="newvotingdesc" id="newvotingdesc" value="<?php echo $menagevotingdesc; ?>"required></label>
+                        <input type="hidden" name="votingid" value="<?php htmlprint( $menagevotingid . ',' . $menagevotingname); ?>">
+                        <label for="newvotingname">Nazwa<input class="form-control"type="text" name="newvotingname" id="newvotingname" value="<?php htmlprint($menagevotingname); ?>"required></label>
+                        <label for="newvotingdesc">Opis<input class="form-control"type="text" name="newvotingdesc" id="newvotingdesc" value="<?php htmlprint($menagevotingdesc); ?>"required></label>
                         <input type="submit" name="menage" value="Zapisz" class="btn btn-default">
                         </fieldset>
                         </form>
@@ -130,8 +130,8 @@
                 <?php if(isset($type) and $type=='variant'): ?>
                     <div class="text-center">
                     <form action="" method="post">
-                        <input type="hidden" name="variantid" id="variantid" value="<?php echo $menagevariantid .  "," . $menagevariantname; ?>">
-                        <label for="menagevariant">Nazwa<input type="text" class="form-control" name="menagevariant" id="menagevariant" value="<?php echo $menagevariantname; ?>" autofocus></label>    
+                        <input type="hidden" name="variantid" id="variantid" value="<?php htmlprint($menagevariantid .  "," . $menagevariantname); ?>">
+                        <label for="menagevariant">Nazwa<input type="text" class="form-control" name="menagevariant" id="menagevariant" value="<?php htmlprint($menagevariantname); ?>" autofocus></label>    
                         <input type="submit" class="btn btn-default" name="actionvar" value="Zapisz">
                     </form>
                     </div>
@@ -146,11 +146,11 @@
              <div class="panel panel-primary">
                  <div class="panel-heading text-center"><strong>Aktywacja głosowania</strong></div>
                     <div class="panel-body">
-                        <p>Obecnie aktywnej jest głosowanie: <?php if(isset($votingname)) {echo $votingname;} else {echo 'Nie zostało aktywowane żadne głosowanie';} ?> </p>
+                        <p>Obecnie aktywnej jest głosowanie: <?php if(isset($votingname)) {htmlprint($votingname);} else {htmlprint('Nie zostało aktywowane żadne głosowanie');} ?> </p>
                         <label for="votingactiv">Uaktywnij:
                             <select name="votingactiv" class="form-control">
                             <?php foreach ($votings as $voting): ?>
-                            <option value="<?php echo $voting['id'] . "," .$voting['name']; ?>" <?php if($voting['active']>0) {echo 'selected'; $active = $voting['name'];} ?>><?php echo $voting['name']; ?></option>
+                            <option value="<?php htmlprint($voting['id'] . "," .$voting['name']); ?>" <?php if($voting['active']>0) {htmlprint('selected'); $active = $voting['name'];} ?>><?php htmlprint($voting['name']); ?></option>
                             <?php endforeach; ?>
                         </select></label>
                         <input type="submit" class="btn btn-default" value="Uaktywnij">
@@ -162,8 +162,8 @@
                 <div class="panel panel-info">
                     <div class="panel-heading text-center"><strong>Statystyki głosowania</strong></div>
                     <div class="panel-body">
-                        <p>Ilość oddanych głosów: <?php echo $voteCount[0]; ?></p>
-                        <p>Ilość wariantów odpowiedzi: <?php if(isset($warianty)) echo count($warianty); else echo '0';?></p>
+                        <p>Ilość oddanych głosów: <?php htmlprint($voteCount[0]); ?></p>
+                        <p>Ilość wariantów odpowiedzi: <?php if(isset($warianty)) htmlprint(count($warianty)); else htmlprint('0');?></p>
                     </div>
                 </div>
             </div>    
@@ -175,16 +175,16 @@
                         <form action="" method="get">
                             <label for="votingresults">Wyniki głosowania<select name="votingresults" class="form-control">
                             <?php foreach ($votings as $voting): ?>
-                                    <option value="<?php echo $voting['id']; ?>" <?php if(isset($_GET['votingresults'])and ($voting['id'] == $_GET['votingresults'])) {echo 'selected';} ?>><?php echo $voting['name']; ?></option>
+                                    <option value="<?php htmlprint($voting['id']); ?>" <?php if(isset($_GET['votingresults'])and ($voting['id'] == $_GET['votingresults'])) {htmlprint('selected');} ?>><?php htmlprint($voting['name']); ?></option>
                             <?php endforeach; ?>
                                 </select></label>
                             <input type="submit" class="btn btn-default" name="action" value="Pokaż">
                         </form></div>
                     <div class="panel-body">
                         <?php if(isset($warianty)){$i=0; foreach($warianty as $variant):?>
-                        <p><?php if($voteCount[0]>0){ echo $variant['name']; echo ': ' . $voteResults[$i] . ' (' . round((($voteResults[$i]/$voteCount[0])*100),2) . '%)'; $i++;}
-                                 else {echo $variant['name']; echo ': ' . $voteResults[$i] . ' (0%)'; $i++;}?></p>
-                        <?php endforeach; } else echo 'Do głosowania nie został jeszcze dodany żaden wariant'; ?>
+                        <p><?php if($voteCount[0]>0){ htmlprint($variant['name']); htmlprint(': ' . $voteResults[$i] . ' (' . round((($voteResults[$i]/$voteCount[0])*100),2) . '%)'); $i++;}
+                                 else {htmlprint($variant['name']); htmlprint(': ' . $voteResults[$i] . ' (0%)'); $i++;}?></p>
+                        <?php endforeach; } else htmlprint('Do głosowania nie został jeszcze dodany żaden wariant'); ?>
                     </div>
                 </div>
             </div>
@@ -215,7 +215,7 @@
     <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-sm">
     <!-- Modal content-->
-        <?php include '../logout.inc.html.php';?>  
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/logout.inc.html.php';?>  
     </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -228,7 +228,7 @@
         var data = google.visualization.arrayToDataTable([
           ['All Votes', 'Votes'],
         <?php if(isset($warianty)) {$i=0; foreach($warianty as $variant):?>
-          ['<?php echo $variant['name']; ?>', <?php echo $voteResults[$i]; $i++;?>],
+          ['<?php htmlprint($variant['name']); ?>', <?php htmlprint($voteResults[$i]); $i++;?>],
         <?php endforeach; }?>
         ]);
 

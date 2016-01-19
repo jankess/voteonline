@@ -1,9 +1,9 @@
 <?php
 
 include_once $_SERVER['DOCUMENT_ROOT'] .
-        '/include/magicquotes.inc.php';
+        '/voteonline/include/magicquotes.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] .
-        '/include/access.inc.php';
+        '/voteonline/include/access.inc.php';
 
 if (!userIsLoggedIn()) {
     $loginstate = 'Zaloguj';
@@ -18,7 +18,7 @@ if (!userHasRole('VoteAdministrator')) {
     exit();
 }
 
-include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/db.inc.php';
 
 //Dodawanie nowego wariantu
 if (isset($_POST['newvariant']) and $_POST['newvariant'] != '') {
@@ -77,7 +77,7 @@ if (isset($_POST['voting'])and $_POST['voting'] == 'Dodaj') {
 }
 //Pobieranie informacji na temat głosowań
 try {
-    include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/db.inc.php';
     $sql = 'SELECT id, name , description, active FROM voting';
     $result = $pdo->query($sql);
 } catch (PDOException $e) {

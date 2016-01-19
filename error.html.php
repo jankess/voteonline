@@ -1,5 +1,5 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/include/helpers.inc.php'; ?>
+    '/voteonline/include/helpers.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>VoteOnline</title>
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="/voteonline/img/favicon.ico">
     <link rel="stylesheet" href="/voteonline/css/bootstrap.css">
     <link rel="stylesheet" href="/voteonline/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/voteonline/css/style.css">
@@ -29,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/voteonline/"><img src="/voteonline/VO_1.png" class="navlogo"></a>
+                <a href="/voteonline/"><img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="navlogo"></a>
             </div>
              <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -37,13 +37,13 @@
                     <li><a href="/voteonline/admin/">Panel Administratora</a></li>
                 </ul>
                  <ul class="nav navbar-nav navbar-right">
-                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php if(!isset($_SESSION['loggedIn'])) { echo('Zaloguj');}else { echo('Wyloguj(' . $_SESSION['userlogin'] . ')');}?></a></li>
+                    <li><a href="" data-toggle="modal" data-target="#myModal"><?php if(!isset($_SESSION['loggedIn'])) { htmlprint('Zaloguj');}else { htmlprint('Wyloguj(' . $_SESSION['userlogin'] . ')');}?></a></li>
                 </ul>
             </div><!--.nav-collapse -->
         </div>
     </nav>
     <div class="container">
-        <img src="/voteonline/VO_1.png" class="img-responsive center-block"> 
+        <img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="img-responsive center-block"> 
         <div class="alert alert-danger" role="alert">
             <p class="text-center">
             <?php echo $error; ?>
@@ -53,8 +53,8 @@
     <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-sm">
     <!-- Modal content-->
-        <?php if (!isset($_SESSION['loggedIn'])): include 'login.inc.html.php'; ?>
-        <?php elseif(isset($_SESSION['loggedIn']) or $loginstate != 'Zaloguj'): include 'logout.inc.html.php'; endif ?>  
+        <?php if (!isset($_SESSION['loggedIn'])): include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/login.inc.html.php'; ?>
+        <?php elseif(isset($_SESSION['loggedIn']) or $loginstate != 'Zaloguj'): include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/logout.inc.html.php'; endif ?>  
     </div>
     </div>
 

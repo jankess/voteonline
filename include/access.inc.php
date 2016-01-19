@@ -21,7 +21,7 @@ function userIsLoggedIn()
       $_SESSION['userlogin'] = $_POST['userlogin'];
       $_SESSION['password'] = $password;
         
-        include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
+        include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/db.inc.php';
  try {
         $sql = 'INSERT INTO adminlog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
         $s = $pdo->prepare($sql);

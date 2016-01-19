@@ -1,16 +1,16 @@
 <?php
 
 include_once $_SERVER['DOCUMENT_ROOT'] .
-        '/include/magicquotes.inc.php';
+        '/voteonline/include/magicquotes.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] .
-        '/include/access.inc.php';
+        '/voteonline/include/access.inc.php';
 if (userIsLoggedIn() == FALSE) {
     $loginstate = 'Zaloguj';
 } else {
     $loginstate = 'Wyloguj(' . $_SESSION['userlogin'] . ')';
 }
 try {
-    include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/db.inc.php';
     $sql = 'SELECT variants.id, variants.name FROM variants INNER JOIN voting ON variants.votingid = voting.id WHERE voting.active = 1';
     $result = $pdo->query($sql);
 } catch (PDOException $e) {
@@ -38,7 +38,7 @@ foreach ($result as $row) {
     $votingdescription = $row['description'];
 }
 if (isset($_POST['variants']) and ( !isset($_COOKIE[$votingid]) or $_COOKIE[$votingid] != TRUE)) {
-    include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/db.inc.php';
     try {
         $sql = 'INSERT INTO votes SET
           variantid = :variantid,

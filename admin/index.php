@@ -1,9 +1,9 @@
 <?php
 
 include_once $_SERVER['DOCUMENT_ROOT'] .
-        '/include/magicquotes.inc.php';
+        '/voteonline/include/magicquotes.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] .
-        '/include/access.inc.php';
+        '/voteonline/include/access.inc.php';
 
 if (!userIsLoggedIn()) {
     $loginstate = 'Zaloguj';
@@ -18,7 +18,7 @@ if (!userHasRole('Administrator')) {
     exit();
 }
 
-include $_SERVER['DOCUMENT_ROOT'] . '/include/db.inc.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/db.inc.php';
 
 //wybór danych użytkownika do edycji
 if (isset($_GET['action']) and $_GET['action'] == 'Edytuj') {
