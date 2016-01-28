@@ -112,36 +112,50 @@ if (isset($_GET['action']) and $_GET['action'] == 'Resetuj hasło') {
 
 //Dodawanie nowego użytkownika
 if (isset($_POST['adduser'])) {
-    if (isset($_POST['userlogin']) and isset($_POST['userpassword']) and isset($_POST['useremail']) and $_POST['userlogin'] != '' and $_POST['userpassword'] != '' and $_POST['useremail'] != '') {
         try {
-            $sql = 'INSERT INTO users SET
-        login = :userlogin, password = :userpassword, email = :useremail, roleid=:role';
+            $sql = 'SELECT COUNT(*) FROM users WHERE login = :userlogin';
             $s = $pdo->prepare($sql);
             $s->bindValue(':userlogin', $_POST['userlogin']);
-            $s->bindValue(':userpassword', md5($_POST['userpassword'] . 'voapp'));
-            $s->bindValue(':useremail', $_POST['useremail']);
-            $s->bindValue(':role', $_POST['role']);
             $s->execute();
         } catch (PDOException $e) {
             $error = 'Błąd podczas dodawania użytkownika do bazy.';
             include '../error.html.php';
             exit();
         }
-        $success = 'Pomyślnie dodano użytkownika';
-        //include '../success.inc.html.php';
+        $userexistscheck = $s->fetch();
+        if ($userexistscheck[0] > 0) {
+            $error = 'Podany login jest zajęty!';
+            $userlogin = $_POST['userlogin'];
+            $useremail = $_POST['useremail'];
+        } else {
+            try {
+                $sql = 'INSERT INTO users SET
+        login = :userlogin, password = :userpassword, email = :useremail, roleid=:role';
+                $s = $pdo->prepare($sql);
+                $s->bindValue(':userlogin', $_POST['userlogin']);
+                $s->bindValue(':userpassword', md5($_POST['userpassword'] . 'voapp'));
+                $s->bindValue(':useremail', $_POST['useremail']);
+                $s->bindValue(':role', $_POST['role']);
+                $s->execute();
+            } catch (PDOException $e) {
+                $error = 'Błąd podczas dodawania użytkownika do bazy.';
+                include '../error.html.php';
+                exit();
+            }
+            $success = 'Pomyślnie dodano użytkownika';
+            try {
+                $sql = 'INSERT INTO adminlog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
+                $s = $pdo->prepare($sql);
+                $s->bindValue(':inituser', $_SESSION['userlogin']);
+                $s->bindValue(':action', 'Dodanie użytkownika "' . $_POST['userlogin'] . '"');
+                $s->execute();
+            } catch (PDOException $e) {
+                $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
+                include '../error.html.php';
+                exit();
+            }
+        }
     }
-    try {
-        $sql = 'INSERT INTO adminlog SET inituserinfo = :inituser, action = :action, actiondate = NOW()';
-        $s = $pdo->prepare($sql);
-        $s->bindValue(':inituser', $_SESSION['userlogin']);
-        $s->bindValue(':action', 'Dodanie użytkownika "' . $_POST['userlogin'] . '"');
-        $s->execute();
-    } catch (PDOException $e) {
-        $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
-        exit();
-    }
-}
 //zmiana hasła przez użytkownika
 if (isset($_POST['passedit'])) {
     if (md5($_POST['actpass'] . 'voapp') == $_SESSION['password']) {

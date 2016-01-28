@@ -40,7 +40,8 @@
     <hr/>
     <div class="container">
         <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php htmlprint($success) ?></p></div> <?php endif;?>
-        <?php if(isset($_GET['success'])): ?> <div class="row alert alert-success"><p class="text-center"><?php htmlprint('Hasło użytkownika zostało zmienione'); ?></p></div> <?php endif;?>
+       <!--<?php if(isset($_GET['success'])): ?> <div class="row alert alert-success"><p class="text-center"><?php htmlprint('Hasło użytkownika zostało zmienione'); ?></p></div> <?php endif;?>-->
+        <?php if(isset($error)): ?> <div class="row alert alert-danger"><p class="text-center"><?php htmlprint($error); ?></p></div> <?php endif;?>
 <!--<img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="img-responsive center-block"> -->
         <div class="row">
             <form action="" method="post">
@@ -48,12 +49,12 @@
                 <div class="panel panel-success">
                     <div class="panel-heading text-center">Dodawanie nowego użytkownika</div>
                     <div class="panel-body">
-                    <div><label for="userlogin">Login: <input type="text" class="form-control" name="userlogin"
-                                                              id="userlogin" placeholder="Podaj login" required></label>
+                    <div><label for="userlogin">Login: <input type="text" class="form-control <?php if(isset($error)) echo('alert-danger') ?>" name="userlogin"
+                                                              id="userlogin" placeholder="Podaj login" value="<?php if(isset($error)) htmlprint($userlogin); ?>" required></label>
                     <label for="userpassword">Hasło: <input type="password" class="form-control" name="userpassword"
                                                             id="userpassword" placeholder="Podaj hasło" required></label>
                     <label for="useremail">Adres email: <input type="email" class="form-control" name="useremail"
-                                                               id="useremail" placeholder="Podaj adres email"required></label>
+                                                               id="useremail" placeholder="Podaj adres email" value="<?php if(isset($error)) htmlprint($useremail); ?>" required></label>
                     </div>
                     <div>
                         <?php foreach ($roles as $role): ?>
