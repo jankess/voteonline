@@ -1,5 +1,5 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/voteonline/include/helpers.inc.php'; ?>
+    '/voteonline/include/functions.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>

@@ -1,5 +1,5 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/voteonline/include/helpers.inc.php'; 
+    '/voteonline/include/functions.inc.php'; 
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -90,8 +90,8 @@
     <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-sm">
     <!-- Modal content-->
-    <?php if ($loginstate == 'Zaloguj'): include $_SERVER['DOCUMENT_ROOT'] .  '/voteonline/include/login.inc.html.php'; ?>
-    <?php elseif($loginstate != 'Zaloguj'): include  $_SERVER['DOCUMENT_ROOT'] . '/voteonline//include/logout.inc.html.php'; endif ?>  
+    <?php if ($loginstate == 'Zaloguj'): include $_SERVER['DOCUMENT_ROOT'] .  '/voteonline/templates/login.inc.html.php'; ?>
+    <?php elseif($loginstate != 'Zaloguj'): include  $_SERVER['DOCUMENT_ROOT'] . '/voteonline/templates/logout.inc.html.php'; endif ?>  
   </div>
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

@@ -11,7 +11,7 @@ try
 catch (PDOException $e)
 {
   $error = 'Nie można nawiązać połączenia z serwerem bazy danych.';
-  include $_SERVER['DOCUMENT_ROOT']. '/voteonline/error.html.php';
+  include $_SERVER['DOCUMENT_ROOT']. '/voteonline/templates/error.html.php';
   exit();
 }
 ?>

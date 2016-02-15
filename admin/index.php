@@ -7,14 +7,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] .
 
 if (!userIsLoggedIn()) {
     $loginstate = 'Zaloguj';
-    include '../login.html.php';
+    include '../templates/login.html.php';
     exit();
 } else {
     $loginstate = 'Wyloguj(' . $_SESSION['userlogin'] . ')';
 }
 if (!userHasRole('Administrator')) {
     $error = 'Dostęp do tej strony mają tylko Administratorzy';
-    include '../accessdenied.html.php';
+    include '../templates/accessdenied.html.php';
     exit();
 }
 
@@ -29,7 +29,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Edytuj') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas pobierania danych użytkownika.';
-        include 'error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     foreach ($s as $row) {
@@ -51,7 +51,7 @@ if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas zapisu nowych danych użytkownika.';
-        include 'error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     try {
@@ -64,7 +64,7 @@ if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $success = 'Dane użytkownika zostały zmienione';
@@ -81,13 +81,13 @@ if (isset($_POST['passreset'])) {
             $s->execute();
         } catch (PDOException $e) {
             $error = 'Błąd podczas zapisu zmienionego hasła użytkownika do bazy.';
-            include '../error.html.php';
+            include '../templates/error.html.php';
             exit();
         }
     } else if ($_POST['newpass1'] != $_POST['newpass2']) {
         $action = ' Reset hasła użytkownika <strong>' . $_GET['login'] . '</strong>';
         $passerror = 'Powtórzone hasło jest nieprawidłowe';
-        include '../passform.html.php';
+        include '../templates/passform.html.php';
         exit();
     }
     try {
@@ -98,7 +98,7 @@ if (isset($_POST['passreset'])) {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     header('Location: .?success');
@@ -106,7 +106,7 @@ if (isset($_POST['passreset'])) {
 }
 if (isset($_GET['action']) and $_GET['action'] == 'Resetuj hasło') {
     $action = ' Reset hasła użytkownika <strong>' . $_GET['login'] . '</strong>';
-    include '../passform.html.php';
+    include '../templates/passform.html.php';
     exit();
 }
 
@@ -119,7 +119,7 @@ if (isset($_POST['adduser'])) {
             $s->execute();
         } catch (PDOException $e) {
             $error = 'Błąd podczas dodawania użytkownika do bazy.';
-            include '../error.html.php';
+            include '../templates/error.html.php';
             exit();
         }
         $userexistscheck = $s->fetch();
@@ -139,7 +139,7 @@ if (isset($_POST['adduser'])) {
                 $s->execute();
             } catch (PDOException $e) {
                 $error = 'Błąd podczas dodawania użytkownika do bazy.';
-                include '../error.html.php';
+                include '../templates/error.html.php';
                 exit();
             }
             $success = 'Pomyślnie dodano użytkownika';
@@ -151,7 +151,7 @@ if (isset($_POST['adduser'])) {
                 $s->execute();
             } catch (PDOException $e) {
                 $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-                include '../error.html.php';
+                include '../templates/error.html.php';
                 exit();
             }
         }
@@ -169,18 +169,18 @@ if (isset($_POST['passedit'])) {
                 $s->execute();
             } catch (PDOException $e) {
                 $error = 'Błąd podczas zapisu zmienionego hasła do bazy.';
-                include '../error.html.php';
+                include '../templates/error.html.php';
                 exit();
             }
             $success = 'Hasło zostało zmienione';
         } else if ($_POST['newpass1'] != $_POST['newpass2']) {
             $passerror = 'Powtórzone hasło jest nieprawidłowe';
-            include '../passform.html.php';
+            include '../templates/passform.html.php';
             exit();
         }
     } else {
         $passerror = 'Podane aktualne hasło jest nieprawidłowe';
-        include '../passform.html.php';
+        include '../templates/passform.html.php';
         exit();
     }
     try {
@@ -191,13 +191,13 @@ if (isset($_POST['passedit'])) {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $success = 'Hasło zostało zmienione';
 }
 if (isset($_GET['action']) and $_GET['action'] == 'Zmiana hasła') {
-    include '../passform.html.php';
+    include '../templates/passform.html.php';
     exit();
 }
 
@@ -207,7 +207,7 @@ if (isset($_GET['action']) and $_GET['action'] == "Dziennik zdarzeń") {
         $result = $pdo->query($sql);
     } catch (PDOException $e) {
         $error = 'Błąd podczas pobierania wpisów dziennika zdarzeń' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     foreach ($result as $row) {
@@ -217,7 +217,7 @@ if (isset($_GET['action']) and $_GET['action'] == "Dziennik zdarzeń") {
             'actiondate' => $row['actiondate']
         );
     }
-    include '../logform.html.php';
+    include '../templates/logform.html.php';
     exit();
 }
 
@@ -230,7 +230,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Usuń') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas usuwania użytkownika.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     try {
@@ -241,7 +241,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'Usuń') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $success = 'Użytkownik został usunięty';
@@ -252,7 +252,7 @@ try {
     $result = $pdo->query($sql);
 } catch (PDOException $e) {
     $error = 'Błąd podczas pobierania danych ról z bazy.' . $e->getMessage();
-    include 'error.html.php';
+    include '../templates/error.html.php';
     exit();
 }
 foreach ($result as $row) {
@@ -264,7 +264,7 @@ try {
     $result = $pdo->query('SELECT login, email, roleid FROM users');
 } catch (PDOException $e) {
     $error = 'Błąd podczas pobierania danych użytkowników z bazy.';
-    include '../error.html.php';
+    include '../templates/error.html.php';
     exit();
 }
 foreach ($result as $row) {

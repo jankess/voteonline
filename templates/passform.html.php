@@ -1,9 +1,10 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/voteonline/include/helpers.inc.php'; ?>
+    '/voteonline/include/functions.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
+    <?php if(isset($success) or isset($_GET['success'])): ?><meta http-equiv="Refresh" content="3; <?php echo $_SERVER['PHP_SELF']; ?>" /> <?php     endif;?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -36,30 +37,45 @@
             </div><!--.nav-collapse -->
         </div>
     </nav>
-    <br>
+    <hr/>
     <div class="container">
         <?php if(isset($success)): ?> <div class="row alert alert-success"><p class="text-center"><?php htmlprint($success) ?></p></div> <?php endif;?>
         <?php if(isset($passerror)): ?> <div class="row alert alert-danger"><p class="text-center"><?php htmlprint($passerror);?></p></div> <?php endif;?>
         <!--<img src="/voteonline/img/VO_1.png" alt="logo aplikacji" class="img-responsive center-block"> -->
-         <div class="text-center">
+        <div class="row">
+            <div class="panel panel-primary">
+                <?php if(isset($action)): ?>
+                <div class="panel-heading text-center"><?php echo $action; ?></div>
+                <div class="panel-body">
+                    <form action="" method="post">
+                        <label for="newpass1">Nowe hasło:<input type="password" name="newpass1" id="newpass1" class="form-control" placeholder="Podaj nowe hasło" required></label>
+                        <label for="newpass2">Powtórz nowe hasło:<input type="password" name="newpass2" id="newpass2" class="form-control" placeholder="Ponownie podaj nowe hasło" required></label>
+                        <input class="btn btn-default"type="submit" name="passreset" value="Zmień">
+                    </form>    
+                </div>
+                <?php endif; if(!isset($action)): ?>
+                <div class="panel-heading text-center">Zmiana hasła</div>
+                <div class="panel-body">
+                    <form action="" method="post">
+                        <label for="actpass">Aktualne hasło:<input type="password" name="actpass" id="actpass" class="form-control" placeholder="Podaj aktualne hasło" required></label>
+                        <label for="newpass1">Nowe hasło:<input type="password" name="newpass1" id="newpass1" class="form-control" placeholder="Podaj nowe hasło" required></label>
+                        <label for="newpass2">Powtórz nowe hasło:<input type="password" name="newpass2" id="newpass2" class="form-control" placeholder="Ponownie podaj nowe hasło" required></label>
+                        <input class="btn btn-default"type="submit" name="passedit" value="Zmień">
+                    </form>    
+                </div>
+                <?php                 endif;?>
+            </div>
+        <div class="text-center">
             <a href="<?php echo $_SERVER['PHP_SELF']; ?>"><button class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Powrót</button></a>
          </div>
         <br>
-        <div class="row">        
- <table class="table table-bordered table-responsive text-center">
-                <tr class="info"><td><b>Data</b></td><td><strong>Użytkownik inicjujący</strong></td><td><strong>Akcja</strong></td></tr>
-        <?php if(isset($logs)) foreach ($logs as $log): ?>
-                 
-                <tr><td><?php echo $log['actiondate']; ?> </td><td><?php echo $log['inituserinfo']; ?></td><td class="text-left"><?php echo $log['action'];   ?></td></tr>
-           <?php                 endforeach; ?>
- </table>
         </div>
     </div>
     <!-- Wyskakujące okno logowania -->
       <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-sm">
     <!-- Modal content-->
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/logout.inc.html.php';?>  
+    <?php include  $_SERVER['DOCUMENT_ROOT'] . '/voteonline/templates/logout.inc.html.php';?>  
         </div>
       </div></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

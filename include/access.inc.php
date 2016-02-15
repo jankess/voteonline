@@ -30,7 +30,7 @@ function userIsLoggedIn()
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy aktualizacji danych użytkownika.' .$e->getMessage();
-        include '../error.html.php';
+        include $_SERVER['DOCUMENT_ROOT']. '/voteonline/templates/error.html.php';
         exit();
     }
       return TRUE;
@@ -82,7 +82,7 @@ function databaseContainsAuthor($login, $password)
   catch (PDOException $e)
   {
     $error = 'Błąd przy wyszukiwaniu użytkownika.';
-    include 'error.html.php';
+    include $_SERVER['DOCUMENT_ROOT']. '/voteonline/templates/error.html.php';
     exit();
   }
 
@@ -97,7 +97,7 @@ function databaseContainsAuthor($login, $password)
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd przy pobieraniu identyfikatora użytkownika.';
-        include 'error.html.php';
+        include $_SERVER['DOCUMENT_ROOT']. '/voteonline/templates/error.html.php';
         exit();
     }
       global $userID;
@@ -129,7 +129,7 @@ function userHasRole($role)
   catch (PDOException $e)
   {
     $error = 'Błąd przy wyszukiwaniu roli użytkownika.';
-    include 'error.html.php';
+    include $_SERVER['DOCUMENT_ROOT']. '/voteonline/templates/error.html.php';
     exit();
   }
   $row = $s->fetch();

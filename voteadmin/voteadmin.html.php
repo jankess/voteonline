@@ -1,5 +1,5 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/voteonline/include/helpers.inc.php'; ?>
+    '/voteonline/include/functions.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -215,7 +215,7 @@
     <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-sm">
     <!-- Modal content-->
-        <?php include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/include/logout.inc.html.php';?>  
+        <?php include $_SERVER['DOCUMENT_ROOT'] . '/voteonline/templates/logout.inc.html.php';?>  
     </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

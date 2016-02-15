@@ -15,7 +15,7 @@ try {
     $result = $pdo->query($sql);
 } catch (PDOException $e) {
     $error = 'Błąd podczas pobierania wariantów głosowania.' . $e->getMessage();
-    include 'error.html.php';
+    include '/templates/error.html.php';
     exit();
 }
 
@@ -30,7 +30,7 @@ try {
     $result = $pdo->query($sql);
 } catch (PDOException $e) {
     $error = 'Błąd podczas pobierania danych głosowania.' . $e->getMessage();
-    include 'error.html.php';
+    include '/templates/error.html.php';
     exit();
 }
 foreach ($result as $row) {
@@ -48,7 +48,7 @@ if (isset($_POST['variants']) and ( !isset($_COOKIE[$votingid]) or $_COOKIE[$vot
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas zapisu głosu do bazy';
-        include 'error.html.php';
+        include '/templates/error.html.php';
         exit();
     }
     $voted = TRUE;
@@ -56,6 +56,6 @@ if (isset($_POST['variants']) and ( !isset($_COOKIE[$votingid]) or $_COOKIE[$vot
     $success = 'Dziękujemy za oddanie głosu';
 } elseif (isset($_POST['variants']) and $_COOKIE[$votingid] == TRUE) {
     $error = 'Wziąłeś już udział w tym głosowaniu, kolejne oddanie głosu nie jest możliwe';
-    include 'error.html.php';
+    include '/templates/error.html.php';
 }
 include 'votes.html.php';

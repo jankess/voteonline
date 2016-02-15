@@ -7,14 +7,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] .
 
 if (!userIsLoggedIn()) {
     $loginstate = 'Zaloguj';
-    include '../login.html.php';
+    include '../templates/login.html.php';
     exit();
 } else {
     $loginstate = 'Wyloguj(' . $_SESSION['userlogin'] . ')';
 }
 if (!userHasRole('VoteAdministrator')) {
     $error = 'Dostęp do tej strony mają tylko Administratorzy głosowania';
-    include '../accessdenied.html.php';
+    include '../templates/accessdenied.html.php';
     exit();
 }
 
@@ -32,7 +32,7 @@ if (isset($_POST['newvariant']) and $_POST['newvariant'] != '') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania nowego wariantu do bazy.';
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     try {
@@ -43,7 +43,7 @@ if (isset($_POST['newvariant']) and $_POST['newvariant'] != '') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $success = 'Nowy wariant został dodany';
@@ -59,7 +59,7 @@ if (isset($_POST['voting'])and $_POST['voting'] == 'Dodaj') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania nowego głosowania do bazy.';
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     try {
@@ -70,7 +70,7 @@ if (isset($_POST['voting'])and $_POST['voting'] == 'Dodaj') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $success = 'Nowe głosowanie zostało dodane';
@@ -82,7 +82,7 @@ try {
     $result = $pdo->query($sql);
 } catch (PDOException $e) {
     $error = 'Błąd podczas pobierania danych głosowań.' . $e->getMessage();
-    include 'error.html.php';
+    include '../templates/error.html.php';
     exit();
 }
 
@@ -100,7 +100,7 @@ try {
     $result = $pdo->query($sql);
 } catch (PDOException $e) {
     $error = 'Błąd podczas pobierania danych aktywnego głosowania.' . $e->getMessage();
-    include 'error.html.php';
+    include '../templates/error.html.php';
     exit();
 }
 foreach ($result as $row) {
@@ -114,7 +114,7 @@ try {
     $s = $pdo->query($sql);
 } catch (PDOException $e) {
     $error = 'Błąd podczas pobierania liczby oddanych głosów.';
-    include 'error.html.php';
+    include '../templates/error.html.php';
     exit();
 }
 $voteCount = $s->fetch();
@@ -142,7 +142,7 @@ if(isset($_GET['action']) and $_GET['action'] == 'Pokaż'){
       $s->execute();
 } catch (PDOException $e) {
     $error = 'Błąd podczas pobierania liczby głosów.';
-    include 'error.html.php';
+    include '../templates/error.html.php';
     exit();
 }
 foreach ($s as $row) {
@@ -164,7 +164,7 @@ if (isset($warianty)) {
             $s = $pdo->query($sql);
         } catch (PDOException $e) {
             $error = 'Błąd podczas pobierania liczby głosów.';
-            include 'error.html.php';
+            include '../templates/error.html.php';
             exit();
         }
         $result = $s->fetch();
@@ -180,7 +180,7 @@ try {
     $s = $pdo->query($sql);
 } catch (PDOException $e) {
     $error = 'Błąd podczas pobierania informacji o wariantach.';
-    include 'error.html.php';
+    include '../templates/error.html.php';
     exit();
 }
 foreach ($s as $row) {
@@ -202,7 +202,7 @@ if (isset($warianty)) {
             $s = $pdo->query($sql);
         } catch (PDOException $e) {
             $error = 'Błąd podczas pobierania informacji na temat ilości oddanych głosów na konkretny wariant.';
-            include 'error.html.php';
+            include '../templates/error.html.php';
             exit();
         }
         $result = $s->fetch();
@@ -224,7 +224,7 @@ if (isset($_POST['votingactiv'])) {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas aktywacji głosowania.';
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     try {
@@ -235,7 +235,7 @@ if (isset($_POST['votingactiv'])) {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $success = 'Wybrane głosowanie zostało aktywowane';
@@ -253,18 +253,18 @@ if (isset($_POST['passedit'])) {
                 $s->execute();
             } catch (PDOException $e) {
                 $error = 'Błąd podczas zapisu zmienionego hasła do bazy.';
-                include '../error.html.php';
+                include '../templates/error.html.php';
                 exit();
             }
             $success = 'Hasło zostało zmienione';
         } else if ($_POST['newpass1'] != $_POST['newpass2']) {
             $passerror = 'Powtórzone hasło jest nieprawidłowe';
-            include '../passform.html.php';
+            include '../templates/passform.html.php';
             exit();
         }
     } else {
         $passerror = 'Podane aktualne hasło jest nieprawidłowe';
-        include '../passform.html.php';
+        include '../templates/passform.html.php';
         exit();
     }
     try {
@@ -275,14 +275,14 @@ if (isset($_POST['passedit'])) {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $success = 'Hasło zostało zmienione';
 }
 if (isset($_GET['action']) and $_GET['action'] == 'Zmiana hasła') {
     //if (isset($_GET['editpass'])){
-    include '../passform.html.php';
+    include '../templates/passform.html.php';
     exit();
 }
 if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj wariantami głosowania') {
@@ -294,7 +294,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj wariantami g
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas pobierania danych wariantów.';
-        include 'error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     foreach ($s as $row) {
@@ -318,7 +318,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Usuń') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas usuwania głosów powiązanych z wariantem.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
 //usuwanie wariantu
@@ -329,7 +329,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Usuń') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas usuwania wariantu.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     try {
@@ -340,7 +340,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Usuń') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $success = 'Wybrany wariant został usunięty';
@@ -356,7 +356,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Zarządzaj danymi głos
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas pobierania danych wybranego głosowania.';
-        include 'error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     foreach ($s as $row) {
@@ -380,7 +380,7 @@ if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas zapisu nowych danych głosowania.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     try {
@@ -392,7 +392,7 @@ if (isset($_POST['menage']) and $_POST['menage'] == 'Zapisz') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $success = 'Dane wybranego glosowania zostały zmienione';
@@ -406,7 +406,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas pobierania liczby głosów powiązanych z głosowaniem.';
-        include 'error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $votecheck = $s->fetch();
@@ -417,7 +417,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas pobierania liczby wariantów powiązanych z głosowaniem';
-        include 'error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $variantcheck = $s->fetch();
@@ -429,7 +429,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
             $s->execute();
         } catch (PDOException $e) {
             $error = 'Bład podczas usuwania głosów powiązanych z głosowaniem.' . $e->getMessage();
-            include '../error.html.php';
+            include '../templates/error.html.php';
             exit();
         }
     }
@@ -441,7 +441,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
             $s->execute();
         } catch (PDOException $e) {
             $error = 'Bład podczas usuwania wariantów powiązanych z głosowaniem.' . $e->getMessage();
-            include '../error.html.php';
+            include '../templates/error.html.php';
             exit();
         }
     }
@@ -452,7 +452,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Bład podczas usuwania głosowania.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     try {
@@ -463,7 +463,7 @@ if (isset($_GET['votmenselect']) and $_GET['menage'] == 'Usuń głosowanie') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     $success = 'Wybrane głosowanie zsotało usunięte';
@@ -477,7 +477,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'Edytuj') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas pobierania danych wariantu.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     foreach ($s as $row) {
@@ -497,7 +497,7 @@ if (isset($_POST['actionvar']) and $_POST['actionvar'] == 'Zapisz') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas zapisu nowych danych wariantu' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     try {
@@ -508,7 +508,7 @@ if (isset($_POST['actionvar']) and $_POST['actionvar'] == 'Zapisz') {
         $s->execute();
     } catch (PDOException $e) {
         $error = 'Błąd podczas dodawania wpisu dziennika zdarzeń do bazy.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     header('refresh: 0;');
@@ -519,7 +519,7 @@ if (isset($_GET['action']) and $_GET['action'] == "Dziennik zdarzeń") {
         $result = $pdo->query($sql);
     } catch (PDOException $e) {
         $error = 'Błąd podczas pobierania wpisów dziennika zdarzeń.' . $e->getMessage();
-        include '../error.html.php';
+        include '../templates/error.html.php';
         exit();
     }
     foreach ($result as $row) {
@@ -529,7 +529,7 @@ if (isset($_GET['action']) and $_GET['action'] == "Dziennik zdarzeń") {
             'actiondate' => $row['actiondate']
         );
     }
-    include '../logform.html.php';
+    include '../templates/logform.html.php';
     exit();
 }
 include 'voteadmin.html.php';
