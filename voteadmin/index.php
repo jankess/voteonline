@@ -171,6 +171,17 @@ if (isset($warianty)) {
         $voteResults[] = $result[0];
     }
 }
+try {
+    $sql = 'SELECT COUNT(*) FROM votes INNER JOIN variants ON votes.variantid = variants.id INNER JOIN voting ON variants.votingid = voting.id WHERE voting.id = :votingid';
+     $s = $pdo->prepare($sql);
+      $s->bindValue(':votingid', $_GET['votingresults']);
+      $s->execute();
+} catch (PDOException $e) {
+    $error = 'Błąd podczas pobierania liczby oddanych głosów.';
+    include '../templates/error.html.php';
+    exit();
+}
+$voteCount = $s->fetch();
     
 }  else {
     

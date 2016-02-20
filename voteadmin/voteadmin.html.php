@@ -101,7 +101,7 @@
                         <div class="text-center">
                             <input type="submit" name="menage" value="Zarządzaj danymi głosowania" class="btn btn-default" title="Pozwala edytować dane głosowania">
                             <input type="submit" name="menage" value="Zarządzaj wariantami głosowania" class="btn btn-default" title="Pozwala edytować/usuwać warianty">
-                        <input type="submit" name="menage" value="Usuń głosowanie" class="btn btn-danger" title="Usuwając głosowanie usuwasz również warianty oraz głosy z nim powiązane">
+                            <input type="submit" name="menage" value="Usuń głosowanie" class="btn btn-danger" title="Usuwając głosowanie usuwasz również warianty oraz głosy z nim powiązane">
                         </div>
                         </fieldset>
                         </form>
